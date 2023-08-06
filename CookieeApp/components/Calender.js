@@ -5,6 +5,8 @@ import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import { v4 as uuidv4 } from "uuid";
 import isSameObj from "../utils/isSameObj";
 
+import DayBottomModal from "../modal/DayBottomModal";
+
 function Calendar() {
   const DATE = new Date();
   const YEAR = DATE.getFullYear();
@@ -15,6 +17,9 @@ function Calendar() {
   const [month, setMonth] = useState(MONTH);
   const [year, setYear] = useState(YEAR);
   const [date, setDate] = useState(DAY);
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const moveToNextMonth = (month) => {
     if (month === 12) {
       setYear((previousYear) => previousYear + 1);
@@ -55,6 +60,10 @@ function Calendar() {
         moveToNextMonth={moveToNextMonth}
         moveToPreviousMonth={moveToPreviousMonth}
         moveToSpecificYearAndMonth={moveToSpecificYearAndMonth}
+      />
+      <DayBottomModal
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
       />
     </View>
   );
@@ -138,8 +147,11 @@ function Body(props) {
     });
   };
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const handlePressDay = (pressedDate) => {
     setPressedDate(pressedDate);
+    setIsModalVisible(true);
     if (pressedDate.state === "prev" || pressedDate.state === "next") {
       props.moveToSpecificYearAndMonth(pressedDate.year, pressedDate.month);
     }
@@ -201,6 +213,10 @@ function Body(props) {
           })
         )}
       </View>
+      <DayBottomModal
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+      />
     </View>
   );
 }

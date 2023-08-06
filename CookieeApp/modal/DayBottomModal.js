@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  Alert,
   Animated,
   Button,
   Dimensions,
@@ -13,9 +12,7 @@ import {
   View,
 } from "react-native";
 
-export default function DayBottomModal() {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
+export default function DayBottomModal({ isVisible, onClose }) {
   const screenHeight = Dimensions.get("screen").height;
   const panY = useRef(new Animated.Value(screenHeight)).current;
   const translateY = panY.interpolate({
@@ -49,34 +46,24 @@ export default function DayBottomModal() {
   ).current;
 
   const closeModal = () => {
-    closeBottomSheet.start(() => setIsModalVisible(false));
+    closeBottomSheet.start(() => onClose());
   };
 
   useEffect(() => {
-    if (isModalVisible) {
+    if (isVisible) {
       resetBottomSheet.start();
     }
-  }, [isModalVisible]);
-
+  }, [isVisible]);
+  isVisible;
   return (
     <View style={styles.flexible}>
-      <View style={styles.alignContentsCenter}>
-        <Button
-          title="버튼을 눌러 모달 창 올리기"
-          onPress={() => setIsModalVisible(!isModalVisible)}
-        />
-      </View>
-
       <Modal
-        visible={isModalVisible}
+        visible={isVisible}
         animationType={"slide"}
         transparent={true}
         statusBarTranslucent={true}
       >
-        <Pressable
-          style={styles.modalOverlay}
-          onPress={() => setIsModalVisible(!isModalVisible)}
-        >
+        <Pressable style={styles.modalOverlay} onPress={onClose}>
           <TouchableOpacity>
             <Animated.View
               style={{
@@ -99,6 +86,8 @@ export default function DayBottomModal() {
 const styles = StyleSheet.create({
   flexible: {
     flex: 1,
+    position: "absolute",
+    zIndex: 2,
   },
   alignContentsCenter: {
     flex: 1,
