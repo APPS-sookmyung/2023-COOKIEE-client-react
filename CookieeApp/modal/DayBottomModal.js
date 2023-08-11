@@ -12,7 +12,7 @@ import {
   View,
 } from "react-native";
 
-export default function DayBottomModal({ isVisible, onClose }) {
+export default function DayBottomModal({ isVisible, onClose, selectedDate }) {
   const screenHeight = Dimensions.get("screen").height;
   const panY = useRef(new Animated.Value(screenHeight)).current;
   const translateY = panY.interpolate({
@@ -73,6 +73,15 @@ export default function DayBottomModal({ isVisible, onClose }) {
               {...panResponder.panHandlers}
             >
               <View>
+                {selectedDate &&
+                  selectedDate.year &&
+                  selectedDate.month &&
+                  selectedDate.date && (
+                    <Text style={styles.modalDate}>
+                      {selectedDate.year}년 {selectedDate.month}월{" "}
+                      {selectedDate.date}일
+                    </Text>
+                  )}
                 <Text>내용</Text>
               </View>
             </Animated.View>
