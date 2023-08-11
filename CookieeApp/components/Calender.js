@@ -71,30 +71,31 @@ function Calendar() {
 export default Calendar;
 
 function Header(props) {
-  const [yearModalVisible, setYearModalVisible] = useState(false);
-  const [monthModalVisible, setMonthModalVisible] = useState(false);
   return (
     <>
+      <View style={S.titleHeader}>
+        <Pressable style={S.menuIcon}>
+          <Ionicons name="menu" size={40} color="#594E4E" />
+        </Pressable>
+        <Text style={S.title}>Cookiee</Text>
+      </View>
+      <View style={S.line}></View>
       <View style={S.header}>
         <Pressable
           onPress={props.moveToPreviousMonth.bind(this, props.month)}
           style={({ pressed }) => pressed && S.pressed}
         >
-          <Ionicons name="chevron-back" size={24} color="black" />
+          <Ionicons name="chevron-back" size={24} color="#594E4E" />
         </Pressable>
-        <View style={{ flexDirection: "row" }}>
-          <Pressable onPress={setMonthModalVisible.bind(this, true)}>
-            <Text>{props.month}월 </Text>
-          </Pressable>
-          <Pressable onPress={setYearModalVisible.bind(this, true)}>
-            <Text>{props.year}</Text>
-          </Pressable>
+        <View style={S.monthBar}>
+          <Text style={S.monthBarText}>{props.year}년 </Text>
+          <Text style={S.monthBarText}>{props.month}월 </Text>
         </View>
         <Pressable
           onPress={props.moveToNextMonth.bind(this, props.month)}
           style={({ pressed }) => pressed && S.pressed}
         >
-          <Ionicons name="chevron-forward" size={24} color="black" />
+          <Ionicons name="chevron-forward" size={24} color="#594E4E" />
         </Pressable>
       </View>
     </>
@@ -148,9 +149,11 @@ function Body(props) {
   };
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   const handlePressDay = (pressedDate) => {
     setPressedDate(pressedDate);
+    setSelectedDate(pressedDate);
     setIsModalVisible(true);
     if (pressedDate.state === "prev" || pressedDate.state === "next") {
       props.moveToSpecificYearAndMonth(pressedDate.year, pressedDate.month);
@@ -159,11 +162,11 @@ function Body(props) {
 
   //{({ pressed }) => pressed && styles.pressedItem}
   return (
-    <View>
+    <View style={S.calendarBody}>
       <View style={S.dayOfWeek}>
         {dayOfWeek.map((day, idx) => (
           <View style={S.weekBox} key={idx}>
-            <Text style={changeColorByDay(day).dayOfWeek}>{day}</Text>
+            <Text style={S.dayOfWeek}>{day}</Text>
           </View>
         ))}
       </View>
@@ -216,6 +219,7 @@ function Body(props) {
       <DayBottomModal
         isVisible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
+        selectedDate={selectedDate}
       />
     </View>
   );
@@ -228,19 +232,22 @@ const S = StyleSheet.create({
     width: "100%",
     minHeight: "50%",
     borderBottomColor: "black",
-    backgroundColor: "#F6F1E4",
+    backgroundColor: "#FFFFFF",
     paddingHorizontal: 3,
   },
   header: {
-    marginTop: 100,
+    paddingTop: 20,
+    marginTop: 20,
     marginBottom: 0,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    backgroundColor: "#F6F1E4",
   },
   dayOfWeek: {
     marginHorizontal: 1,
     flexDirection: "row",
+    color: "#594E4E",
   },
   totalDays: {
     flexDirection: "row",
@@ -248,7 +255,7 @@ const S = StyleSheet.create({
   },
   box: {
     width: "14%",
-    height: 70,
+    height: 100,
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 3,
@@ -262,7 +269,6 @@ const S = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
-    backgroundColor: "#F6F1E4",
   },
   prev: {
     color: "gray",
@@ -292,11 +298,38 @@ const S = StyleSheet.create({
   pressed: {
     opacity: 0.3,
   },
+  titleHeader: {
+    marginTop: 80,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FFFFFF",
+  },
+  title: {
+    position: "absolute",
+    fontSize: 40,
+    fontWeight: "bold",
+    color: "#594E4E",
+  },
+  menuIcon: {
+    marginLeft: 30,
+    width: "100%",
+  },
+  calendarBody: {
+    backgroundColor: "#F6F1E4",
+    paddingBottom: 10,
+  },
+  monthBar: {
+    flexDirection: "row",
+  },
+  monthBarText: {
+    fontSize: 20,
+    color: "#594E4E",
+  },
+  line: {
+    marginTop: 20,
+    marginBottom: 1,
+    backgroundColor: "#D9D9D9",
+    height: 0.5,
+  },
 });
-const changeColorByDay = (day) =>
-  StyleSheet.create({
-    dayOfWeek: {
-      color: day === "Sun" ? "red" : day === "Sat" ? "blue" : "gray",
-      fontSize: 16,
-    },
-  });
