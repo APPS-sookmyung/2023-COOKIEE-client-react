@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 export default function DayBottomModal({ isVisible, onClose, selectedDate }) {
   const screenHeight = Dimensions.get("screen").height;
@@ -55,6 +56,7 @@ export default function DayBottomModal({ isVisible, onClose, selectedDate }) {
     }
   }, [isVisible]);
   isVisible;
+
   return (
     <View style={styles.flexible}>
       <Modal
@@ -73,15 +75,24 @@ export default function DayBottomModal({ isVisible, onClose, selectedDate }) {
               {...panResponder.panHandlers}
             >
               <View>
-                {selectedDate &&
-                  selectedDate.year &&
-                  selectedDate.month &&
-                  selectedDate.date && (
-                    <Text style={styles.modalDate}>
-                      {selectedDate.year}년 {selectedDate.month}월{" "}
-                      {selectedDate.date}일
-                    </Text>
-                  )}
+                <View style={styles.thumnailContainer}>
+                  <View style={styles.addContainer}>
+                    <TouchableOpacity style={styles.addThumnailBtnContainer}>
+                      <Text style={styles.addThumnailBtn}>썸네일 추가하기</Text>
+                    </TouchableOpacity>
+                  </View>
+                  {selectedDate &&
+                    selectedDate.year &&
+                    selectedDate.month &&
+                    selectedDate.date && (
+                      <View style={styles.modalDateContainer}>
+                        <Text style={styles.modalDate}>
+                          {selectedDate.year}년 {selectedDate.month}월{" "}
+                          {selectedDate.date}일
+                        </Text>
+                      </View>
+                    )}
+                </View>
                 <Text>내용</Text>
               </View>
             </Animated.View>
@@ -94,14 +105,9 @@ export default function DayBottomModal({ isVisible, onClose, selectedDate }) {
 
 const styles = StyleSheet.create({
   flexible: {
-    flex: 1,
+    // flex: 1,
     position: "absolute",
     zIndex: 2,
-  },
-  alignContentsCenter: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   modalOverlay: {
     flex: 1,
@@ -111,8 +117,35 @@ const styles = StyleSheet.create({
   bottomSheetContainer: {
     height: 850,
     backgroundColor: "#fff",
-    borderTopLeftRadius: 7,
-    borderTopRightRadius: 7,
-    padding: 20,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  thumnailContainer: {
+    height: 230,
+    backgroundColor: "red",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  addThumnailBtn: {
+    padding: 10,
+    fontSize: 40,
+  },
+  addThumnailBtnContainer: {
+    position: "absolute",
+    backgroundColor: "blue",
+    borderRadius: 30,
+  },
+  modalDate: {
+    fontSize: 30,
+  },
+  modalDateContainer: {
+    position: "absolute",
+    backgroundColor: "green",
+    left: 0,
+    bottom: 0,
+  },
+  addContainer: {
+    // justifyContent: "center",
+    alignContent: "center",
   },
 });
