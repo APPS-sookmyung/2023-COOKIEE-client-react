@@ -11,7 +11,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Colors } from "react-native/Libraries/NewAppScreen";
+
+import ImagePickerExample from "./ImagrPicker";
 
 export default function DayBottomModal({ isVisible, onClose, selectedDate }) {
   const screenHeight = Dimensions.get("screen").height;
@@ -77,8 +78,8 @@ export default function DayBottomModal({ isVisible, onClose, selectedDate }) {
               <View>
                 <View style={styles.thumnailContainer}>
                   <View style={styles.addContainer}>
-                    <TouchableOpacity style={styles.addThumnailBtnContainer}>
-                      <Text style={styles.addThumnailBtn}>썸네일 추가하기</Text>
+                    <TouchableOpacity>
+                      <ImagePickerExample />
                     </TouchableOpacity>
                   </View>
                   {selectedDate &&
@@ -125,15 +126,6 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-  },
-  addThumnailBtn: {
-    padding: 10,
-    fontSize: 40,
-  },
-  addThumnailBtnContainer: {
-    position: "absolute",
-    backgroundColor: "blue",
-    borderRadius: 30,
   },
   modalDate: {
     fontSize: 30,
