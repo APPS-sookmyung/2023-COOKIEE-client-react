@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { TouchableOpacity, Image, View, Text, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
-export default function ImagePickerExample() {
+export default function ImagePickerExample({ onImageSelected }) {
   const [image, setImage] = useState(null);
 
   const pickImage = async () => {
@@ -14,28 +14,31 @@ export default function ImagePickerExample() {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+      onImageSelected(result.assets[0].uri); // 선택한 이미지의 uri를 부모 컴포넌트로 전달
     }
   };
 
   return (
-    <View>
-      <TouchableOpacity style={styles.addThumnailBtn} onPress={pickImage}>
-        <Text>사진 추가하기</Text>
-      </TouchableOpacity>
-      {image && (
-        <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />
-      )}
-    </View>
+    <TouchableOpacity style={styles.addThumnailBtn} onPress={pickImage}>
+      <Text style={styles.addThumnailBtnText}>사진 추가하기</Text>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   addThumnailBtn: {
+    display: "flex",
+    alignContent: "center",
+    justifyContent: "center",
+    width: 130,
     backgroundColor: "green",
-    width: "20px",
+    position: "absolute",
+    borderRadius: 6,
+  },
+  addThumnailBtnText: {
+    color: "white",
+    fontSize: 20,
   },
 });

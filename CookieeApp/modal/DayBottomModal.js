@@ -10,6 +10,8 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
+  ImageBackground,
 } from "react-native";
 
 import ImagePickerExample from "./ImagrPicker";
@@ -58,6 +60,11 @@ export default function DayBottomModal({ isVisible, onClose, selectedDate }) {
   }, [isVisible]);
   isVisible;
 
+  const [selectedImageUri, setSelectedImageUri] = useState(null);
+  const handleImageSelected = (imageUri) => {
+    setSelectedImageUri(imageUri);
+  };
+
   return (
     <View style={styles.flexible}>
       <Modal
@@ -78,10 +85,15 @@ export default function DayBottomModal({ isVisible, onClose, selectedDate }) {
               <View>
                 <View style={styles.thumnailContainer}>
                   <View style={styles.addContainer}>
-                    <TouchableOpacity>
-                      <ImagePickerExample />
-                    </TouchableOpacity>
+                    <ImagePickerExample onImageSelected={handleImageSelected} />
                   </View>
+                  {selectedImageUri && (
+                    <ImageBackground
+                      style={{ width: "100%", height: "100%" }}
+                      source={{ uri: selectedImageUri }}
+                      resizeMode="cover"
+                    ></ImageBackground>
+                  )}
                   {selectedDate &&
                     selectedDate.year &&
                     selectedDate.month &&
@@ -122,10 +134,13 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
   },
   thumnailContainer: {
+    display: "flex",
     height: 230,
     backgroundColor: "red",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
+    alignContent: "center",
+    justifyContent: "center",
   },
   modalDate: {
     fontSize: 30,
@@ -137,7 +152,6 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   addContainer: {
-    // justifyContent: "center",
-    alignContent: "center",
+    zIndex: 2,
   },
 });
