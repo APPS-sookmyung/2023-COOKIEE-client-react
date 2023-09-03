@@ -60,9 +60,14 @@ export default function DayBottomModal({ isVisible, onClose, selectedDate }) {
   }, [isVisible]);
   isVisible;
 
-  const [selectedImageUri, setSelectedImageUri] = useState(null);
+  const [selectedImageUris, setSelectedImageUris] = useState({});
+
   const handleImageSelected = (imageUri) => {
-    setSelectedImageUri(imageUri);
+    if (selectedDate && selectedDate.date) {
+      const updatedImageUris = { ...selectedImageUris };
+      updatedImageUris[selectedDate.date] = imageUri;
+      setSelectedImageUris(updatedImageUris);
+    }
   };
 
   return (
@@ -87,10 +92,10 @@ export default function DayBottomModal({ isVisible, onClose, selectedDate }) {
                   <View style={styles.addContainer}>
                     <ImagePickerExample onImageSelected={handleImageSelected} />
                   </View>
-                  {selectedImageUri && (
+                  {selectedDate && selectedImageUris[selectedDate.date] && (
                     <ImageBackground
                       style={{ width: "100%", height: "100%" }}
-                      source={{ uri: selectedImageUri }}
+                      source={{ uri: selectedImageUris[selectedDate.date] }}
                       resizeMode="cover"
                     ></ImageBackground>
                   )}
