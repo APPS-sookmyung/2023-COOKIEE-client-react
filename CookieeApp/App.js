@@ -8,9 +8,9 @@ import {
 import AppLoading from 'expo-app-loading';
 import { StatusBar } from 'expo-status-bar';
 
-import Login from './pages/Login';
-import Loading from './pages/Loading';
-import User from './pages/User';
+import Login from './screens/Login';
+import Loading from './screens/Loading';
+import User from './screens/User';
 import CalendarHome from "./screens/CalenderHome";
 
 export default function App() {
