@@ -11,6 +11,7 @@ import { StatusBar } from 'expo-status-bar';
 import Login from './pages/Login';
 import Loading from './pages/Loading';
 import User from './pages/User';
+import CalendarHome from "./screens/CalenderHome";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,6 +50,7 @@ export default function App() {
         <Login onLogin={handleLogin} />
       )}
       <StatusBar style="auto" />
+      <CalendarHome />
     </View>
   );
 };
@@ -58,5 +60,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    flex: 1,
   },
 });
