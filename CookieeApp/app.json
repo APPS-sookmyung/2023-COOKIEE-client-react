@@ -15,16 +15,19 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.xxx.xxx", 
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
+        "package": "com.xxx.xxx",
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": ["@react-native-google-signin/google-signin"]
   }
 }
