@@ -21,24 +21,33 @@ export default function ImagePickerExample({ onImageSelected }) {
   };
 
   return (
-    <TouchableOpacity style={styles.addThumnailBtn} onPress={pickImage}>
-      <Text style={styles.addThumnailBtnText}>사진 추가하기</Text>
-    </TouchableOpacity>
+    <View style={styles.addThumnailBtnContainer}>
+      <TouchableOpacity style={styles.addThumnailBtn} onPress={pickImage}>
+        <Text style={styles.addThumnailBtnText}>대표사진 수정하기</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  addThumnailBtnContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   addThumnailBtn: {
     display: "flex",
-    alignContent: "center",
+    alignItems: "center",
     justifyContent: "center",
-    width: 130,
-    backgroundColor: "green",
-    position: "absolute",
-    borderRadius: 6,
+    width: 190,
+    height: 40,
+    backgroundColor: "#F6F1E4",
+    borderRadius: 30,
+    borderWidth: 0.5,
+    borderColor: "#594E4E",
   },
   addThumnailBtnText: {
-    color: "white",
+    color: "#594E4E",
     fontSize: 20,
   },
 });

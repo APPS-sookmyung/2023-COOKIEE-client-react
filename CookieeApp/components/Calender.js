@@ -247,11 +247,11 @@ function Body(props) {
         selectedDate={selectedDate}
         getSelectedImageUris={getSelectedImageUris}
       />
-      <Text>
+      {/* <Text>
         {selectedDate && selectedDate.date
           ? selectedImageUris[selectedDate.date]
           : null}
-      </Text>
+      </Text> */}
     </View>
   );
 }

@@ -94,9 +94,6 @@ export default function DayBottomModal({
               {...panResponder.panHandlers}
             >
               <View style={styles.thumnailContainer}>
-                <View style={styles.addContainer}>
-                  <ImagePickerExample onImageSelected={handleImageSelected} />
-                </View>
                 <View>
                   {selectedDate && selectedImageUris[selectedDate.date] && (
                     <ImageBackground
@@ -105,6 +102,9 @@ export default function DayBottomModal({
                       resizeMode="cover"
                     ></ImageBackground>
                   )}
+                </View>
+                <View style={styles.addContainer}>
+                  <ImagePickerExample onImageSelected={handleImageSelected} />
                 </View>
                 <View style={styles.modalDateContainer}>
                   {selectedDate &&
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   thumnailContainer: {
     display: "flex",
     height: 230,
-    backgroundColor: "red",
+    backgroundColor: "#D9D9D9",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     alignContent: "center",
@@ -155,14 +155,22 @@ const styles = StyleSheet.create({
   },
   modalDate: {
     fontSize: 30,
+    color: "#594E4E",
   },
   modalDateContainer: {
     position: "absolute",
-    backgroundColor: "green",
+    // backgroundColor: "green",
     left: 0,
     bottom: 0,
+    padding: 10,
   },
   addContainer: {
-    zIndex: 2,
+    // backgroundColor: "aqua",
+    // zIndex: 2,
+    display: "flex",
+    alignContent: "center",
+    justifyContent: "center",
+    width: "100%",
+    position: "absolute",
   },
 });
