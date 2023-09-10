@@ -16,7 +16,12 @@ import {
 
 import ImagePickerExample from "./ImagrPicker";
 
-export default function DayBottomModal({ isVisible, onClose, selectedDate }) {
+export default function DayBottomModal({
+  isVisible,
+  onClose,
+  selectedDate,
+  getSelectedImageUris,
+}) {
   const screenHeight = Dimensions.get("screen").height;
   const panY = useRef(new Animated.Value(screenHeight)).current;
   const translateY = panY.interpolate({
@@ -67,6 +72,7 @@ export default function DayBottomModal({ isVisible, onClose, selectedDate }) {
       const updatedImageUris = { ...selectedImageUris };
       updatedImageUris[selectedDate.date] = imageUri;
       setSelectedImageUris(updatedImageUris);
+      getSelectedImageUris(selectedImageUris);
     }
   };
 
@@ -87,11 +93,11 @@ export default function DayBottomModal({ isVisible, onClose, selectedDate }) {
               }}
               {...panResponder.panHandlers}
             >
-              <View>
-                <View style={styles.thumnailContainer}>
-                  <View style={styles.addContainer}>
-                    <ImagePickerExample onImageSelected={handleImageSelected} />
-                  </View>
+              <View style={styles.thumnailContainer}>
+                <View style={styles.addContainer}>
+                  <ImagePickerExample onImageSelected={handleImageSelected} />
+                </View>
+                <View>
                   {selectedDate && selectedImageUris[selectedDate.date] && (
                     <ImageBackground
                       style={{ width: "100%", height: "100%" }}
@@ -99,20 +105,20 @@ export default function DayBottomModal({ isVisible, onClose, selectedDate }) {
                       resizeMode="cover"
                     ></ImageBackground>
                   )}
+                </View>
+                <View style={styles.modalDateContainer}>
                   {selectedDate &&
                     selectedDate.year &&
                     selectedDate.month &&
                     selectedDate.date && (
-                      <View style={styles.modalDateContainer}>
-                        <Text style={styles.modalDate}>
-                          {selectedDate.year}년 {selectedDate.month}월{" "}
-                          {selectedDate.date}일
-                        </Text>
-                      </View>
+                      <Text style={styles.modalDate}>
+                        {selectedDate.year}년 {selectedDate.month}월{" "}
+                        {selectedDate.date}일
+                      </Text>
                     )}
                 </View>
-                <Text>내용</Text>
               </View>
+              <Text>내용</Text>
             </Animated.View>
           </TouchableOpacity>
         </Pressable>

@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, ImageBackground } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
@@ -160,7 +160,16 @@ function Body(props) {
     }
   };
 
-  //{({ pressed }) => pressed && styles.pressedItem}
+  const [selectedImageUris, setSelectedImageUris] = useState({});
+
+  const getSelectedImageUris = (imageUris) => {
+    setSelectedImageUris((selectedImageUris) => imageUris);
+  };
+
+  const getSelectedImageForDate = (date) => {
+    return selectedImageUris[date] || null;
+  };
+
   return (
     <View style={S.calendarBody}>
       <View style={S.dayOfWeek}>
@@ -181,36 +190,52 @@ function Body(props) {
             };
             return (
               <View style={S.box} key={uuidv4()}>
-                <Pressable
-                  onPress={handlePressDay.bind(this, checkPressedDate)}
-                  style={({ pressed }) => {
-                    return [
-                      pressedDate.date === checkPressedDate.date &&
-                      pressedDate.month === checkPressedDate.month &&
-                      pressedDate.year === checkPressedDate.year
-                        ? S.pressedDate
-                        : null,
-                      pressed && S.pressed,
-                    ];
+                <ImageBackground
+                  source={{ uri: getSelectedImageForDate(day) }}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    zIndex: "2",
+                    position: "relative",
+                    alignContent: "center",
+                    justifyContent: "center",
                   }}
+                  resizeMode="cover"
                 >
-                  <Text
-                    style={[
-                      [
-                        isSameObj(
-                          { state: "curr", ...props.today },
-                          checkPressedDate
-                        )
-                          ? S.today
-                          : state === "prev" || state === "next"
-                          ? S.prev
-                          : S.curr,
-                      ],
-                    ]}
+                  <Pressable
+                    onPress={handlePressDay.bind(this, checkPressedDate)}
+                    style={
+                      (({ pressed }) => {
+                        return [
+                          pressedDate.date === checkPressedDate.date &&
+                          pressedDate.month === checkPressedDate.month &&
+                          pressedDate.year === checkPressedDate.year
+                            ? S.pressedDate
+                            : null,
+                          pressed && S.pressed,
+                        ];
+                      },
+                      S.day)
+                    }
                   >
-                    {day}
-                  </Text>
-                </Pressable>
+                    <Text
+                      style={[
+                        [
+                          isSameObj(
+                            { state: "curr", ...props.today },
+                            checkPressedDate
+                          )
+                            ? S.today
+                            : state === "prev" || state === "next"
+                            ? S.prev
+                            : S.curr,
+                        ],
+                      ]}
+                    >
+                      {day}
+                    </Text>
+                  </Pressable>
+                </ImageBackground>
               </View>
             );
           })
@@ -220,7 +245,13 @@ function Body(props) {
         isVisible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
         selectedDate={selectedDate}
+        getSelectedImageUris={getSelectedImageUris}
       />
+      <Text>
+        {selectedDate && selectedDate.date
+          ? selectedImageUris[selectedDate.date]
+          : null}
+      </Text>
     </View>
   );
 }
@@ -256,12 +287,15 @@ const S = StyleSheet.create({
   box: {
     width: "14%",
     height: 100,
+    display: "flex",
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 3,
     marginHorizontal: 0.5,
     backgroundColor: "white",
     borderRadius: "5%",
+    position: "relative",
+    zIndex: 1,
   },
   weekBox: {
     width: "14.2%",
@@ -331,5 +365,12 @@ const S = StyleSheet.create({
     marginBottom: 1,
     backgroundColor: "#D9D9D9",
     height: 0.5,
+  },
+  day: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+    zIndex: 5,
   },
 });
