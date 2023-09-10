@@ -55,6 +55,7 @@ export default function DayBottomModal({
   ).current;
 
   const closeModal = () => {
+    getSelectedImageUris(selectedImageUris);
     closeBottomSheet.start(() => onClose());
   };
 
@@ -68,12 +69,17 @@ export default function DayBottomModal({
   const [selectedImageUris, setSelectedImageUris] = useState({});
 
   const handleImageSelected = (imageUri) => {
-    if (selectedDate && selectedDate.date) {
-      const updatedImageUris = { ...selectedImageUris };
-      updatedImageUris[selectedDate.date] = imageUri;
-      setSelectedImageUris(updatedImageUris);
-      getSelectedImageUris(selectedImageUris);
-    }
+    // if (selectedDate && selectedDate.date) {
+    //   const updatedImageUris = { ...selectedImageUris };
+    //   updatedImageUris[selectedDate.date] = imageUri;
+    //   setSelectedImageUris(updatedImageUris);
+    //   getSelectedImageUris(selectedImageUris);
+    // }
+
+    const updatedImageUris = { ...selectedImageUris };
+    updatedImageUris[selectedDate.date] = imageUri;
+    setSelectedImageUris(() => updatedImageUris);
+    getSelectedImageUris(selectedImageUris);
   };
 
   return (
