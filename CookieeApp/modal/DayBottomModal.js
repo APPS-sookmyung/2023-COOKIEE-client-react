@@ -55,12 +55,18 @@ export default function DayBottomModal({
   ).current;
 
   const closeModal = () => {
+    // handleImageSelected();
     getSelectedImageUris(selectedImageUris);
-    closeBottomSheet.start(() => onClose());
+    closeBottomSheet.start(() => {
+      console.log("모달 닫힘");
+      onClose();
+    });
+    // console.log("모달 닫힘");
   };
 
   useEffect(() => {
     if (isVisible) {
+      console.log("모달 열림");
       resetBottomSheet.start();
     }
   }, [isVisible]);
@@ -78,7 +84,7 @@ export default function DayBottomModal({
 
     const updatedImageUris = { ...selectedImageUris };
     updatedImageUris[selectedDate.date] = imageUri;
-    setSelectedImageUris(() => updatedImageUris);
+    setSelectedImageUris((selectedImageUris) => updatedImageUris);
     getSelectedImageUris(selectedImageUris);
   };
 
@@ -90,7 +96,7 @@ export default function DayBottomModal({
         transparent={true}
         statusBarTranslucent={true}
       >
-        <Pressable style={styles.modalOverlay} onPress={onClose}>
+        <Pressable style={styles.modalOverlay} onPress={closeModal}>
           <TouchableOpacity>
             <Animated.View
               style={{
