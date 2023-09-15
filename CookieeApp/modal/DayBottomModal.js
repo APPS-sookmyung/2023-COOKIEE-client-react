@@ -15,6 +15,7 @@ import {
 } from "react-native";
 
 import ImagePickerExample from "./ImagrPicker";
+import AddEvent from "../components/AddEvent";
 
 export default function DayBottomModal({
   isVisible,
@@ -130,7 +131,7 @@ export default function DayBottomModal({
                     )}
                 </View>
               </View>
-              <Text>내용</Text>
+              <AddEvent />
             </Animated.View>
           </TouchableOpacity>
         </Pressable>
