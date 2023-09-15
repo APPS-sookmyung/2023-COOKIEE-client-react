@@ -14,8 +14,9 @@ import {
   ImageBackground,
 } from "react-native";
 
-import ImagePickerExample from "./ImagrPicker";
+import ThumnailImagrPicker from "./ThumnailImagrPicker";
 import AddEvent from "../components/AddEvent";
+import EventImagePicker from "./EventImagePicker";
 
 export default function DayBottomModal({
   isVisible,
@@ -117,7 +118,7 @@ export default function DayBottomModal({
                   )}
                 </View>
                 <View style={styles.addContainer}>
-                  <ImagePickerExample onImageSelected={handleImageSelected} />
+                  <ThumnailImagrPicker onImageSelected={handleImageSelected} />
                 </View>
                 <View style={styles.modalDateContainer}>
                   {selectedDate &&
@@ -132,6 +133,7 @@ export default function DayBottomModal({
                 </View>
               </View>
               <AddEvent />
+              <EventImagePicker />
             </Animated.View>
           </TouchableOpacity>
         </Pressable>

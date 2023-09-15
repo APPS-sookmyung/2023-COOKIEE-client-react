@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { TouchableOpacity, Image, View, Text, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
-export default function ImagePickerExample({ onImageSelected }) {
+export default function ThumnailImagrPicker({ onImageSelected }) {
   const [image, setImage] = useState(null);
 
   const pickImage = async () => {
