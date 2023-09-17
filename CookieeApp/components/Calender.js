@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Image, ImageBackground } from "react-native";
+import { StyleSheet, View, Text, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
@@ -71,31 +71,30 @@ function Calendar() {
 export default Calendar;
 
 function Header(props) {
+  const [yearModalVisible, setYearModalVisible] = useState(false);
+  const [monthModalVisible, setMonthModalVisible] = useState(false);
   return (
     <>
-      <View style={S.titleHeader}>
-        <Pressable style={S.menuIcon}>
-          <Ionicons name="menu" size={40} color="#594E4E" />
-        </Pressable>
-        <Text style={S.title}>Cookiee</Text>
-      </View>
-      <View style={S.line}></View>
       <View style={S.header}>
         <Pressable
           onPress={props.moveToPreviousMonth.bind(this, props.month)}
           style={({ pressed }) => pressed && S.pressed}
         >
-          <Ionicons name="chevron-back" size={24} color="#594E4E" />
+          <Ionicons name="chevron-back" size={24} color="black" />
         </Pressable>
-        <View style={S.monthBar}>
-          <Text style={S.monthBarText}>{props.year}년 </Text>
-          <Text style={S.monthBarText}>{props.month}월 </Text>
+        <View style={{ flexDirection: "row" }}>
+          <Pressable onPress={setMonthModalVisible.bind(this, true)}>
+            <Text>{props.month}월 </Text>
+          </Pressable>
+          <Pressable onPress={setYearModalVisible.bind(this, true)}>
+            <Text>{props.year}</Text>
+          </Pressable>
         </View>
         <Pressable
           onPress={props.moveToNextMonth.bind(this, props.month)}
           style={({ pressed }) => pressed && S.pressed}
         >
-          <Ionicons name="chevron-forward" size={24} color="#594E4E" />
+          <Ionicons name="chevron-forward" size={24} color="black" />
         </Pressable>
       </View>
     </>
@@ -149,33 +148,22 @@ function Body(props) {
   };
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
 
   const handlePressDay = (pressedDate) => {
     setPressedDate(pressedDate);
-    setSelectedDate(pressedDate);
     setIsModalVisible(true);
     if (pressedDate.state === "prev" || pressedDate.state === "next") {
       props.moveToSpecificYearAndMonth(pressedDate.year, pressedDate.month);
     }
   };
 
-  const [selectedImageUris, setSelectedImageUris] = useState({});
-
-  const getSelectedImageUris = (imageUris) => {
-    setSelectedImageUris((selectedImageUris) => imageUris);
-  };
-
-  const getSelectedImageForDate = (date) => {
-    return selectedImageUris[date] || null;
-  };
-
+  //{({ pressed }) => pressed && styles.pressedItem}
   return (
-    <View style={S.calendarBody}>
+    <View>
       <View style={S.dayOfWeek}>
         {dayOfWeek.map((day, idx) => (
           <View style={S.weekBox} key={idx}>
-            <Text style={S.dayOfWeek}>{day}</Text>
+            <Text style={changeColorByDay(day).dayOfWeek}>{day}</Text>
           </View>
         ))}
       </View>
@@ -190,52 +178,36 @@ function Body(props) {
             };
             return (
               <View style={S.box} key={uuidv4()}>
-                <ImageBackground
-                  source={{ uri: getSelectedImageForDate(day) }}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    zIndex: "2",
-                    position: "relative",
-                    alignContent: "center",
-                    justifyContent: "center",
+                <Pressable
+                  onPress={handlePressDay.bind(this, checkPressedDate)}
+                  style={({ pressed }) => {
+                    return [
+                      pressedDate.date === checkPressedDate.date &&
+                      pressedDate.month === checkPressedDate.month &&
+                      pressedDate.year === checkPressedDate.year
+                        ? S.pressedDate
+                        : null,
+                      pressed && S.pressed,
+                    ];
                   }}
-                  resizeMode="cover"
                 >
-                  <Pressable
-                    onPress={handlePressDay.bind(this, checkPressedDate)}
-                    style={
-                      (({ pressed }) => {
-                        return [
-                          pressedDate.date === checkPressedDate.date &&
-                          pressedDate.month === checkPressedDate.month &&
-                          pressedDate.year === checkPressedDate.year
-                            ? S.pressedDate
-                            : null,
-                          pressed && S.pressed,
-                        ];
-                      },
-                      S.day)
-                    }
+                  <Text
+                    style={[
+                      [
+                        isSameObj(
+                          { state: "curr", ...props.today },
+                          checkPressedDate
+                        )
+                          ? S.today
+                          : state === "prev" || state === "next"
+                          ? S.prev
+                          : S.curr,
+                      ],
+                    ]}
                   >
-                    <Text
-                      style={[
-                        [
-                          isSameObj(
-                            { state: "curr", ...props.today },
-                            checkPressedDate
-                          )
-                            ? S.today
-                            : state === "prev" || state === "next"
-                            ? S.prev
-                            : S.curr,
-                        ],
-                      ]}
-                    >
-                      {day}
-                    </Text>
-                  </Pressable>
-                </ImageBackground>
+                    {day}
+                  </Text>
+                </Pressable>
               </View>
             );
           })
@@ -244,14 +216,7 @@ function Body(props) {
       <DayBottomModal
         isVisible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
-        selectedDate={selectedDate}
-        getSelectedImageUris={getSelectedImageUris}
       />
-      {/* <Text>
-        {selectedDate && selectedDate.date
-          ? selectedImageUris[selectedDate.date]
-          : null}
-      </Text> */}
     </View>
   );
 }
@@ -263,22 +228,19 @@ const S = StyleSheet.create({
     width: "100%",
     minHeight: "50%",
     borderBottomColor: "black",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#F6F1E4",
     paddingHorizontal: 3,
   },
   header: {
-    paddingTop: 20,
-    marginTop: 20,
+    marginTop: 100,
     marginBottom: 0,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#F6F1E4",
   },
   dayOfWeek: {
     marginHorizontal: 1,
     flexDirection: "row",
-    color: "#594E4E",
   },
   totalDays: {
     flexDirection: "row",
@@ -286,16 +248,13 @@ const S = StyleSheet.create({
   },
   box: {
     width: "14%",
-    height: 100,
-    display: "flex",
+    height: 70,
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 3,
     marginHorizontal: 0.5,
     backgroundColor: "white",
     borderRadius: "5%",
-    position: "relative",
-    zIndex: 1,
   },
   weekBox: {
     width: "14.2%",
@@ -303,6 +262,7 @@ const S = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
+    backgroundColor: "#F6F1E4",
   },
   prev: {
     color: "gray",
@@ -332,45 +292,11 @@ const S = StyleSheet.create({
   pressed: {
     opacity: 0.3,
   },
-  titleHeader: {
-    marginTop: 80,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#FFFFFF",
-  },
-  title: {
-    position: "absolute",
-    fontSize: 40,
-    fontWeight: "bold",
-    color: "#594E4E",
-  },
-  menuIcon: {
-    marginLeft: 30,
-    width: "100%",
-  },
-  calendarBody: {
-    backgroundColor: "#F6F1E4",
-    paddingBottom: 10,
-  },
-  monthBar: {
-    flexDirection: "row",
-  },
-  monthBarText: {
-    fontSize: 20,
-    color: "#594E4E",
-  },
-  line: {
-    marginTop: 20,
-    marginBottom: 1,
-    backgroundColor: "#D9D9D9",
-    height: 0.5,
-  },
-  day: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
-    zIndex: 5,
-  },
 });
+const changeColorByDay = (day) =>
+  StyleSheet.create({
+    dayOfWeek: {
+      color: day === "Sun" ? "red" : day === "Sat" ? "blue" : "gray",
+      fontSize: 16,
+    },
+  });
