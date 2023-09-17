@@ -10,9 +10,19 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
+  ImageBackground,
 } from "react-native";
 
-export default function DayBottomModal({ isVisible, onClose }) {
+import ImagePickerExample from "./ImagrPicker";
+import AddEvent from "../components/AddEvent";
+
+export default function DayBottomModal({
+  isVisible,
+  onClose,
+  selectedDate,
+  getSelectedImageUris,
+}) {
   const screenHeight = Dimensions.get("screen").height;
   const panY = useRef(new Animated.Value(screenHeight)).current;
   const translateY = panY.interpolate({
@@ -46,15 +56,39 @@ export default function DayBottomModal({ isVisible, onClose }) {
   ).current;
 
   const closeModal = () => {
-    closeBottomSheet.start(() => onClose());
+    // handleImageSelected();
+    getSelectedImageUris(selectedImageUris);
+    closeBottomSheet.start(() => {
+      console.log("모달 닫힘");
+      onClose();
+    });
+    // console.log("모달 닫힘");
   };
 
   useEffect(() => {
     if (isVisible) {
+      console.log("모달 열림");
       resetBottomSheet.start();
     }
   }, [isVisible]);
   isVisible;
+
+  const [selectedImageUris, setSelectedImageUris] = useState({});
+
+  const handleImageSelected = (imageUri) => {
+    // if (selectedDate && selectedDate.date) {
+    //   const updatedImageUris = { ...selectedImageUris };
+    //   updatedImageUris[selectedDate.date] = imageUri;
+    //   setSelectedImageUris(updatedImageUris);
+    //   getSelectedImageUris(selectedImageUris);
+    // }
+
+    const updatedImageUris = { ...selectedImageUris };
+    updatedImageUris[selectedDate.date] = imageUri;
+    setSelectedImageUris((selectedImageUris) => updatedImageUris);
+    getSelectedImageUris(selectedImageUris);
+  };
+
   return (
     <View style={styles.flexible}>
       <Modal
@@ -63,7 +97,7 @@ export default function DayBottomModal({ isVisible, onClose }) {
         transparent={true}
         statusBarTranslucent={true}
       >
-        <Pressable style={styles.modalOverlay} onPress={onClose}>
+        <Pressable style={styles.modalOverlay} onPress={closeModal}>
           <TouchableOpacity>
             <Animated.View
               style={{
@@ -72,9 +106,32 @@ export default function DayBottomModal({ isVisible, onClose }) {
               }}
               {...panResponder.panHandlers}
             >
-              <View>
-                <Text>내용</Text>
+              <View style={styles.thumnailContainer}>
+                <View>
+                  {selectedDate && selectedImageUris[selectedDate.date] && (
+                    <ImageBackground
+                      style={{ width: "100%", height: "100%" }}
+                      source={{ uri: selectedImageUris[selectedDate.date] }}
+                      resizeMode="cover"
+                    ></ImageBackground>
+                  )}
+                </View>
+                <View style={styles.addContainer}>
+                  <ImagePickerExample onImageSelected={handleImageSelected} />
+                </View>
+                <View style={styles.modalDateContainer}>
+                  {selectedDate &&
+                    selectedDate.year &&
+                    selectedDate.month &&
+                    selectedDate.date && (
+                      <Text style={styles.modalDate}>
+                        {selectedDate.year}년 {selectedDate.month}월{" "}
+                        {selectedDate.date}일
+                      </Text>
+                    )}
+                </View>
               </View>
+              <AddEvent />
             </Animated.View>
           </TouchableOpacity>
         </Pressable>
@@ -85,14 +142,9 @@ export default function DayBottomModal({ isVisible, onClose }) {
 
 const styles = StyleSheet.create({
   flexible: {
-    flex: 1,
+    // flex: 1,
     position: "absolute",
     zIndex: 2,
-  },
-  alignContentsCenter: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   modalOverlay: {
     flex: 1,
@@ -102,8 +154,36 @@ const styles = StyleSheet.create({
   bottomSheetContainer: {
     height: 850,
     backgroundColor: "#fff",
-    borderTopLeftRadius: 7,
-    borderTopRightRadius: 7,
-    padding: 20,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  thumnailContainer: {
+    display: "flex",
+    height: 230,
+    backgroundColor: "#D9D9D9",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  modalDate: {
+    fontSize: 30,
+    color: "#594E4E",
+  },
+  modalDateContainer: {
+    position: "absolute",
+    // backgroundColor: "green",
+    left: 0,
+    bottom: 0,
+    padding: 10,
+  },
+  addContainer: {
+    // backgroundColor: "aqua",
+    // zIndex: 2,
+    display: "flex",
+    alignContent: "center",
+    justifyContent: "center",
+    width: "100%",
+    position: "absolute",
   },
 });
