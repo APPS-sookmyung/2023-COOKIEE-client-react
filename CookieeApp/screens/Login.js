@@ -8,44 +8,25 @@ import {
   Text,
   Button,
   StyleSheet,
-  Image,
-  TouchableOpacity
+  Image
 } from 'react-native';
 
 WebBrowser.maybeCompleteAuthSession();
 
 export default function Login() {
-  const [accessToken, setAccessToken] = React.useState(null);
-  const [user, setUser] = React.useState(null);
-  const [request, response, promptAsync] = Google.useIdTokenAuthRequest((
-    iosClientId: '',
-    androidClientId: '',
-  )); 
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    expoClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
+    iosClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
+    androidClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
+    webClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
+    responseType: 'id_token'
+  });
 
-  React.useEffect(()=> {
-    if(response?.type === "success"){
-      setAccessToken(response.authentication);
-      accessToken && fetchUserInfo(); // accessToken 필요
+  React.useEffect(() => {
+    if (response?.type === 'success') {
+      const { authentication } = response;
     }
-  }, [response, accessToken])
-
-  async function fetchUserInfo(){
-    let response = await fetch("https://www.googleapis.com/userinfo/v2/me", {// endpoint
-      headers: { Authorization: `Bearer ${accessToken}` }
-    });
-    const useInfo = await response.json();
-    setUser(useInfo);
-  }
-
-  const ShowUserInfo = () => {
-    if(user){
-      return(
-        <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          
-        </View>
-      )
-    }
-  }
+  }, [response]);
 
   return (
     <View>
@@ -62,18 +43,14 @@ export default function Login() {
           <Text style={styles.content_text2}>
           나만의 쿠키를 만들어보아요 </Text>
       </View>
-      <View style={styles.container}>
-        {user && <ShowUserInfo/>}
-        {user === null &&
-          <TouchableOpacity
-            disabled={!request}
-            onPress={() => {
-              promptAsync();
-            }}
-          >
-            <Image source={require("../assets/btn_google.png")} style={{width: 300, height: 20}}></Image>
-          </TouchableOpacity>
-        }
+      <View style={styles.button_style}>
+        <Button
+          disabled={!request}
+          title="Google 로그인하기"
+          onPress={() => {
+            promptAsync();
+          }}
+        />
       </View>
     </View>
   );
