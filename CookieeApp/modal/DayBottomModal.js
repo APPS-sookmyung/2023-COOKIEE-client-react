@@ -16,7 +16,7 @@ import {
 
 import ThumnailImagrPicker from "./ThumnailImagrPicker";
 import AddEvent from "../components/AddEvent";
-import EventImagePicker from "./EventImagePicker";
+import AddNewEvent from "../screens/AddNewEvent";
 
 export default function DayBottomModal({
   isVisible,
@@ -133,7 +133,13 @@ export default function DayBottomModal({
                 </View>
               </View>
               <AddEvent />
-              <EventImagePicker />
+              <View style={styles.AddEventContainer}>
+                <TouchableOpacity style={styles.AddEventBtnContainer}>
+                  <View style={styles.addPlusBtn}>
+                    <Text style={{ fontSize: 25 }}>+</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
             </Animated.View>
           </TouchableOpacity>
         </Pressable>
@@ -187,5 +193,35 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     position: "absolute",
+  },
+  AddEventContainer: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "center",
+    height: "100%",
+    width: "100%",
+    // backgroundColor: "green",
+  },
+  AddEventBtnContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "center",
+    backgroundColor: "#EFEFEF",
+    borderRadius: "10px",
+    width: "90%",
+    height: 32,
+    margin: 10,
+  },
+  addPlusBtn: {
+    display: "flex",
+    flexDirection: "column",
+    alignContent: "center",
+    justifyContent: "center",
+    width: "auto",
+    height: "auto",
+    // backgroundColor: "red",
   },
 });
