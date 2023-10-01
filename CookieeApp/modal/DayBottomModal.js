@@ -17,6 +17,7 @@ import {
 import ThumnailImagrPicker from "./ThumnailImagrPicker";
 import AddEvent from "../components/AddEvent";
 import AddNewEvent from "../screens/AddNewEvent";
+import AddEventForm from "./AddEventForm";
 
 export default function DayBottomModal({
   isVisible,
@@ -74,16 +75,19 @@ export default function DayBottomModal({
   }, [isVisible]);
   isVisible;
 
+  const [isOpenAddEventForm, setIsOpenAddEventForm] = useState(false);
+
+  const openForm = () => {
+    setIsOpenAddEventForm(true);
+  };
+
+  const closeForm = () => {
+    setIsOpenAddEventForm(false);
+  };
+
   const [selectedImageUris, setSelectedImageUris] = useState({});
 
   const handleImageSelected = (imageUri) => {
-    // if (selectedDate && selectedDate.date) {
-    //   const updatedImageUris = { ...selectedImageUris };
-    //   updatedImageUris[selectedDate.date] = imageUri;
-    //   setSelectedImageUris(updatedImageUris);
-    //   getSelectedImageUris(selectedImageUris);
-    // }
-
     const updatedImageUris = { ...selectedImageUris };
     updatedImageUris[selectedDate.date] = imageUri;
     setSelectedImageUris((selectedImageUris) => updatedImageUris);
@@ -132,14 +136,22 @@ export default function DayBottomModal({
                     )}
                 </View>
               </View>
-              <AddEvent />
               <View style={styles.AddEventContainer}>
-                <TouchableOpacity style={styles.AddEventBtnContainer}>
+                <TouchableOpacity
+                  style={styles.AddEventBtnContainer}
+                  onPress={openForm}
+                >
                   <View style={styles.addPlusBtn}>
                     <Text style={{ fontSize: 25 }}>+</Text>
                   </View>
                 </TouchableOpacity>
               </View>
+              {isOpenAddEventForm && ( // Render the AddEventForm if isOpenAddEventForm is true
+                <AddEventForm
+                  isOpenForm={isOpenAddEventForm}
+                  onCloseForm={closeForm}
+                />
+              )}
             </Animated.View>
           </TouchableOpacity>
         </Pressable>
