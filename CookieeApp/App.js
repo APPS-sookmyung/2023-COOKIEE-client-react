@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { 
-  View, 
-  StyleSheet,
-  Text,
-  Image,
-} from 'react-native';
-import AppLoading from 'expo-app-loading';
-import { StatusBar } from 'expo-status-bar';
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Text, Image } from "react-native";
+import AppLoading from "expo-app-loading";
+import { StatusBar } from "expo-status-bar";
 
-import Login from './screens/Login';
-import Loading from './screens/Loading';
-import User from './screens/User';
+import Login from "./screens/Login";
+import Loading from "./screens/Loading";
+import User from "./screens/User";
 import CalendarHome from "./screens/CalenderHome";
+import AddNewEvent from "./screens/AddNewEvent";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -39,7 +35,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {isLoggedIn ? (
+      {/* {isLoggedIn ? (
         // 사용자가 로그인한 경우 메인 화면
         <>
           <Login onLogout={handleLogout} />
@@ -49,17 +45,18 @@ export default function App() {
         // 로그인 안 한 경우 로그인 화면 보여줌
         <Login onLogin={handleLogin} />
       )}
-      <StatusBar style="auto" />
+      <StatusBar style="auto" /> */}
       <CalendarHome />
+      {/* <AddNewEvent /> */}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
     flex: 1,
   },
 });

@@ -13,7 +13,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "bundleIdentifier": "com.xxx.xxx", 
+      "bundleIdentifier": "com.xxx.xxx",
       "supportsTablet": true
     },
     "android": {
@@ -26,15 +26,15 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-
+  
     "plugins": [
-      "@react-native-google-signin/google-signin",
       [
         "expo-image-picker",
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
-        }  
-      ]
+        }
+      ],
+      "@react-native-google-signin/google-signin"
     ]
   }
 }

@@ -14,8 +14,10 @@ import {
   ImageBackground,
 } from "react-native";
 
-import ImagePickerExample from "./ImagrPicker";
+import ThumnailImagrPicker from "./ThumnailImagrPicker";
 import AddEvent from "../components/AddEvent";
+import AddNewEvent from "../screens/AddNewEvent";
+import AddEventForm from "./AddEventForm";
 
 export default function DayBottomModal({
   isVisible,
@@ -73,16 +75,19 @@ export default function DayBottomModal({
   }, [isVisible]);
   isVisible;
 
+  const [isOpenAddEventForm, setIsOpenAddEventForm] = useState(false);
+
+  const openForm = () => {
+    setIsOpenAddEventForm(true);
+  };
+
+  const closeForm = () => {
+    setIsOpenAddEventForm(false);
+  };
+
   const [selectedImageUris, setSelectedImageUris] = useState({});
 
   const handleImageSelected = (imageUri) => {
-    // if (selectedDate && selectedDate.date) {
-    //   const updatedImageUris = { ...selectedImageUris };
-    //   updatedImageUris[selectedDate.date] = imageUri;
-    //   setSelectedImageUris(updatedImageUris);
-    //   getSelectedImageUris(selectedImageUris);
-    // }
-
     const updatedImageUris = { ...selectedImageUris };
     updatedImageUris[selectedDate.date] = imageUri;
     setSelectedImageUris((selectedImageUris) => updatedImageUris);
@@ -117,7 +122,7 @@ export default function DayBottomModal({
                   )}
                 </View>
                 <View style={styles.addContainer}>
-                  <ImagePickerExample onImageSelected={handleImageSelected} />
+                  <ThumnailImagrPicker onImageSelected={handleImageSelected} />
                 </View>
                 <View style={styles.modalDateContainer}>
                   {selectedDate &&
@@ -131,7 +136,22 @@ export default function DayBottomModal({
                     )}
                 </View>
               </View>
-              <AddEvent />
+              <View style={styles.AddEventContainer}>
+                <TouchableOpacity
+                  style={styles.AddEventBtnContainer}
+                  onPress={openForm}
+                >
+                  <View style={styles.addPlusBtn}>
+                    <Text style={{ fontSize: 25 }}>+</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              {isOpenAddEventForm && ( // Render the AddEventForm if isOpenAddEventForm is true
+                <AddEventForm
+                  isOpenForm={isOpenAddEventForm}
+                  onCloseForm={closeForm}
+                />
+              )}
             </Animated.View>
           </TouchableOpacity>
         </Pressable>
@@ -185,5 +205,35 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     position: "absolute",
+  },
+  AddEventContainer: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "center",
+    height: "100%",
+    width: "100%",
+    // backgroundColor: "green",
+  },
+  AddEventBtnContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "center",
+    backgroundColor: "#EFEFEF",
+    borderRadius: "10px",
+    width: "90%",
+    height: 32,
+    margin: 10,
+  },
+  addPlusBtn: {
+    display: "flex",
+    flexDirection: "column",
+    alignContent: "center",
+    justifyContent: "center",
+    width: "auto",
+    height: "auto",
+    // backgroundColor: "red",
   },
 });
