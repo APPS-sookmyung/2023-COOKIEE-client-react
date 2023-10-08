@@ -1,4 +1,11 @@
-import { createContext, useContext, useMemo, useRef, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+  useEffect,
+} from "react";
 
 export const CalendarDataContext = createContext();
 export const CalendarDataActionsContext = createContext();
@@ -6,45 +13,44 @@ export { useCalendarDataActions, useCalendarData };
 
 export const CalendarDataProvider = ({ children }) => {
   const idRef = useRef(0);
-  const eIdRef = useRef(0);
   const [calendarData, setCalendarData] = useState([]);
 
-  const actions = useMemo(
-    () => ({
-      addEvent(newEvent) {
-        const id = idRef.current;
-        idRef.current += 1;
-        const eId = eIdRef.current;
-        eIdRef.current += 1;
-        setCalendarData((prevData) => [
-          ...prevData,
-          {
-            id,
-            ...newEvent,
-          },
-        ]);
-      },
+  const actions = useMemo(() => ({
+    addEvent(newEvent) {
+      const id = idRef.current;
+      idRef.current += 1;
 
-      updateEvent(updatedEvent) {
-        setCalendarData((prevData) =>
-          prevData.map((data) =>
-            data.id === updatedEvent.id ? { ...data, ...updatedEvent } : data
-          )
-        );
-      },
+      setCalendarData((prevData) => [
+        ...prevData,
+        {
+          id,
+          ...newEvent,
+        },
+      ]);
+    },
 
-      removeEvent(eventId) {
-        setCalendarData((prevData) =>
-          prevData.filter((data) => data.id !== eventId)
-        );
-      },
-    }),
-    []
-  );
+    updateEvent(updatedEvent) {
+      setCalendarData((prevData) =>
+        prevData.map((data) =>
+          data.id === updatedEvent.id ? { ...data, ...updatedEvent } : data
+        )
+      );
+    },
+
+    removeEvent(eventId) {
+      setCalendarData((prevData) =>
+        prevData.filter((data) => data.id !== eventId)
+      );
+    },
+  }));
+
+  useEffect(() => {
+    console.log("calendarData : ", calendarData);
+  }, [calendarData]);
 
   return (
     <CalendarDataActionsContext.Provider value={actions}>
-      <CalendarDataContext.Provider value={calendarData}>
+      <CalendarDataContext.Provider value={(calendarData, setCalendarData)}>
         {children}
       </CalendarDataContext.Provider>
     </CalendarDataActionsContext.Provider>
@@ -65,6 +71,7 @@ function useCalendarData() {
 
 function useCalendarDataActions() {
   const value = useContext(CalendarDataActionsContext);
+
   if (value === undefined) {
     throw new Error(
       "useCalendarDataActions should be used within CalendarDataProvider"

@@ -47,7 +47,6 @@ export default function App() {
       )}
       <StatusBar style="auto" /> */}
       <CalendarHome />
-      {/* <AddNewEvent /> */}
     </View>
   );
 }

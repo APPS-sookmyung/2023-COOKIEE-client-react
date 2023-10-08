@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
   Animated,
-  Button,
   Dimensions,
   Modal,
   PanResponder,
@@ -15,10 +14,7 @@ import {
 } from "react-native";
 
 import ThumnailImagrPicker from "./ThumnailImagrPicker";
-import AddEvent from "../components/AddEvent";
-import AddNewEvent from "../screens/AddNewEvent";
 import AddEventForm from "./AddEventForm";
-import CalendarDataProvider from "../DataProvider";
 
 export default function DayBottomModal({
   isVisible,
@@ -59,13 +55,11 @@ export default function DayBottomModal({
   ).current;
 
   const closeModal = () => {
-    // handleImageSelected();
     getSelectedImageUris(selectedImageUris);
     closeBottomSheet.start(() => {
       console.log("모달 닫힘");
       onClose();
     });
-    // console.log("모달 닫힘");
   };
 
   useEffect(() => {
@@ -148,12 +142,11 @@ export default function DayBottomModal({
                 </TouchableOpacity>
               </View>
               {isOpenAddEventForm && (
-                <CalendarDataProvider>
-                  <AddEventForm
-                    isOpenForm={isOpenAddEventForm}
-                    onCloseForm={closeForm}
-                  />
-                </CalendarDataProvider>
+                <AddEventForm
+                  selectedDate={selectedDate}
+                  isOpenForm={isOpenAddEventForm}
+                  onCloseForm={closeForm}
+                />
               )}
             </Animated.View>
           </TouchableOpacity>
