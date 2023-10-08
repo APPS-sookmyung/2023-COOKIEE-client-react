@@ -4,43 +4,18 @@ export const CalendarDataContext = createContext();
 export const CalendarDataActionsContext = createContext();
 export { useCalendarDataActions, useCalendarData };
 
-export function CalendarDataProvider({ children }) {
-  const idRef = useRef(3);
-  const [calendarData, setCalendarData] = useState([
-    {
-      id: 3,
-      year: 2023,
-      month: 10,
-      date: 12,
-      thumbnail: "",
-      events: [
-        {
-          eId: 1,
-          imgUrl: [],
-          cate: [],
-          time: "",
-          place: "",
-          detail: "",
-          people: "",
-        },
-        {
-          eId: 2,
-          imgUrl: [],
-          cate: [],
-          time: "",
-          place: "",
-          detail: "",
-          people: "",
-        },
-      ],
-    },
-  ]);
+export const CalendarDataProvider = ({ children }) => {
+  const idRef = useRef(0);
+  const eIdRef = useRef(0);
+  const [calendarData, setCalendarData] = useState([]);
 
   const actions = useMemo(
     () => ({
       addEvent(newEvent) {
         const id = idRef.current;
         idRef.current += 1;
+        const eId = eIdRef.current;
+        eIdRef.current += 1;
         setCalendarData((prevData) => [
           ...prevData,
           {
@@ -74,15 +49,16 @@ export function CalendarDataProvider({ children }) {
       </CalendarDataContext.Provider>
     </CalendarDataActionsContext.Provider>
   );
-}
+};
+
+export default CalendarDataProvider;
 
 function useCalendarData() {
   const value = useContext(CalendarDataContext);
   if (value === undefined) {
-    // throw new Error(
-    //   "useCalendarData should be used within CalendarDataProvider"
-    // );
-    console.log("[DataProvider.js] useCalendarData: value === undefined");
+    throw new Error(
+      "useCalendarData should be used within CalendarDataProvider"
+    );
   }
   return value;
 }
@@ -90,11 +66,8 @@ function useCalendarData() {
 function useCalendarDataActions() {
   const value = useContext(CalendarDataActionsContext);
   if (value === undefined) {
-    // throw new Error(
-    //   "useCalendarDataActions should be used within CalendarDataProvider"
-    // );
-    console.log(
-      "[DataProvider.js] useCalendarDataActions: value === undefined"
+    throw new Error(
+      "useCalendarDataActions should be used within CalendarDataProvider"
     );
   }
   return value;

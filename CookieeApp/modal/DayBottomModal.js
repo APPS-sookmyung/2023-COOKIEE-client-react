@@ -18,6 +18,7 @@ import ThumnailImagrPicker from "./ThumnailImagrPicker";
 import AddEvent from "../components/AddEvent";
 import AddNewEvent from "../screens/AddNewEvent";
 import AddEventForm from "./AddEventForm";
+import CalendarDataProvider from "../DataProvider";
 
 export default function DayBottomModal({
   isVisible,
@@ -146,11 +147,13 @@ export default function DayBottomModal({
                   </View>
                 </TouchableOpacity>
               </View>
-              {isOpenAddEventForm && ( // Render the AddEventForm if isOpenAddEventForm is true
-                <AddEventForm
-                  isOpenForm={isOpenAddEventForm}
-                  onCloseForm={closeForm}
-                />
+              {isOpenAddEventForm && (
+                <CalendarDataProvider>
+                  <AddEventForm
+                    isOpenForm={isOpenAddEventForm}
+                    onCloseForm={closeForm}
+                  />
+                </CalendarDataProvider>
               )}
             </Animated.View>
           </TouchableOpacity>
