@@ -14,7 +14,7 @@ import {
 } from "react-native";
 
 import ThumnailImagrPicker from "./ThumnailImagrPicker";
-import AddEventForm from "./AddEventForm";
+import AddEventForm from "./AddEventFform";
 
 export default function DayBottomModal({
   isVisible,
