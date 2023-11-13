@@ -3,7 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import { v4 as uuidv4 } from "uuid";
-import isSameObj from "../utils/isSameObj";
+import isSameObj from "../../utils/isSameObj";
 
 import DayBottomModal from "../modal/DayBottomModal";
 

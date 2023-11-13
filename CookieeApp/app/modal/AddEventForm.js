@@ -13,7 +13,7 @@ import {
   CalendarDataActionsContext,
   CalendarDataProvider,
   CalendarDataContext,
-} from "../DataProvider";
+} from "../../DataProvider";
 
 const { addEvent } = useCalendarDataActions;
 

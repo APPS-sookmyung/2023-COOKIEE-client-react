@@ -13,8 +13,10 @@ import {
   ImageBackground,
 } from "react-native";
 
+import { router } from "expo-router";
+
 import ThumnailImagrPicker from "./ThumnailImagrPicker";
-import AddEventForm from "./AddEventFform";
+import AddEventForm from "./AddEventForm";
 
 export default function DayBottomModal({
   isVisible,
@@ -28,16 +30,25 @@ export default function DayBottomModal({
     inputRange: [-1, 0, 1],
     outputRange: [-1, 0, 1],
   });
-  const resetBottomSheet = Animated.timing(panY, {
-    toValue: 0,
-    duration: 300,
-    useNativeDriver: true,
-  });
-  const closeBottomSheet = Animated.timing(panY, {
-    toValue: screenHeight,
-    duration: 300,
-    useNativeDriver: true,
-  });
+  useEffect(() => {
+    const resetBottomSheet = Animated.timing(panY, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    });
+
+    const closeBottomSheet = Animated.timing(panY, {
+      toValue: screenHeight,
+      duration: 300,
+      useNativeDriver: true,
+    });
+
+    resetBottomSheet.start();
+
+    return () => {
+      // Clean up if necessary
+    };
+  }, [isVisible]);
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -134,7 +145,8 @@ export default function DayBottomModal({
               <View style={styles.AddEventContainer}>
                 <TouchableOpacity
                   style={styles.AddEventBtnContainer}
-                  onPress={openForm}
+                  // onPress={openForm}
+                  onPress={router.replace("/modal")}
                 >
                   <View style={styles.addPlusBtn}>
                     <Text style={{ fontSize: 25 }}>+</Text>

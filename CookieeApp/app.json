@@ -1,11 +1,12 @@
 {
   "expo": {
+    "main": "index.js",
     "name": "CookieeApp",
     "slug": "CookieeApp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "your-app-scheme",
+    "scheme": "cookiee",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
