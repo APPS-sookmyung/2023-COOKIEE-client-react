@@ -5,7 +5,7 @@ import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import { v4 as uuidv4 } from "uuid";
 import isSameObj from "../../utils/isSameObj";
 
-import DayBottomModal from "../modal/DayBottomModal";
+import DayBottomModal from "../(modal)/DayBottomModal";
 
 function Calendar() {
   const DATE = new Date();

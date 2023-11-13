@@ -1,6 +1,6 @@
 {
   "expo": {
-    "main": "index.js",
+    "main": "app/index.js",
     "name": "CookieeApp",
     "slug": "CookieeApp",
     "version": "1.0.0",
