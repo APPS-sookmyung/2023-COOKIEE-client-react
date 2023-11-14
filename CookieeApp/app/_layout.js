@@ -15,15 +15,7 @@ const StackLayout = () => {
           headerShown: true,
         }}
       />
-
-      <Stack.Screen
-        name="(modal)/DayBottomModal"
-        options={{
-          headerTitle: "modal",
-          presentation: "modal",
-          headerShown: true,
-        }}
-      />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
     </Stack>
   );
 };
