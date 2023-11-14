@@ -3,19 +3,14 @@ import { View, StyleSheet, Text, Image, Pressable } from "react-native";
 import AppLoading from "expo-app-loading";
 import { StatusBar } from "expo-status-bar";
 
-import Login from "./screen/Login";
-import Loading from "./screen/Loading";
-import User from "./screen/User";
-// import CalendarHome from "./screens/CalenderHome";
+import Login from "./screens/Login";
+import Loading from "./screens/Loading";
+import User from "../utils/User";
 
 import "expo-router/entry";
-import { Link, router } from "expo-router";
+import { Link, Redirect, router } from "expo-router";
 
 export default function App() {
-  const handlePress = () => {
-    router.push("/screen/CalenderHome");
-  };
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [ready, setReady] = useState(true);
 
@@ -54,17 +49,7 @@ export default function App() {
       <StatusBar style="auto" /> */}
       {/* <CalendarHome /> */}
 
-      <Pressable onPress={handlePress}>
-        <Text>00000</Text>
-      </Pressable>
-
-      <Link href={"/screen/CalenderHome"} asChild>
-        <Pressable>
-          <Text style={{ fontSize: 20, color: "black" }}>
-            "index" to "/screen/CalenderHome"
-          </Text>
-        </Pressable>
-      </Link>
+      <Redirect href={"home"} />
     </View>
   );
 }
