@@ -3,9 +3,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import { v4 as uuidv4 } from "uuid";
-import isSameObj from "../../utils/isSameObj";
+import isSameObj from "../utils/isSameObj";
 
-import DayBottomModal from "../(modal)/DayBottomModal";
+import DayBottomModal from "../app/(modal)/DayBottomModal";
 
 function Calendar() {
   const DATE = new Date();
@@ -70,37 +70,6 @@ function Calendar() {
 }
 export default Calendar;
 
-function Header(props) {
-  return (
-    <>
-      <View style={S.titleHeader}>
-        <Pressable style={S.menuIcon}>
-          <Ionicons name="menu" size={40} color="#594E4E" />
-        </Pressable>
-        <Text style={S.title}>Cookiee</Text>
-      </View>
-      <View style={S.line}></View>
-      <View style={S.header}>
-        <Pressable
-          onPress={props.moveToPreviousMonth.bind(this, props.month)}
-          style={({ pressed }) => pressed && S.pressed}
-        >
-          <Ionicons name="chevron-back" size={24} color="#594E4E" />
-        </Pressable>
-        <View style={S.monthBar}>
-          <Text style={S.monthBarText}>{props.year}년 </Text>
-          <Text style={S.monthBarText}>{props.month}월 </Text>
-        </View>
-        <Pressable
-          onPress={props.moveToNextMonth.bind(this, props.month)}
-          style={({ pressed }) => pressed && S.pressed}
-        >
-          <Ionicons name="chevron-forward" size={24} color="#594E4E" />
-        </Pressable>
-      </View>
-    </>
-  );
-}
 //Year,Monty,date
 function Body(props) {
   const [totalDays, setTotalDays] = useState({});
