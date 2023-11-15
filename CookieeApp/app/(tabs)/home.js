@@ -1,12 +1,11 @@
 import { View, Text, StyleSheet } from "react-native";
-import Calendar from "../components/Calender";
-import CalendarDataProvider from "../../DataProvider";
+import Calendar from "../../components/Calender";
 
 function CalendarHome() {
   return (
-    <CalendarDataProvider>
-      <View style={S.calendarContainer}>{/* <Calendar /> */}</View>
-    </CalendarDataProvider>
+    <View style={S.calendarContainer}>
+      <Calendar />
+    </View>
   );
 }
 
