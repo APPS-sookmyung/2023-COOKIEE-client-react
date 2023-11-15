@@ -1,5 +1,6 @@
 import { Stack, Tabs } from "expo-router";
-import { Button, StyleSheet } from "react-native";
+import { Button, StyleSheet, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default TabsLayout = () => {
   return (
@@ -10,7 +11,11 @@ export default TabsLayout = () => {
           tabBarLabel: "Calendar Home",
           title: "Cookiee",
           headerShown: true,
-          headerLeft: () => <Button title="< SideMenu" onPress={{}} />,
+          headerLeft: () => (
+            <TouchableOpacity>
+              <Ionicons name="menu" size={40} color="#594E4E" />
+            </TouchableOpacity>
+          ),
         }}
       />
     </Stack>
