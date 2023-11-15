@@ -97,8 +97,7 @@ export default function DayBottomModal({
             <View style={styles.AddEventContainer}>
               <TouchableOpacity
                 style={styles.AddEventBtnContainer}
-                // onPress={openForm}
-                onPress={router.replace("/modal")}
+                onPress={openForm}
               >
                 <View style={styles.addPlusBtn}>
                   <Text style={{ fontSize: 25 }}>+</Text>
