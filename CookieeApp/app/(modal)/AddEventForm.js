@@ -8,14 +8,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import EventImagePicker from "./EventImagePicker";
-import {
-  useCalendarDataActions,
-  CalendarDataActionsContext,
-  CalendarDataProvider,
-  CalendarDataContext,
-} from "../../DataProvider";
-
-const { addEvent } = useCalendarDataActions;
 
 export default function AddEventForm({
   selectedDate,
@@ -33,9 +25,6 @@ export default function AddEventForm({
     detail: "",
     people: "",
   });
-
-  const { calendarData, setCalendarData } = useContext(CalendarDataContext);
-  const calendarDataActions = useContext(CalendarDataActionsContext);
 
   const handleInputChange = (value, name) => {
     setNewEvent((prevEvent) => ({
@@ -80,75 +69,73 @@ export default function AddEventForm({
   }
 
   return (
-    <CalendarDataProvider>
-      <View style={styles.AddEventForm}>
-        <TouchableOpacity
-          style={styles.clodeBtn}
-          onPress={() => {
-            onCloseForm();
-          }}
-        >
-          <Text style={{ alignSelf: "center", color: "red" }}>닫기</Text>
-        </TouchableOpacity>
+    <View style={styles.AddEventForm}>
+      <TouchableOpacity
+        style={styles.clodeBtn}
+        onPress={() => {
+          onCloseForm();
+        }}
+      >
+        <Text style={{ alignSelf: "center", color: "red" }}>닫기</Text>
+      </TouchableOpacity>
 
-        <EventImagePicker
-          onImageSelected={handleImageSelected}
-          value={newEvent.imgUrl}
-        />
+      <EventImagePicker
+        onImageSelected={handleImageSelected}
+        value={newEvent.imgUrl}
+      />
 
-        {/* <TouchableOpacity style={styles.inputBtn}>
+      {/* <TouchableOpacity style={styles.inputBtn}>
         <Text>추가할 사진 선택</Text>
       </TouchableOpacity> */}
-        <TouchableOpacity style={styles.inputBtn}>
-          <Text>추가할 카테고리 선택</Text>
-          <TextInput
-            style={styles.InputBox}
-            placeholder="카테고리"
-            value={newEvent.cate}
-            onChangeText={(text) => handleInputChange(text, "cate")}
-          />
-        </TouchableOpacity>
-        <View style={styles.InputContainer}>
-          <Text>시간</Text>
-          <TextInput
-            style={styles.InputBox}
-            placeholder="시간"
-            value={newEvent.time}
-            onChangeText={(text) => handleInputChange(text, "time")}
-          />
-        </View>
-        <View style={styles.InputContainer}>
-          <Text>장소</Text>
-          <TextInput
-            style={styles.InputBox}
-            placeholder="장소"
-            value={newEvent.place}
-            onChangeText={(text) => handleInputChange(text, "place")}
-          />
-        </View>
-        <View style={styles.InputContainer}>
-          <Text>내용</Text>
-          <TextInput
-            style={styles.InputBox}
-            placeholder="내용"
-            value={newEvent.detail}
-            onChangeText={(text) => handleInputChange(text, "detail")}
-          />
-        </View>
-        <View style={styles.InputContainer}>
-          <Text>사람</Text>
-          <TextInput
-            style={styles.InputBox}
-            placeholder="사람"
-            value={newEvent.people}
-            onChangeText={(text) => handleInputChange(text, "people")}
-          />
-        </View>
-
-        {/* 다른 TextInput 컴포넌트들도 동일한 방식으로 처리합니다. */}
-        <Button title="이벤트 추가하가" onPress={handleSubmit} />
+      <TouchableOpacity style={styles.inputBtn}>
+        <Text>추가할 카테고리 선택</Text>
+        <TextInput
+          style={styles.InputBox}
+          placeholder="카테고리"
+          value={newEvent.cate}
+          onChangeText={(text) => handleInputChange(text, "cate")}
+        />
+      </TouchableOpacity>
+      <View style={styles.InputContainer}>
+        <Text>시간</Text>
+        <TextInput
+          style={styles.InputBox}
+          placeholder="시간"
+          value={newEvent.time}
+          onChangeText={(text) => handleInputChange(text, "time")}
+        />
       </View>
-    </CalendarDataProvider>
+      <View style={styles.InputContainer}>
+        <Text>장소</Text>
+        <TextInput
+          style={styles.InputBox}
+          placeholder="장소"
+          value={newEvent.place}
+          onChangeText={(text) => handleInputChange(text, "place")}
+        />
+      </View>
+      <View style={styles.InputContainer}>
+        <Text>내용</Text>
+        <TextInput
+          style={styles.InputBox}
+          placeholder="내용"
+          value={newEvent.detail}
+          onChangeText={(text) => handleInputChange(text, "detail")}
+        />
+      </View>
+      <View style={styles.InputContainer}>
+        <Text>사람</Text>
+        <TextInput
+          style={styles.InputBox}
+          placeholder="사람"
+          value={newEvent.people}
+          onChangeText={(text) => handleInputChange(text, "people")}
+        />
+      </View>
+
+      {/* 다른 TextInput 컴포넌트들도 동일한 방식으로 처리합니다. */}
+      <Button title="이벤트 추가하가" onPress={handleSubmit} />
+    </View>
   );
 }
 
