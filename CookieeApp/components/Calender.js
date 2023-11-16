@@ -5,7 +5,7 @@ import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import { v4 as uuidv4 } from "uuid";
 import isSameObj from "../utils/isSameObj";
 
-import DayBottomModal from "../modal/DayBottomModal";
+import DayBottomModal from "../app/(modal)/DayBottomModal";
 
 function Calendar() {
   const DATE = new Date();
@@ -73,13 +73,13 @@ export default Calendar;
 function Header(props) {
   return (
     <>
-      <View style={S.titleHeader}>
+      {/* <View style={S.titleHeader}>
         <Pressable style={S.menuIcon}>
           <Ionicons name="menu" size={40} color="#594E4E" />
         </Pressable>
         <Text style={S.title}>Cookiee</Text>
-      </View>
-      <View style={S.line}></View>
+      </View> */}
+      {/* <View style={S.line}></View> */}
       <View style={S.header}>
         <Pressable
           onPress={props.moveToPreviousMonth.bind(this, props.month)}
@@ -101,6 +101,7 @@ function Header(props) {
     </>
   );
 }
+
 //Year,Monty,date
 function Body(props) {
   const [totalDays, setTotalDays] = useState({});

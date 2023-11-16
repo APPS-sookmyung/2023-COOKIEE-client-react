@@ -49,7 +49,10 @@ export default function Login() {
   return (
     <View>
       <View style={styles.container}>
-        <Image style={styles.image} source={require("../assets/cookie.png")} />
+        <Image
+          style={styles.image}
+          source={require("../../assets/cookie.png")}
+        />
         <Text style={styles.title_text}>Cookiee</Text>
         <Text style={styles.content_text1}>오늘 하루를 사진으로 기록해 </Text>
         <Text style={styles.content_text2}>나만의 쿠키를 만들어보아요 </Text>
@@ -64,7 +67,7 @@ export default function Login() {
             }}
           >
             <Image
-              source={require("../assets/btn_google.png")}
+              source={require("../../assets/btn_google.png")}
               style={{ width: 300, height: 20 }}
             ></Image>
           </TouchableOpacity>
