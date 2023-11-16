@@ -31,24 +31,27 @@ export default function Login() {
       <View style={styles.container}>
         <Image
           style={styles.image}
-          source={require('../assets/cookie.png')}
+          source={require("../../assets/cookie.png")}
         />
-        <Text style={styles.title_text}>
-          Cookiee
-        </Text>
-        <Text style={styles.content_text1}>
-          오늘 하루를 사진으로 기록해 </Text>
-          <Text style={styles.content_text2}>
-          나만의 쿠키를 만들어보아요 </Text>
+        <Text style={styles.title_text}>Cookiee</Text>
+        <Text style={styles.content_text1}>오늘 하루를 사진으로 기록해 </Text>
+        <Text style={styles.content_text2}>나만의 쿠키를 만들어보아요 </Text>
       </View>
-      <View style={styles.button_style}>
-        <Button
-          disabled={!request}
-          title="Google 로그인하기"
-          onPress={() => {
-            promptAsync();
-          }}
-        />
+      <View style={styles.container}>
+        {user && <ShowUserInfo />}
+        {user === null && (
+          <TouchableOpacity
+            disabled={!request}
+            onPress={() => {
+              promptAsync();
+            }}
+          >
+            <Image
+              source={require("../../assets/btn_google.png")}
+              style={{ width: 300, height: 20 }}
+            ></Image>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
