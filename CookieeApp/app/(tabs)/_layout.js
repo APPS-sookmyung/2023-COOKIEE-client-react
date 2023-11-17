@@ -2,7 +2,7 @@ import { Stack, Tabs } from "expo-router";
 import { Button, FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export default TabsLayout = () => {
+export default HomeLayout = () => {
   return (
     <Stack>
       <Stack.Screen
