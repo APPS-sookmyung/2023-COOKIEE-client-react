@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { TouchableOpacity, Image, View, Text, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
+import { MaterialIcons } from "@expo/vector-icons";
+
 export default function EventImagePicker({ onImageSelected }) {
   const [image, setImage] = useState(null);
 
@@ -22,16 +24,16 @@ export default function EventImagePicker({ onImageSelected }) {
 
   return (
     <TouchableOpacity style={styles.inputBtn} onPress={pickImage}>
-      <Text>추가할 사진 선택</Text>
+      <MaterialIcons name="add-photo-alternate" size={26} color="gray" />
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   inputBtn: {
-    backgroundColor: "yellow",
-    width: 120,
-    borderRadius: 5,
-    margin: 5,
+    display: "flex",
+    alignSelf: "center",
+    width: "auto",
+    height: "auto",
   },
 });
