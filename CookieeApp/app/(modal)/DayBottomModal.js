@@ -18,12 +18,7 @@ import { router } from "expo-router";
 import ThumnailImagrPicker from "./ThumnailImagrPicker";
 import AddEventForm from "./AddEventForm";
 
-export default function DayBottomModal({
-  isVisible,
-  onClose,
-  selectedDate,
-  getSelectedImageUris,
-}) {
+export default function DayBottomModal({ selectedDate }) {
   const closeModal = () => {
     getSelectedImageUris(updatedImageUris);
     closeBottomSheet.start(() => {
@@ -31,14 +26,6 @@ export default function DayBottomModal({
       onClose();
     });
   };
-
-  useEffect(() => {
-    if (isVisible) {
-      console.log("모달 열림");
-      resetBottomSheet.start();
-    }
-  }, [isVisible]);
-  isVisible;
 
   const [isOpenAddEventForm, setIsOpenAddEventForm] = useState(false);
 
@@ -61,59 +48,52 @@ export default function DayBottomModal({
 
   return (
     <View style={styles.flexible}>
-      <Modal
-        visible={isVisible}
-        animationType={"slide"}
-        transparent={true}
-        statusBarTranslucent={true}
-      >
-        <Pressable style={styles.modalOverlay} onPress={closeModal}>
-          <TouchableOpacity>
-            <View style={styles.thumnailContainer}>
-              <View>
-                {selectedDate && selectedImageUris[selectedDate.date] && (
-                  <ImageBackground
-                    style={{ width: "100%", height: "100%" }}
-                    source={{ uri: selectedImageUris[selectedDate.date] }}
-                    resizeMode="cover"
-                  ></ImageBackground>
+      <Pressable style={styles.modalOverlay} onPress={closeModal}>
+        <TouchableOpacity>
+          <View style={styles.thumnailContainer}>
+            <View>
+              {selectedDate && selectedImageUris[selectedDate.date] && (
+                <ImageBackground
+                  style={{ width: "100%", height: "100%" }}
+                  source={{ uri: selectedImageUris[selectedDate.date] }}
+                  resizeMode="cover"
+                ></ImageBackground>
+              )}
+            </View>
+            <View style={styles.addContainer}>
+              <ThumnailImagrPicker onImageSelected={handleImageSelected} />
+            </View>
+            <View style={styles.modalDateContainer}>
+              {selectedDate &&
+                selectedDate.year &&
+                selectedDate.month &&
+                selectedDate.date && (
+                  <Text style={styles.modalDate}>
+                    {selectedDate.year}년 {selectedDate.month}월{" "}
+                    {selectedDate.date}일
+                  </Text>
                 )}
-              </View>
-              <View style={styles.addContainer}>
-                <ThumnailImagrPicker onImageSelected={handleImageSelected} />
-              </View>
-              <View style={styles.modalDateContainer}>
-                {selectedDate &&
-                  selectedDate.year &&
-                  selectedDate.month &&
-                  selectedDate.date && (
-                    <Text style={styles.modalDate}>
-                      {selectedDate.year}년 {selectedDate.month}월{" "}
-                      {selectedDate.date}일
-                    </Text>
-                  )}
-              </View>
             </View>
-            <View style={styles.AddEventContainer}>
-              <TouchableOpacity
-                style={styles.AddEventBtnContainer}
-                onPress={openForm}
-              >
-                <View style={styles.addPlusBtn}>
-                  <Text style={{ fontSize: 25 }}>+</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-            {isOpenAddEventForm && (
-              <AddEventForm
-                selectedDate={selectedDate}
-                isOpenForm={isOpenAddEventForm}
-                onCloseForm={closeForm}
-              />
-            )}
-          </TouchableOpacity>
-        </Pressable>
-      </Modal>
+          </View>
+          <View style={styles.AddEventContainer}>
+            <TouchableOpacity
+              style={styles.AddEventBtnContainer}
+              onPress={openForm}
+            >
+              <View style={styles.addPlusBtn}>
+                <Text style={{ fontSize: 25 }}>+</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          {isOpenAddEventForm && (
+            <AddEventForm
+              selectedDate={selectedDate}
+              isOpenForm={isOpenAddEventForm}
+              onCloseForm={closeForm}
+            />
+          )}
+        </TouchableOpacity>
+      </Pressable>
     </View>
   );
 }
@@ -121,7 +101,7 @@ export default function DayBottomModal({
 const styles = StyleSheet.create({
   flexible: {
     // flex: 1,
-    position: "absolute",
+    // position: "absolute",
     zIndex: 2,
   },
   modalOverlay: {

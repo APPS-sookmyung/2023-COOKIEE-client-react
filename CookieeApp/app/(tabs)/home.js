@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import isSameObj from "../../utils/isSameObj";
 
+import { Link } from "expo-router";
+
 import DayBottomModal from "../(modal)/DayBottomModal";
 
 export default function CalendarHome() {
@@ -201,8 +203,9 @@ function Body(props) {
                   }}
                   resizeMode="cover"
                 >
-                  <Pressable
-                    onPress={handlePressDay.bind(this, checkPressedDate)}
+                  <Link
+                    href={"/DayBottomModal"}
+                    // onPress={handlePressDay.bind(this, checkPressedDate)}
                     style={
                       (({ pressed }) => {
                         return [
@@ -233,19 +236,19 @@ function Body(props) {
                     >
                       {day}
                     </Text>
-                  </Pressable>
+                  </Link>
                 </ImageBackground>
               </View>
             );
           })
         )}
       </View>
-      <DayBottomModal
+      {/* <DayBottomModal
         isVisible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
         selectedDate={selectedDate}
         getSelectedImageUris={getSelectedImageUris}
-      />
+      /> */}
       {/* <Text>
         {selectedDate && selectedDate.date
           ? selectedImageUris[selectedDate.date]
@@ -368,7 +371,7 @@ const S = StyleSheet.create({
   },
   day: {
     display: "flex",
-    alignItems: "center",
+    alignSelf: "center",
     justifyContent: "center",
     position: "relative",
     zIndex: 5,
