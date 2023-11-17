@@ -34,9 +34,9 @@ const BottomModalContnet = () => {
   };
 
   return (
-    <View>
+    <View style={styles.modalContainer}>
       <Stack.Screen options={{ headerShown: false }} />
-      <View style={styles.flexible}>
+      <View>
         <View>
           <View style={styles.thumnailContainer}>
             <View>
@@ -89,8 +89,9 @@ const BottomModalContnet = () => {
 export default BottomModalContnet;
 
 const styles = StyleSheet.create({
-  flexible: {
-    zIndex: 2,
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "#FFF",
   },
   thumnailContainer: {
     display: "flex",
