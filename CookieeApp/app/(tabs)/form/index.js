@@ -6,10 +6,14 @@ import {
   TextInput,
 } from "react-native";
 import React, { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import { router, useRouter } from "expo-router";
 
 import EventImagePicker from "../../(modal)/EventImagePicker";
 
 const AddEventFormScreen = (selectedDate) => {
+  const router = useRouter();
   const [newEvent, setNewEvent] = useState({
     year: selectedDate.year,
     month: selectedDate.month,
@@ -62,13 +66,23 @@ const AddEventFormScreen = (selectedDate) => {
 
   return (
     <View style={styles.Container}>
+      <View style={styles.formHeader}>
+        <TouchableOpacity
+          style={styles.headerBtn}
+          title="이벤트 추가하가"
+          onPress={handleSubmit}
+        >
+          <Text style={styles.headerBtnText}>완료</Text>
+        </TouchableOpacity>
+      </View>
+
       {/* 임시: 사진이 들어갈 자리 */}
       <View
         style={{
           flex: 0.7,
           alignSelf: "center",
           width: "50%",
-          margin: 30,
+          margin: 10,
           backgroundColor: "lightgray",
         }}
       />
@@ -129,8 +143,6 @@ const AddEventFormScreen = (selectedDate) => {
           />
         </View>
       </View>
-
-      <TouchableOpacity title="이벤트 추가하가" onPress={handleSubmit} />
     </View>
   );
 };
@@ -179,5 +191,22 @@ const styles = StyleSheet.create({
     width: 120,
     borderRadius: 5,
     margin: 5,
+  },
+  formHeader: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "flex-end",
+  },
+  headerBtn: {
+    backgroundColor: "#D9D9D9",
+    margin: 20,
+    padding: 8,
+    paddingHorizontal: 12,
+    borderRadius: 5,
+  },
+  headerBtnText: {
+    fontSize: 15,
+    fontWeight: "400",
   },
 });
