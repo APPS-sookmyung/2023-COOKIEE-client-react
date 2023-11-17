@@ -218,8 +218,6 @@ function Body(props) {
                   resizeMode="cover"
                 >
                   <TouchableOpacity
-                    // href={"/DayBottomModal"}
-                    // onPress={handlePressDay.bind(this, checkPressedDate)}
                     onPress={() => handlePressDay(checkPressedDate)}
                     style={
                       (({ pressed }) => {
@@ -258,17 +256,6 @@ function Body(props) {
           })
         )}
       </View>
-      {/* <DayBottomModal
-        isVisible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-        selectedDate={selectedDate}
-        getSelectedImageUris={getSelectedImageUris}
-      /> */}
-      {/* <Text>
-        {selectedDate && selectedDate.date
-          ? selectedImageUris[selectedDate.date]
-          : null}
-      </Text> */}
     </View>
   );
 }
