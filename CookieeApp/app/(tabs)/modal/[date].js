@@ -38,7 +38,7 @@ const BottomModalContnet = () => {
 
   return (
     <View style={styles.modalContainer}>
-      <Stack.Screen options={{ headerShown: false }} />
+      <Stack.Screen options={{ headerShown: false, presentation: "modal" }} />
       <View>
         <View>
           <View style={styles.thumnailContainer}>
