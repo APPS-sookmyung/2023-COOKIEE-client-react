@@ -20,6 +20,13 @@ export default HomeLayout = () => {
           presentation: "modal",
         }}
       />
+      <Stack.Screen
+        name="form"
+        options={{
+          headerShown: false,
+          presentation: "modal",
+        }}
+      />
     </Stack>
   );
 };

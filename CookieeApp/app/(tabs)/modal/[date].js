@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
   },
   modalDate: {
     fontSize: 30,
+    fontWeight: "600",
     color: "#594E4E",
   },
   modalDateContainer: {
