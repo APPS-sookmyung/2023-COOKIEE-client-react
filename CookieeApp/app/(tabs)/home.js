@@ -17,8 +17,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Link, router, useRouter } from "expo-router";
 
-import DayBottomModal from "../(modal)/DayBottomModal";
-
 export default function CalendarHome() {
   const router = useRouter();
 
