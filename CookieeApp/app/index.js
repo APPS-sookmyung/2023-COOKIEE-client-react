@@ -5,7 +5,7 @@ import { StatusBar } from "expo-status-bar";
 
 import Login from "./screens/Login";
 import Loading from "./screens/Loading";
-import User from "../utils/User";
+import User from "./screens/User";
 
 import "expo-router/entry";
 import { Link, Redirect, router } from "expo-router";
