@@ -17,8 +17,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Link, router, useRouter } from "expo-router";
 
-import DayBottomModal from "../(modal)/DayBottomModal";
-
 export default function CalendarHome() {
   const router = useRouter();
 
@@ -220,8 +218,6 @@ function Body(props) {
                   resizeMode="cover"
                 >
                   <TouchableOpacity
-                    // href={"/DayBottomModal"}
-                    // onPress={handlePressDay.bind(this, checkPressedDate)}
                     onPress={() => handlePressDay(checkPressedDate)}
                     style={
                       (({ pressed }) => {
@@ -260,17 +256,6 @@ function Body(props) {
           })
         )}
       </View>
-      {/* <DayBottomModal
-        isVisible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-        selectedDate={selectedDate}
-        getSelectedImageUris={getSelectedImageUris}
-      /> */}
-      {/* <Text>
-        {selectedDate && selectedDate.date
-          ? selectedImageUris[selectedDate.date]
-          : null}
-      </Text> */}
     </View>
   );
 }
