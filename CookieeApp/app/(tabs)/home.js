@@ -13,7 +13,7 @@ import isSameObj from "../../utils/isSameObj";
 
 import DayBottomModal from "../(modal)/DayBottomModal";
 
-function CalendarHome() {
+export default function CalendarHome() {
   const DATE = new Date();
   const YEAR = DATE.getFullYear();
   const MONTH = DATE.getMonth() + 1;
@@ -75,18 +75,9 @@ function CalendarHome() {
   );
 }
 
-export default CalendarHome;
-
 function Header(props) {
   return (
     <>
-      {/* <View style={S.titleHeader}>
-        <Pressable style={S.menuIcon}>
-          <Ionicons name="menu" size={40} color="#594E4E" />
-        </Pressable>
-        <Text style={S.title}>Cookiee</Text>
-      </View> */}
-      {/* <View style={S.line}></View> */}
       <View style={S.header}>
         <Pressable
           onPress={props.moveToPreviousMonth.bind(this, props.month)}
@@ -268,6 +259,7 @@ const dayOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const S = StyleSheet.create({
   calendarContainer: {
+    flex: 1,
     width: "100%",
     minHeight: "50%",
     borderBottomColor: "black",
@@ -276,7 +268,7 @@ const S = StyleSheet.create({
   },
   header: {
     paddingTop: 20,
-    marginTop: 5,
+    marginTop: 10,
     marginBottom: 0,
     flexDirection: "row",
     justifyContent: "space-between",

@@ -12,18 +12,18 @@ export default TabsLayout = () => {
           title: "Cookiee",
           headerShown: true,
           headerLeft: () => (
-            <TouchableOpacity>
+            <TouchableOpacity styleÍ={{ margin: 0 }}>
               <Ionicons name="menu" size={40} color="#594E4E" />
             </TouchableOpacity>
           ),
           headerStyle: {
+            flex: 1,
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: "#FFFFFF",
             margin: 1,
           },
           headerTitleStyle: {
-            position: "absolute",
             fontSize: 30,
             fontWeight: "bold",
             color: "#594E4E",
