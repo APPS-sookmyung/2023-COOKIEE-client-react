@@ -49,7 +49,8 @@ export default function App() {
       <StatusBar style="auto" /> */}
       {/* <CalendarHome /> */}
 
-      <Redirect href={"home"} />
+      {/* <Redirect href={"home"} /> */}
+      <User />
     </View>
   );
 }
