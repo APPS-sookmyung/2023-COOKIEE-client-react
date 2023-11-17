@@ -8,13 +8,6 @@ const StackLayout = () => {
 
   return (
     <Stack>
-      <Stack.Screen
-        name="index"
-        options={{
-          headerTitle: "index",
-          headerShown: true,
-        }}
-      />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
     </Stack>
   );

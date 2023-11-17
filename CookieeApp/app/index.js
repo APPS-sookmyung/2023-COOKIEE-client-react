@@ -47,7 +47,6 @@ export default function App() {
         <Login onLogin={handleLogin} />
       )}
       <StatusBar style="auto" /> */}
-      {/* <CalendarHome /> */}
 
       <Redirect href={"home"} />
     </View>

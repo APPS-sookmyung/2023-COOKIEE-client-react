@@ -4,12 +4,15 @@ import {
   Text,
   ImageBackground,
   Pressable,
+  TouchableOpacity,
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import isSameObj from "../../utils/isSameObj";
+
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Link, router, useRouter } from "expo-router";
 
@@ -52,7 +55,14 @@ export default function CalendarHome() {
   };
 
   return (
-    <View style={S.calendarContainer}>
+    <SafeAreaView style={S.calendarContainer}>
+      <View style={S.titleHeader}>
+        <TouchableOpacity style={S.menuIcon}>
+          <Ionicons name="menu" size={40} color="#594E4E" />
+        </TouchableOpacity>
+        <Text style={S.title}>Cookiee</Text>
+      </View>
+
       <Header
         month={month}
         year={year}
@@ -69,7 +79,7 @@ export default function CalendarHome() {
         moveToPreviousMonth={moveToPreviousMonth}
         moveToSpecificYearAndMonth={moveToSpecificYearAndMonth}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -266,6 +276,19 @@ const S = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 3,
   },
+  headerStyle: {
+    // flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FFFFFF",
+    margin: 1,
+  },
+  headerTitleStyle: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#594E4E",
+  },
   header: {
     paddingTop: 20,
     marginTop: 10,
@@ -333,7 +356,7 @@ const S = StyleSheet.create({
     opacity: 0.3,
   },
   titleHeader: {
-    marginTop: 80,
+    marginVertical: 5,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
