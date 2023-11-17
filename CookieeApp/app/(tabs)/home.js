@@ -168,8 +168,13 @@ function Body(props) {
   };
 
   const stringifyDate = (date) => {
-    if (date && date.date != null) {
-      let daykey = JSON.stringify(date);
+    if (date.date != null) {
+      let data = {
+        year: date.year,
+        month: date.month,
+        date: date.date,
+      };
+      let daykey = JSON.stringify(data);
       console.log("daykey: " + daykey);
       router.push(`modal/${daykey}`);
     }

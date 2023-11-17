@@ -6,14 +6,17 @@ import {
   ImageBackground,
 } from "react-native";
 import React, { useState } from "react";
-import { Stack, useGlobalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 
 import ThumnailImagrPicker from "../../(modal)/ThumnailImagrPicker";
 
 const BottomModalContnet = () => {
-  const { date } = useGlobalSearchParams();
+  const router = useRouter();
+
+  const { date } = useLocalSearchParams();
 
   const selectedDate = JSON.parse(date);
+  console.log(selectedDate);
 
   const [selectedImageUris, setSelectedImageUris] = useState({});
 
@@ -66,20 +69,13 @@ const BottomModalContnet = () => {
           <View style={styles.AddEventContainer}>
             <TouchableOpacity
               style={styles.AddEventBtnContainer}
-              onPress={openForm}
+              onPress={() => router.push("form")}
             >
               <View style={styles.addPlusBtn}>
                 <Text style={{ fontSize: 25 }}>+</Text>
               </View>
             </TouchableOpacity>
           </View>
-          {isOpenAddEventForm && (
-            <AddEventForm
-              selectedDate={selectedDate}
-              isOpenForm={isOpenAddEventForm}
-              onCloseForm={closeForm}
-            />
-          )}
         </View>
       </View>
     </View>
