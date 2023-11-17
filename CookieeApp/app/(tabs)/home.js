@@ -158,18 +158,21 @@ function Body(props) {
 
   const [selectedDate, setSelectedDate] = useState(null);
 
-  const handlePressDay = (pressedDate) => {
-    console.log(pressedDate);
+  useEffect(() => {}, [pressedDate]);
 
-    setPressedDate(pressedDate);
-    setSelectedDate(pressedDate);
-    if (pressedDate.state === "prev" || pressedDate.state === "next") {
-      props.moveToSpecificYearAndMonth(pressedDate.year, pressedDate.month);
+  const handlePressDay = (date) => {
+    setPressedDate(date);
+    setSelectedDate(date);
+    if (date.state === "prev" || date.state === "next") {
+      props.moveToSpecificYearAndMonth(date.year, date.month);
     }
+    stringifyDate(date);
+  };
 
-    if (selectedDate && selectedDate.date != null) {
-      let daykey = JSON.stringify(selectedDate);
-      // console.log("daykey: " + daykey);
+  const stringifyDate = (date) => {
+    if (date && date.date != null) {
+      let daykey = JSON.stringify(date);
+      console.log("daykey: " + daykey);
       router.push(`modal/${daykey}`);
     }
   };
