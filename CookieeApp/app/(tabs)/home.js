@@ -5,6 +5,7 @@ import {
   ImageBackground,
   Pressable,
   TouchableOpacity,
+  Button,
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
@@ -155,15 +156,24 @@ function Body(props) {
     });
   };
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
 
-  const handlePressDay = (pressedDate) => {
-    setPressedDate(pressedDate);
-    setSelectedDate(pressedDate);
-    setIsModalVisible(true);
-    if (pressedDate.state === "prev" || pressedDate.state === "next") {
-      props.moveToSpecificYearAndMonth(pressedDate.year, pressedDate.month);
+  useEffect(() => {}, [pressedDate]);
+
+  const handlePressDay = (date) => {
+    setPressedDate(date);
+    setSelectedDate(date);
+    if (date.state === "prev" || date.state === "next") {
+      props.moveToSpecificYearAndMonth(date.year, date.month);
+    }
+    stringifyDate(date);
+  };
+
+  const stringifyDate = (date) => {
+    if (date && date.date != null) {
+      let daykey = JSON.stringify(date);
+      console.log("daykey: " + daykey);
+      router.push(`modal/${daykey}`);
     }
   };
 
@@ -209,10 +219,10 @@ function Body(props) {
                   }}
                   resizeMode="cover"
                 >
-                  <Pressable
+                  <TouchableOpacity
                     // href={"/DayBottomModal"}
                     // onPress={handlePressDay.bind(this, checkPressedDate)}
-                    onPress={() => router.push("/DayBottomModal")}
+                    onPress={() => handlePressDay(checkPressedDate)}
                     style={
                       (({ pressed }) => {
                         return [
@@ -243,7 +253,7 @@ function Body(props) {
                     >
                       {day}
                     </Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 </ImageBackground>
               </View>
             );
