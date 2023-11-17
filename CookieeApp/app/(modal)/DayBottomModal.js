@@ -13,8 +13,6 @@ import {
   ImageBackground,
 } from "react-native";
 
-import { router } from "expo-router";
-
 import ThumnailImagrPicker from "./ThumnailImagrPicker";
 import AddEventForm from "./AddEventForm";
 

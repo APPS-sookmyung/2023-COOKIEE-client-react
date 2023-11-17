@@ -11,11 +11,13 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import isSameObj from "../../utils/isSameObj";
 
-import { Link } from "expo-router";
+import { Link, router, useRouter } from "expo-router";
 
 import DayBottomModal from "../(modal)/DayBottomModal";
 
 export default function CalendarHome() {
+  const router = useRouter();
+
   const DATE = new Date();
   const YEAR = DATE.getFullYear();
   const MONTH = DATE.getMonth() + 1;
@@ -25,8 +27,6 @@ export default function CalendarHome() {
   const [month, setMonth] = useState(MONTH);
   const [year, setYear] = useState(YEAR);
   const [date, setDate] = useState(DAY);
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const moveToNextMonth = (month) => {
     if (month === 12) {
@@ -68,10 +68,6 @@ export default function CalendarHome() {
         moveToNextMonth={moveToNextMonth}
         moveToPreviousMonth={moveToPreviousMonth}
         moveToSpecificYearAndMonth={moveToSpecificYearAndMonth}
-      />
-      <DayBottomModal
-        isVisible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
       />
     </View>
   );
@@ -203,9 +199,10 @@ function Body(props) {
                   }}
                   resizeMode="cover"
                 >
-                  <Link
-                    href={"/DayBottomModal"}
+                  <Pressable
+                    // href={"/DayBottomModal"}
                     // onPress={handlePressDay.bind(this, checkPressedDate)}
+                    onPress={() => router.push("/DayBottomModal")}
                     style={
                       (({ pressed }) => {
                         return [
@@ -236,7 +233,7 @@ function Body(props) {
                     >
                       {day}
                     </Text>
-                  </Link>
+                  </Pressable>
                 </ImageBackground>
               </View>
             );
