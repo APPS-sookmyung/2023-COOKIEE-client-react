@@ -6,7 +6,8 @@ export default FormLayout = () => {
       <Stack.Screen
         name="index"
         options={{
-          headerTitle: "form index",
+          // headerTitle: "form index",
+          headerShown: false,
         }}
       />
     </Stack>

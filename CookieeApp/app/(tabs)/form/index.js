@@ -61,68 +61,75 @@ const AddEventFormScreen = (selectedDate) => {
   };
 
   return (
-    <View style={styles.AddEventForm}>
-      <TouchableOpacity
-        style={styles.clodeBtn}
-        onPress={() => {
-          onCloseForm();
+    <View style={styles.Container}>
+      {/* 임시: 사진이 들어갈 자리 */}
+      <View
+        style={{
+          flex: 0.7,
+          alignSelf: "center",
+          width: "50%",
+          margin: 30,
+          backgroundColor: "lightgray",
         }}
-      >
-        <Text style={{ alignSelf: "center", color: "red" }}>닫기</Text>
-      </TouchableOpacity>
-
-      <EventImagePicker
-        // onImageSelected={handleImageSelected}
-        value={newEvent.imgUrl}
       />
+      {/* 임시:  사진이 들어갈 자리 */}
 
-      <TouchableOpacity style={styles.inputBtn}>
-        <Text>추가할 카테고리 선택</Text>
-        <TextInput
-          style={styles.InputBox}
-          placeholder="카테고리"
-          value={newEvent.cate}
-          onChangeText={(text) => handleInputChange(text, "cate")}
-        />
-      </TouchableOpacity>
-      <View style={styles.InputContainer}>
-        <Text>시간</Text>
-        <TextInput
-          style={styles.InputBox}
-          placeholder="시간"
-          value={newEvent.time}
-          onChangeText={(text) => handleInputChange(text, "time")}
-        />
-      </View>
-      <View style={styles.InputContainer}>
-        <Text>장소</Text>
-        <TextInput
-          style={styles.InputBox}
-          placeholder="장소"
-          value={newEvent.place}
-          onChangeText={(text) => handleInputChange(text, "place")}
-        />
-      </View>
-      <View style={styles.InputContainer}>
-        <Text>내용</Text>
-        <TextInput
-          style={styles.InputBox}
-          placeholder="내용"
-          value={newEvent.detail}
-          onChangeText={(text) => handleInputChange(text, "detail")}
-        />
-      </View>
-      <View style={styles.InputContainer}>
-        <Text>사람</Text>
-        <TextInput
-          style={styles.InputBox}
-          placeholder="사람"
-          value={newEvent.people}
-          onChangeText={(text) => handleInputChange(text, "people")}
+      <View style={styles.formTitleContainer}>
+        <Text style={styles.formTitleText}>🍪 사진 정보 작성</Text>
+        <EventImagePicker
+          // onImageSelected={handleImageSelected}
+          value={newEvent.imgUrl}
         />
       </View>
 
-      {/* 다른 TextInput 컴포넌트들도 동일한 방식으로 처리합니다. */}
+      <View style={styles.formContainer}>
+        <View style={styles.InputContainer}>
+          <Text style={styles.InputTitle}>카테고리</Text>
+          <TextInput
+            style={styles.InputBox}
+            placeholder="  카테고리"
+            value={newEvent.cate}
+            onChangeText={(text) => handleInputChange(text, "cate")}
+          />
+        </View>
+        <View style={styles.InputContainer}>
+          <Text style={styles.InputTitle}>시간</Text>
+          <TextInput
+            style={styles.InputBox}
+            placeholder="  시간"
+            value={newEvent.time}
+            onChangeText={(text) => handleInputChange(text, "time")}
+          />
+        </View>
+        <View style={styles.InputContainer}>
+          <Text style={styles.InputTitle}>장소</Text>
+          <TextInput
+            style={styles.InputBox}
+            placeholder="  장소"
+            value={newEvent.place}
+            onChangeText={(text) => handleInputChange(text, "place")}
+          />
+        </View>
+        <View style={styles.InputContainer}>
+          <Text style={styles.InputTitle}>내용</Text>
+          <TextInput
+            style={styles.InputBox}
+            placeholder="  내용"
+            value={newEvent.detail}
+            onChangeText={(text) => handleInputChange(text, "detail")}
+          />
+        </View>
+        <View style={styles.InputContainer}>
+          <Text style={styles.InputTitle}>함께한 사람</Text>
+          <TextInput
+            style={styles.InputBox}
+            placeholder="  사람"
+            value={newEvent.people}
+            onChangeText={(text) => handleInputChange(text, "people")}
+          />
+        </View>
+      </View>
+
       <TouchableOpacity title="이벤트 추가하가" onPress={handleSubmit} />
     </View>
   );
@@ -131,32 +138,46 @@ const AddEventFormScreen = (selectedDate) => {
 export default AddEventFormScreen;
 
 const styles = StyleSheet.create({
-  AddEventForm: {
-    height: 500,
-    backgroundColor: "lightgray",
+  Container: {
+    flex: 1,
+    backgroundColor: "#FFF",
   },
-  InputContainer: {
+  formContainer: {
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  formTitleContainer: {
     display: "flex",
     flexDirection: "row",
-    margin: 3,
+    alignContent: "center",
+  },
+  formTitleText: { fontSize: 20, fontWeight: "600", margin: 13 },
+  InputContainer: {
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "space-between",
+    marginVertical: 9,
+    marginHorizontal: 24,
+    width: "auto",
+    height: "auto",
+  },
+  InputTitle: {
+    width: "auto",
+    alignSelf: "center",
+    fontSize: 14,
+    fontWeight: "500",
   },
   InputBox: {
-    backgroundColor: "white",
     borderRadius: 5,
-    width: 100,
-    marginLeft: 10,
+    width: "70%",
+    height: 25,
+    margin: "auto",
+    backgroundColor: "#EBEBEB",
   },
   inputBtn: {
     backgroundColor: "white",
     width: 120,
     borderRadius: 5,
     margin: 5,
-  },
-  clodeBtn: {
-    backgroundColor: "white",
-    width: 30,
-    borderRadius: 5,
-    margin: 5,
-    color: "red",
   },
 });
