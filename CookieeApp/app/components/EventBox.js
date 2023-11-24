@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export default function AddEvent() {
+export default function EventBox() {
   return (
     <View style={styles.AddEventContainer}>
       <View style={styles.FirstEventImageContainer}>
@@ -60,32 +60,27 @@ export default function AddEvent() {
 
 const styles = StyleSheet.create({
   AddEventContainer: {
-    // flex: 0.5,
     display: "flex",
     flexDirection: "row",
-    // alignContent: "center",
     justifyContent: "center",
     alignSelf: "center",
-    width: "auto",
-    height: "25%",
-    margin: 10,
-    // backgroundColor: "red",
+    width: "100%",
+    height: "auto",
+    margin: 5,
   },
   FirstEventImageContainer: {
     display: "flex",
     flexDirection: "column",
     alignContent: "center",
     justifyContent: "center",
-    // backgroundColor: "green",
     width: "50%",
-    height: "100%",
+    height: "auto",
   },
   FirstEventImageBox: {
     borderRadius: 10,
     width: "90%",
-    height: "90%",
+    height: 170,
     backgroundColor: "#EBEBEB",
-    // position: "relative",
     alignSelf: "center",
   },
   EventInfoContainer: {
@@ -95,7 +90,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     // backgroundColor: "yellow",
     width: "50%",
-    height: "100%",
+    height: "auto",
   },
   EventInfo: {
     display: "flex",
