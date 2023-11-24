@@ -8,7 +8,7 @@ import {
 import React, { useState } from "react";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 
-import ThumnailImagrPicker from "../../(modal)/ThumnailImagrPicker";
+import ThumnailImagrPicker from "../../utils/ThumnailImagrPicker";
 import EventBox from "../../components/EventBox";
 
 const BottomModalContnet = () => {

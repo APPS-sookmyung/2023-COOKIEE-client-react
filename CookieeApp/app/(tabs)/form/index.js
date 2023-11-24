@@ -10,7 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { router, useRouter } from "expo-router";
 
-import EventImagePicker from "../../(modal)/EventImagePicker";
+import EventImagePicker from "../../utils";
 
 const AddEventFormScreen = (selectedDate) => {
   const router = useRouter();
