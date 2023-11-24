@@ -14,7 +14,7 @@ export default HomeLayout = () => {
         }}
       />
       <Stack.Screen
-        name="modal"
+        name="day"
         options={{
           headerShown: false,
           presentation: "modal",

@@ -176,7 +176,7 @@ function Body(props) {
       };
       let daykey = JSON.stringify(data);
       console.log("daykey: " + daykey);
-      router.push(`modal/${daykey}`);
+      router.push(`day/${daykey}`);
     }
   };
 
