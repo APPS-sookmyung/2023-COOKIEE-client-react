@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 
 import ThumnailImagrPicker from "../../(modal)/ThumnailImagrPicker";
+import EventBox from "../../components/EventBox";
 
 const BottomModalContnet = () => {
   const router = useRouter();
@@ -66,6 +67,13 @@ const BottomModalContnet = () => {
                 )}
             </View>
           </View>
+          {/* 이벤트 리스트가 들어가는 위치 */}
+          <TouchableOpacity style={{ margin: 10 }}>
+            <View style={{ width: "100%", height: "auto" }}>
+              <EventBox />
+            </View>
+          </TouchableOpacity>
+
           <View style={styles.AddEventContainer}>
             <TouchableOpacity
               style={styles.AddEventBtnContainer}
