@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, Image, Pressable } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import AppLoading from "expo-app-loading";
 import { StatusBar } from "expo-status-bar";
 
@@ -35,7 +36,7 @@ export default function App() {
   }
 
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       {/* {isLoggedIn ? (
         // 사용자가 로그인한 경우 메인 화면
         <>
@@ -48,9 +49,9 @@ export default function App() {
       )}
       <StatusBar style="auto" /> */}
 
-      <Redirect href={"home"} />
-      {/* <User /> */}
-    </View>
+      {/* <Redirect href={"home"} /> */}
+      <User />
+    </SafeAreaView>
   );
 }
 
@@ -59,6 +60,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
-    backgroundColor: "#000000",
+    backgroundColor: "#FFFFFF",
   },
 });

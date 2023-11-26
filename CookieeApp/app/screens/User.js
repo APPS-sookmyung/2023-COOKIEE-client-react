@@ -11,6 +11,8 @@ import { useRouter } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 import { Ionicons } from "@expo/vector-icons";
 
+import { SafeAreaView } from "react-native-safe-area-context";
+
 function User() {
   const router = useRouter();
   const [nickname, setNickname] = useState("");
@@ -59,7 +61,7 @@ function User() {
         </TouchableOpacity>
         <Text style={styles.title}>Cookiee</Text>
       </View>
-      <View style={styles.container}>
+      <View>
         <TouchableOpacity
           onPress={handleImageUpload}
           style={styles.profileContainer}
@@ -104,7 +106,10 @@ function User() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    flex: 1,
+    width: "100%",
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 3,
   },
   inputContainer: {
     marginTop: 38,
@@ -124,6 +129,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   titleHeader: {
+    marginVertical: 5,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -167,14 +173,13 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     borderRadius: 75,
+    display: "flex",
   },
   profilePlaceholder: {
-    alignItems: "center",
-    justifyContent: "center",
+    display: "flex",
   },
   uploadText: {
     fontSize: 15,
-    marginTop: 20,
   },
 });
 
