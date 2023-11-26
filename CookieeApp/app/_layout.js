@@ -7,7 +7,7 @@ const StackLayout = () => {
   const router = useRouter();
 
   return (
-    <Stack>
+    <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
     </Stack>
   );
