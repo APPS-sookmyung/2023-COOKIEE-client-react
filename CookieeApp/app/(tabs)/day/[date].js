@@ -68,7 +68,12 @@ const BottomModalContnet = () => {
             </View>
           </View>
           {/* 이벤트 리스트가 들어가는 위치 */}
-          <TouchableOpacity style={{ margin: 10 }}>
+          <TouchableOpacity
+            style={{ margin: 10 }}
+            // 밖에 이벤트 아이디 백엔드로 요청하는 함수 만들기
+            // onPress={() => router.push("form")}
+            onPress={() => router.push("event")}
+          >
             <View style={{ width: "100%", height: "auto" }}>
               <EventBox />
             </View>

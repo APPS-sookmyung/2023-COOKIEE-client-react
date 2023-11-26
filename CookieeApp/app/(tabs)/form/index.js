@@ -13,7 +13,6 @@ import { router, useRouter } from "expo-router";
 import EventImagePicker from "../../utils/EventImagePicker";
 
 const AddEventFormScreen = (selectedDate) => {
-  const router = useRouter();
   const [newEvent, setNewEvent] = useState({
     year: selectedDate.year,
     month: selectedDate.month,

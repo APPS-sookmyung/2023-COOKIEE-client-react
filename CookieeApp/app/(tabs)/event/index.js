@@ -3,7 +3,11 @@ import React from "react";
 import { Redirect } from "expo-router";
 
 const EventDetailIndex = () => {
-  // return <Redirect href={"event"} />;
+  return (
+    <View>
+      <Text>asdads</Text>
+    </View>
+  );
 };
 
 export default EventDetailIndex;
