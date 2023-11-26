@@ -2,6 +2,14 @@ import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import { EvilIcons } from "@expo/vector-icons";
 
+import Animated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+} from "react-native-reanimated";
+import Carousel from "react-native-reanimated-carousel";
+
 const EventDetailIndex = () => {
   return (
     <View style={styles.container}>
