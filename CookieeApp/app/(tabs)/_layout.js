@@ -27,6 +27,13 @@ export default HomeLayout = () => {
           presentation: "modal",
         }}
       />
+      <Stack.Screen
+        name="event"
+        options={{
+          headerShown: false,
+          presentation: "modal",
+        }}
+      />
     </Stack>
   );
 };

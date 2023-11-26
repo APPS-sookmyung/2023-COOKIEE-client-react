@@ -6,14 +6,10 @@ import {
   TextInput,
 } from "react-native";
 import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-
-import { router, useRouter } from "expo-router";
 
 import EventImagePicker from "../../utils/EventImagePicker";
 
 const AddEventFormScreen = (selectedDate) => {
-  const router = useRouter();
   const [newEvent, setNewEvent] = useState({
     year: selectedDate.year,
     month: selectedDate.month,
