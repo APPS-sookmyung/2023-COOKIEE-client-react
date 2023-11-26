@@ -7,6 +7,7 @@ export default EventDetailLayout = () => {
         name="index"
         options={{
           headerTitle: "EventDetailLayout",
+          headerShown: false,
         }}
       />
     </Stack>
