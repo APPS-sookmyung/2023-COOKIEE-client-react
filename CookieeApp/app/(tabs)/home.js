@@ -276,19 +276,6 @@ const S = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     paddingHorizontal: 3,
   },
-  headerStyle: {
-    // flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#FFFFFF",
-    margin: 1,
-  },
-  headerTitleStyle: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#594E4E",
-  },
   header: {
     paddingTop: 20,
     marginTop: 10,
