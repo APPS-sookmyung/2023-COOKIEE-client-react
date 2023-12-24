@@ -38,12 +38,19 @@ export default function EventBox() {
       </View>
       <View style={styles.EventInfoContainer}>
         <View style={styles.EventInfo}>
-          <View style={styles.EventInfoCategoryBox}>
-            <Text style={styles.EventInfoCategoryText}>#카페</Text>
-          </View>
-          <View style={styles.EventInfoCategoryBox}>
-            <Text style={styles.EventInfoCategoryText}>#데이트</Text>
-          </View>
+          {data.map((category, index) => (
+            <View
+              key={index}
+              style={{
+                ...styles.EventInfoCategoryBox,
+                backgroundColor: category.categoryColor,
+              }}
+            >
+              <Text style={styles.EventInfoCategoryText}>
+                #{category.categoryName}
+              </Text>
+            </View>
+          ))}
         </View>
 
         <View style={styles.EventInfo}>
