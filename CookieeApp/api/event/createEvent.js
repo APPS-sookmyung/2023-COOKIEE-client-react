@@ -7,7 +7,7 @@ export const createEvent = async (userId, eventData) => {
       eventData
     );
 
-    if (response.status !== 201) {
+    if (response.status !== 1000) {
       throw new Error("Network response was not created");
     }
 
