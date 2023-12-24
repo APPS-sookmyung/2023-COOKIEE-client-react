@@ -1,6 +1,7 @@
 import { Stack, Tabs } from "expo-router";
 import { Button, FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { Drawer } from "expo-router/drawer";
 
 export default HomeLayout = () => {
   return (
