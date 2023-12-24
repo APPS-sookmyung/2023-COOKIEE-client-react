@@ -4,15 +4,13 @@ import axios from "axios";
 
 export default function EventBox() {
   const [data, setData] = useState([]);
-  const [query, setQuery] = useState("react");
+  const [userId, setUserId] = useState(1);
 
-  //useEffect는 비동기적으로 동작
   useEffect(() => {
     let completed = false; //초기에는 실행해야 되기때문에 false flag 변수
 
-    //query를 리턴하는 함수를 result에 할당
     async function get() {
-      const result = await axios.get(`http://cookiee.site/category/1`);
+      const result = await axios.get(`http://cookiee.site/category/${userId}`);
       if (!completed) {
         setData(result.data);
         console.log(result.data.result);
@@ -22,8 +20,7 @@ export default function EventBox() {
     return () => {
       completed = true;
     };
-    //query가 변할때 useEffect를 실행해야하는 시점이다
-  }, [query]); //input에 값이 변경이 되었을때 effect를 실행한다
+  }, [userId]); //userId가 변할때 useEffect를 실행
 
   return (
     <View style={styles.AddEventContainer}>
