@@ -1,6 +1,34 @@
 import { StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+import viewCate from "../../api/category/viewCate";
 
 export default function EventBox() {
+  const [data, setData] = useState([]);
+  const [userId, setUserId] = useState(1);
+
+  useEffect(() => {
+    let completed = false; // 첫 번째 1회 실행을 위한 flag
+
+    async function get() {
+      try {
+        const result = await viewCate(userId);
+        if (!completed) {
+          setData(result);
+          console.log(result);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    get();
+    return () => {
+      completed = true;
+    };
+  }, [userId]); // userId가 변경될 때 마다 실행
+
   return (
     <View style={styles.AddEventContainer}>
       <View style={styles.FirstEventImageContainer}>
