@@ -8,29 +8,29 @@ import { router } from "expo-router";
 import getCate from "../../../api/category/getCate";
 
 const collectCookiee = () => {
-  // const [data, setData] = useState([]);
-  // const [userId, setUserId] = useState(1);
+  const [data, setData] = useState([]);
+  const [userId, setUserId] = useState(1);
 
-  // useEffect(() => {
-  //   let completed = false; // 첫 번째 1회 실행을 위한 flag
+  useEffect(() => {
+    let completed = false; // 첫 번째 1회 실행을 위한 flag
 
-  //   async function get() {
-  //     try {
-  //       const result = await getCate(userId);
-  //       if (!completed) {
-  //         setData(result);
-  //         console.log(result);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
+    async function get() {
+      try {
+        const result = await getCate(userId);
+        if (!completed) {
+          setData(result);
+          console.log(result);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
-  //   get();
-  //   return () => {
-  //     completed = true;
-  //   };
-  // }, [userId]); // userId가 변경될 때 마다 실행
+    get();
+    return () => {
+      completed = true;
+    };
+  }, [userId]); // userId가 변경될 때 마다 실행
 
   const navigation = useNavigation();
 
@@ -56,14 +56,19 @@ const collectCookiee = () => {
         <Text style={styles.title}>🍪 쿠키 모아보기</Text>
       </View>
       <View style={styles.categoryList}>
-        {categories.map((category, index) => (
+        {data.map((category, index) => (
           <View key={index}>
-            <TouchableOpacity onPress={() => handlePressCate(category.name)}>
+            <TouchableOpacity
+              onPress={() => handlePressCate(category.categoryName)}
+            >
               <View style={styles.categoryItem}>
                 <View
-                  style={[styles.colorBox, { backgroundColor: category.color }]}
+                  style={[
+                    styles.colorBox,
+                    { backgroundColor: category.categoryColor },
+                  ]}
                 />
-                <Text style={styles.categoryText}>{category.name}</Text>
+                <Text style={styles.categoryText}>{category.categoryName}</Text>
               </View>
             </TouchableOpacity>
           </View>
