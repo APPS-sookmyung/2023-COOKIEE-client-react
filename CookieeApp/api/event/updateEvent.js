@@ -7,7 +7,7 @@ export const updateEvent = async (userId, eventId, eventDataToUpdate) => {
       eventDataToUpdate
     );
 
-    if (response.status !== 200) {
+    if (response.status !== 1000) {
       throw new Error("Network response was not ok");
     }
 
