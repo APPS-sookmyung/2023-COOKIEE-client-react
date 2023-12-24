@@ -2,25 +2,32 @@ import { StyleSheet, Text, View } from "react-native";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+import viewCate from "../../api/category/viewCate";
+
 export default function EventBox() {
   const [data, setData] = useState([]);
   const [userId, setUserId] = useState(1);
 
   useEffect(() => {
-    let completed = false; //초기에는 실행해야 되기때문에 false flag 변수
+    let completed = false; // 첫 번째 1회 실행을 위한 flag
 
     async function get() {
-      const result = await axios.get(`http://cookiee.site/category/${userId}`);
-      if (!completed) {
-        setData(result.data);
-        console.log(result.data.result);
+      try {
+        const result = await viewCate(userId);
+        if (!completed) {
+          setData(result);
+          console.log(result);
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
+
     get();
     return () => {
       completed = true;
     };
-  }, [userId]); //userId가 변할때 useEffect를 실행
+  }, [userId]); // userId가 변경될 때 마다 실행
 
   return (
     <View style={styles.AddEventContainer}>
