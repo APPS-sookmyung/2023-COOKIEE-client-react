@@ -26,6 +26,7 @@ const EventImagePicker = () => {
       allowsEditing: false,
       quality: 1,
       aspect: [1, 1],
+      allowsMultipleSelection: true,
     });
     if (result.canceled) {
       return null; // 이미지 업로드 취소한 경우
@@ -43,14 +44,18 @@ const EventImagePicker = () => {
     const formData = new FormData();
     formData.append("image", { uri: localUri, name: filename, type });
 
-    await axios({
-      method: "post",
-      url: "{API주소}",
-      headers: {
-        "content-type": "multipart/form-data",
-      },
-      data: formData,
-    });
+    try {
+      await axios({
+        method: "post",
+        url: "{API주소}",
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+        data: formData,
+      });
+    } catch (err) {
+      console.log("err", err);
+    }
   };
 
   return (
