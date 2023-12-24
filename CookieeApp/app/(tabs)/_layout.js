@@ -60,6 +60,12 @@ export default HomeLayout = () => {
         }}
       />
       <Stack.Screen
+        name="showCookiee"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="myPage"
         options={{
           headerShown: false,

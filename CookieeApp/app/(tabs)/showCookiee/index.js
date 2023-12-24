@@ -3,11 +3,10 @@ import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import { router } from "expo-router";
 
 import getCate from "../../../api/category/getCate";
 
-const collectCookiee = () => {
+const showCookiee = () => {
   // const [data, setData] = useState([]);
   // const [userId, setUserId] = useState(1);
 
@@ -49,19 +48,10 @@ const collectCookiee = () => {
         <TouchableOpacity style={styles.menuIcon} onPress={goBack}>
           <AntDesign name="arrowleft" size={30} color="#594E4E" />
         </TouchableOpacity>
-        <Text style={styles.title}>🍪 쿠키 모아보기</Text>
+        <Text style={styles.title}>#categories</Text>
       </View>
-      <View style={styles.categoryList}>
-        {categories.map((category, index) => (
-          <TouchableOpacity onPress={() => router.push("showCookiee")}>
-            <View key={index} style={styles.categoryItem}>
-              <View
-                style={[styles.colorBox, { backgroundColor: category.color }]}
-              />
-              <Text style={styles.categoryText}>{category.name}</Text>
-            </View>
-          </TouchableOpacity>
-        ))}
+      <View>
+        <Text>dd</Text>
       </View>
     </SafeAreaView>
   );
@@ -91,23 +81,6 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     width: "100%",
   },
-  categoryList: {
-    marginTop: 20,
-    marginLeft: 30,
-  },
-  categoryItem: {
-    flexDirection: "row",
-    marginVertical: 5,
-  },
-  colorBox: {
-    width: 25,
-    height: 25,
-    borderRadius: 5,
-    marginRight: 10,
-  },
-  categoryText: {
-    fontSize: 20,
-  },
 });
 
-export default collectCookiee;
+export default showCookiee;
