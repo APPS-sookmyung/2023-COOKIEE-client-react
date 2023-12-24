@@ -7,6 +7,9 @@ import { StatusBar } from "expo-status-bar";
 import Login from "./screens/Login";
 import Loading from "./screens/Loading";
 import User from "./screens/User";
+import { NavigationContainer } from "@react-navigation/native";
+import DrawerNavigator from "./screens/DrawerNavigator";
+import { Drawer } from "expo-router/drawer";
 
 import "expo-router/entry";
 import { Link, Redirect, router } from "expo-router";
@@ -36,22 +39,26 @@ export default function App() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* {isLoggedIn ? (
-        // 사용자가 로그인한 경우 메인 화면
-        <>
-          <Login onLogout={handleLogout} />
-          <User />
-        </>
-      ) : (
-        // 로그인 안 한 경우 로그인 화면 보여줌
-        <Login onLogin={handleLogin} />
-      )}
-      <StatusBar style="auto" /> */}
+      <SafeAreaView style={styles.container}>
+        {/* {isLoggedIn ? (
+          // 사용자가 로그인한 경우 메인 화면
+          <>
+            <Login onLogout={handleLogout} />
+            <User />
+          </>
+        ) : (
+          // 로그인 안 한 경우 로그인 화면 보여줌
+          <Login onLogin={handleLogin} />
+        )}
+        <StatusBar style="auto" /> */}
 
-      {/* <Redirect href={"home"} /> */}
-      <User />
-    </SafeAreaView>
+        {/* <Redirect href={"home"} /> */}
+        <>
+          <User />
+          {/* <DrawerNavigator /> */}
+          <Drawer />
+        </>
+      </SafeAreaView>
   );
 }
 
