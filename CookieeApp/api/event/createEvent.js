@@ -1,14 +1,21 @@
 import axios from "axios";
 
-export const createEvent = async (userId, eventData) => {
+export const createEvent = async (userId, eventData, year, month, date) => {
   try {
     const response = await axios.post(
       `https://api.example.com/event/${userId}`,
-      eventData
+      eventData,
+      {
+        params: {
+          year: year,
+          month: month,
+          date: date,
+        },
+      }
     );
 
     if (response.status !== 1000) {
-      throw new Error("Network response was not created");
+      throw new Error("Network response was not successful");
     }
 
     const createdEventData = response.data;

@@ -9,6 +9,8 @@ import React, { useState } from "react";
 
 import EventImagePicker from "../../utils/EventImagePicker";
 
+import { createEvent } from "../../../api/event/createEvent";
+
 const AddEventFormScreen = (selectedDate) => {
   const [newEvent, setNewEvent] = useState({
     year: selectedDate.year,
@@ -30,9 +32,6 @@ const AddEventFormScreen = (selectedDate) => {
   };
 
   const handleSubmit = () => {
-    // 새 이벤트 추가
-    calendarDataActions.addEvent(newEvent);
-
     // 입력 필드 초기화
     setNewEvent({
       year: selectedDate.year,
