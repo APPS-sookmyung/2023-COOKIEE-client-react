@@ -54,11 +54,8 @@ function User() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.titleHeader}>
-        <TouchableOpacity style={styles.menuIcon}>
-          <Ionicons name="menu" size={40} color="#594E4E" />
-        </TouchableOpacity>
         <Text style={styles.title}>Cookiee</Text>
       </View>
       <View>
@@ -100,7 +97,7 @@ function User() {
           </View>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -162,7 +159,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     borderRadius: 75,
-    marginTop: 20,
+    marginTop: 50,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "lightgray",
