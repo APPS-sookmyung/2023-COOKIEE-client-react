@@ -16,10 +16,10 @@ import isSameObj from "../../utils/isSameObj";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Link, router, useRouter } from "expo-router";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import { Drawer } from "expo-router/drawer";
 
-export default function CalendarHome({navigation}) {
+export default function CalendarHome({ navigation }) {
   const router = useRouter();
 
   const DATE = new Date();
@@ -55,13 +55,13 @@ export default function CalendarHome({navigation}) {
     setMonth(month);
   };
 
-  
   return (
     <SafeAreaView style={S.calendarContainer}>
       <View style={S.titleHeader}>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={S.menuIcon}
-          >
+          onPress={() => router.push("sidebar")}
+        >
           <Ionicons name="menu" size={40} color="#594E4E" />
         </TouchableOpacity>
         <Text style={S.title}>Cookiee</Text>
