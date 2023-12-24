@@ -35,6 +35,30 @@ export default HomeLayout = () => {
           presentation: "modal",
         }}
       />
+      <Stack.Screen
+        name="sidebar"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen 
+        name="categoryFix"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="categoryAdd"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="myPage"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 };

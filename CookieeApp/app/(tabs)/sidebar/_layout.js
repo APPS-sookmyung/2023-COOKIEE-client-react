@@ -5,12 +5,13 @@ import { Drawer } from "expo-router/drawer";
 
 const DrawerLayout = () => {
   return (
-    <Drawer>
+    <Drawer drawerPosition="left" screenOptions={{ headerShown: false, swipeEdgeWidth : 0 }}>
       <Drawer.Screen
-        name="index" // This is the name of the page and must match the url from root
+        name="index"
         options={{
           drawerLabel: "Home",
           title: "overview",
+          headerShown: false,
         }}
       />
     </Drawer>
