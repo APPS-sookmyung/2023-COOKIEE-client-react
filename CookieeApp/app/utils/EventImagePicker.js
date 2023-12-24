@@ -36,7 +36,7 @@ const EventImagePicker = () => {
     setImageUrl(result.assets);
 
     // 서버에 요청 보내기
-    const localUri = result.assets;
+    const localUri = result.assets + "";
     const filename = localUri.split("/").pop();
     const match = /\.(\w+)$/.exec(filename ?? "");
     const type = match ? `image/${match[1]}` : `image`;
