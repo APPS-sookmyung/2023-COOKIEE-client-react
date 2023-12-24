@@ -3,11 +3,11 @@ import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import { router } from "expo-router";
 
 import getCate from "../../../api/category/getCate";
+import { useGlobalSearchParams } from "expo-router";
 
-const collectCookiee = () => {
+const showCookiee = () => {
   // const [data, setData] = useState([]);
   // const [userId, setUserId] = useState(1);
 
@@ -32,6 +32,8 @@ const collectCookiee = () => {
   //   };
   // }, [userId]); // userId가 변경될 때 마다 실행
 
+  const { cate } = useGlobalSearchParams();
+
   const navigation = useNavigation();
 
   const goBack = () => {
@@ -43,31 +45,16 @@ const collectCookiee = () => {
     { name: "데이트", color: "#D0FFBA" },
   ];
 
-  const handlePressCate = (categoryName) => {
-    router.push(`showCookiee/${categoryName}`);
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.titleHeader}>
         <TouchableOpacity style={styles.menuIcon} onPress={goBack}>
           <AntDesign name="arrowleft" size={30} color="#594E4E" />
         </TouchableOpacity>
-        <Text style={styles.title}>🍪 쿠키 모아보기</Text>
+        <Text style={styles.title}>{cate}</Text>
       </View>
-      <View style={styles.categoryList}>
-        {categories.map((category, index) => (
-          <View key={index}>
-            <TouchableOpacity onPress={() => handlePressCate(category.name)}>
-              <View style={styles.categoryItem}>
-                <View
-                  style={[styles.colorBox, { backgroundColor: category.color }]}
-                />
-                <Text style={styles.categoryText}>{category.name}</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        ))}
+      <View>
+        <Text>dd</Text>
       </View>
     </SafeAreaView>
   );
@@ -97,23 +84,6 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     width: "100%",
   },
-  categoryList: {
-    marginTop: 20,
-    marginLeft: 30,
-  },
-  categoryItem: {
-    flexDirection: "row",
-    marginVertical: 5,
-  },
-  colorBox: {
-    width: 25,
-    height: 25,
-    borderRadius: 5,
-    marginRight: 10,
-  },
-  categoryText: {
-    fontSize: 20,
-  },
 });
 
-export default collectCookiee;
+export default showCookiee;
