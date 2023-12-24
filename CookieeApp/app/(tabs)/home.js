@@ -19,7 +19,7 @@ import { Link, router, useRouter } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
 import { Drawer } from "expo-router/drawer";
 
-export default function CalendarHome({ navigation }) {
+export default function CalendarHome() {
   const router = useRouter();
 
   const DATE = new Date();

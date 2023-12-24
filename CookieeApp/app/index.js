@@ -52,7 +52,6 @@ export default function App() {
       {/* <Redirect href={"home"} /> */}
       <>
         <User />
-        {/* <DrawerNavigator /> */}
       </>
     </SafeAreaView>
   );
