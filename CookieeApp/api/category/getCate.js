@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const viewCate = async (userId) => {
+export const getCate = async (userId) => {
   try {
     const response = await axios.get(`http://cookiee.site/category/${userId}`);
 
@@ -15,4 +15,4 @@ export const viewCate = async (userId) => {
   }
 };
 
-export default viewCate;
+export default getCate;

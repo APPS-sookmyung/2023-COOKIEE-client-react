@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import viewCate from "../../api/category/viewCate";
+import getCate from "../../api/category/getCate";
 
 export default function EventBox() {
   const [data, setData] = useState([]);
@@ -13,7 +13,7 @@ export default function EventBox() {
 
     async function get() {
       try {
-        const result = await viewCate(userId);
+        const result = await getCate(userId);
         if (!completed) {
           setData(result);
           console.log(result);
