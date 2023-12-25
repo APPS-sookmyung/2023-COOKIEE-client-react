@@ -20,7 +20,7 @@ const AddEventFormScreen = (selectedDate) => {
     cate: "",
     time: "",
     place: "",
-    detail: "",
+    what: "",
     people: "",
   });
 
@@ -41,7 +41,7 @@ const AddEventFormScreen = (selectedDate) => {
       cate: "",
       time: "",
       place: "",
-      detail: "",
+      what: "",
       people: "",
     });
 
@@ -124,8 +124,8 @@ const AddEventFormScreen = (selectedDate) => {
           <TextInput
             style={styles.InputBox}
             placeholder="  내용"
-            value={newEvent.detail}
-            onChangeText={(text) => handleInputChange(text, "detail")}
+            value={newEvent.what}
+            onChangeText={(text) => handleInputChange(text, "what")}
           />
         </View>
         <View style={styles.InputContainer}>
