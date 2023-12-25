@@ -1,19 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { router } from "expo-router";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import { router } from "expo-router";
 
 import getCate from "../../../api/category/getCate";
 
-const CategoryFix = () => {
-  const navigation = useNavigation();
-
-  const goBack = () => {
-    navigation.goBack();
-  };
-
+const collectCookiee = () => {
   const [data, setData] = useState([]);
   const [userId, setUserId] = useState(1);
 
@@ -38,44 +32,47 @@ const CategoryFix = () => {
     };
   }, [userId]); // userId가 변경될 때 마다 실행
 
+  const navigation = useNavigation();
+
+  const goBack = () => {
+    navigation.goBack();
+  };
+
+  const categories = [
+    { name: "카페", color: "#FFC3C3B2" },
+    { name: "데이트", color: "#D0FFBA" },
+  ];
+
+  const handlePressCate = (categoryName) => {
+    router.push(`showCookiee/${categoryName}`);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.titleHeader}>
         <TouchableOpacity style={styles.menuIcon} onPress={goBack}>
           <AntDesign name="arrowleft" size={30} color="#594E4E" />
         </TouchableOpacity>
-        <Text style={styles.title}>카테고리 수정</Text>
+        <Text style={styles.title}>🍪 쿠키 모아보기</Text>
       </View>
       <View style={styles.categoryList}>
         {data.map((category, index) => (
-          <View key={index} style={styles.categoryItem}>
-            <View
-              style={[
-                styles.colorBox,
-                { backgroundColor: category.categoryColor },
-              ]}
-            />
-            <Text style={styles.categoryText}>{category.categoryName}</Text>
+          <View key={index}>
+            <TouchableOpacity
+              onPress={() => handlePressCate(category.categoryName)}
+            >
+              <View style={styles.categoryItem}>
+                <View
+                  style={[
+                    styles.colorBox,
+                    { backgroundColor: category.categoryColor },
+                  ]}
+                />
+                <Text style={styles.categoryText}>{category.categoryName}</Text>
+              </View>
+            </TouchableOpacity>
           </View>
         ))}
-        <TouchableOpacity
-          style={styles.categoryItem}
-          onPress={() => router.push("categoryAdd")}
-        >
-          <View
-            style={[
-              styles.colorBox,
-              {
-                backgroundColor: "#D9D9D9",
-                justifyContent: "center",
-                alignItems: "center",
-              },
-            ]}
-          >
-            <AntDesign name="plus" size={9} color="#FFF" />
-          </View>
-          <Text style={styles.categoryText}>추가하기</Text>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -124,4 +121,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CategoryFix;
+export default collectCookiee;

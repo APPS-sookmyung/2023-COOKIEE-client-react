@@ -41,7 +41,7 @@ export default HomeLayout = () => {
           headerShown: false,
         }}
       />
-      <Stack.Screen 
+      <Stack.Screen
         name="categoryFix"
         options={{
           headerShown: false,
@@ -49,6 +49,18 @@ export default HomeLayout = () => {
       />
       <Stack.Screen
         name="categoryAdd"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="collectCookiee"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="showCookiee"
         options={{
           headerShown: false,
         }}
