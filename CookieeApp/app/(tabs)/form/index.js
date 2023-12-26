@@ -11,7 +11,14 @@ import EventImagePicker from "../../utils/EventImagePicker";
 
 import { createEvent } from "../../../api/event/createEvent";
 
+// 카테고리 불러와 드롭다운으로 구성하기, id를 value 로 사용할 것
+// 카테고리 선택하면 id 값으로 반환하기
+// EventImagePicker가 반환하는 assets의 uri 갖고와서
+//    화면에 띄우기
+//    submit 할 때 내보내기
+
 const AddEventFormScreen = (selectedDate) => {
+  const [userId, setUserId] = useState(1);
   const [newEvent, setNewEvent] = useState({
     year: selectedDate.year,
     month: selectedDate.month,
@@ -45,18 +52,21 @@ const AddEventFormScreen = (selectedDate) => {
       people: "",
     });
 
-    // console.log("새 이벤트 정보:", newEvent);
-  };
+    console.log("새 이벤트 정보:", newEvent);
+    // 서버로 post 전송
 
-  const [selectedImageUris, setSelectedImageUris] = useState({});
-
-  const handleImageSelected = (imageUri) => {
-    const updatedImgUrl = [...newEvent.imgUrl];
-    updatedImgUrl.push(imageUri);
-    setNewEvent((prevEvent) => ({
-      ...prevEvent,
-      imgUrl: updatedImgUrl,
-    }));
+    // createEvent(
+    //   userId,
+    //   newEvent.what,
+    //   newEvent.place,
+    //   newEvent.people,
+    //   newEvent.year,
+    //   newEvent.month,
+    //   newEvent.date,
+    //   null,
+    //   null,
+    //   newEvent.cate
+    // );
   };
 
   return (
@@ -85,10 +95,7 @@ const AddEventFormScreen = (selectedDate) => {
 
       <View style={styles.formTitleContainer}>
         <Text style={styles.formTitleText}>🍪 사진 정보 작성</Text>
-        <EventImagePicker
-          // onImageSelected={handleImageSelected}
-          value={newEvent.imgUrl}
-        />
+        <EventImagePicker value={newEvent.imgUrl} />
       </View>
 
       <View style={styles.formContainer}>

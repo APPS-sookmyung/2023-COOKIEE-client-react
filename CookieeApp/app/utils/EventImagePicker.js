@@ -37,25 +37,25 @@ const EventImagePicker = () => {
     setImageUrl(result.assets);
 
     // 서버에 요청 보내기
-    const localUri = result.assets + "";
-    const filename = localUri.split("/").pop();
-    const match = /\.(\w+)$/.exec(filename ?? "");
-    const type = match ? `image/${match[1]}` : `image`;
-    const formData = new FormData();
-    formData.append("image", { uri: localUri, name: filename, type });
+    // const localUri = result.assets + "";
+    // const filename = localUri.split("/").pop();
+    // const match = /\.(\w+)$/.exec(filename ?? "");
+    // const type = match ? `image/${match[1]}` : `image`;
+    // const formData = new FormData();
+    // formData.append("image", { uri: localUri, name: filename, type });
 
-    try {
-      await axios({
-        method: "post",
-        url: "{API주소}",
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-        data: formData,
-      });
-    } catch (err) {
-      console.log("err", err);
-    }
+    // try {
+    //   await axios({
+    //     method: "post",
+    //     url: "{API주소}",
+    //     headers: {
+    //       "content-type": "multipart/form-data",
+    //     },
+    //     data: formData,
+    //   });
+    // } catch (err) {
+    //   console.log("err", err);
+    // }
   };
 
   return (

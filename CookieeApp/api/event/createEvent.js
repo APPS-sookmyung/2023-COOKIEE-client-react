@@ -17,17 +17,19 @@ export const createEvent = async (
 ) => {
   try {
     const response = await axios.post(
-      `http://cookiee.site:8080/event/${userId}`,
+      `http://localhost:8080/event/${userId}`,
+      null,
       {
         params: {
           eventWhat: eventWhat,
           eventWhere: eventWhere,
           withWho: withWho,
+
           eventYear: eventYear,
           eventMonth: eventMonth,
           eventDate: eventDate,
+
           images: images,
-          thumbnail: thumbnail,
           categories: categories,
         },
       }
