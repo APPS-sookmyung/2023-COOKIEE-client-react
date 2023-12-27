@@ -40,8 +40,12 @@ const AddEventFormScreen = (selectedDate) => {
     }
 
     // 이미지 업로드 결과 및 이미지 경로 업데이트
-    console.log(result);
-    setImageUrl(result.assets);
+
+    // uri 추출
+    const uploadedImageURIs = result.assets.map((asset) => asset.uri);
+
+    setImageUrl(uploadedImageURIs);
+    console.log(uploadedImageURIs);
   };
   // 이미지 업로드 구현 끝
 
