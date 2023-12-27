@@ -4,6 +4,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Dimensions,
+  Image,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 
@@ -14,7 +16,10 @@ import getCate from "../../../api/category/getCate";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
+import Carousel from "react-native-reanimated-carousel";
+
 import { createEvent } from "../../../api/event/createEvent";
+import { Link, router, useRouter } from "expo-router";
 
 // 카테고리 불러와 드롭다운으로 구성하기, id를 value 로 사용할 것
 // 카테고리 선택하면 id 값으로 반환하기
@@ -23,8 +28,12 @@ import { createEvent } from "../../../api/event/createEvent";
 //    submit 할 때 내보내기
 
 const AddEventFormScreen = (selectedDate) => {
+  const router = useRouter();
+
+  const width = Dimensions.get("window").width;
+
   // 이미지 업로드 구현
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState([]);
 
   const uploadImage = async () => {
     // 이미지 업로드 기능
@@ -49,31 +58,31 @@ const AddEventFormScreen = (selectedDate) => {
   };
   // 이미지 업로드 구현 끝
 
-  const [data, setData] = useState([]);
-  const [userId, setUserId] = useState(1);
+  // const [data, setData] = useState([]);
+  // const [userId, setUserId] = useState(1);
 
-  useEffect(() => {
-    let completed = false; // 첫 번째 1회 실행을 위한 flag
+  // useEffect(() => {
+  //   let completed = false; // 첫 번째 1회 실행을 위한 flag
 
-    async function get() {
-      try {
-        const result = await getCate(userId);
-        if (!completed) {
-          if (result != null) {
-            setData(result);
-            console.log(result);
-          }
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
+  //   async function get() {
+  //     try {
+  //       const result = await getCate(userId);
+  //       if (!completed) {
+  //         if (result != null) {
+  //           setData(result);
+  //           console.log(result);
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
 
-    get();
-    return () => {
-      completed = true;
-    };
-  }, [userId]); // userId가 변경될 때 마다 실행
+  //   get();
+  //   return () => {
+  //     completed = true;
+  //   };
+  // }, [userId]); // userId가 변경될 때 마다 실행
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
@@ -103,6 +112,8 @@ const AddEventFormScreen = (selectedDate) => {
   };
 
   const handleSubmit = () => {
+    console.log("새 이벤트 정보:", newEvent);
+
     // 입력 필드 초기화
     setNewEvent({
       year: selectedDate.year,
@@ -116,7 +127,8 @@ const AddEventFormScreen = (selectedDate) => {
       people: "",
     });
 
-    console.log("새 이벤트 정보:", newEvent);
+    router.back();
+
     // 서버로 post 전송
 
     // createEvent(
@@ -145,24 +157,71 @@ const AddEventFormScreen = (selectedDate) => {
         </TouchableOpacity>
       </View>
 
-      {/* 임시: 사진이 들어갈 자리 */}
       <View
         style={{
-          flex: 0.7,
+          // flex: 0.7,
           alignSelf: "center",
-          width: "50%",
-          margin: 10,
-          backgroundColor: "lightgray",
+          justifyContent: "center",
+          width: "100%",
+          height: "55%",
+          // margin: 10,
+          // backgroundColor: "lightgray",
+          position: "relative",
         }}
-      />
-      {/* 임시:  사진이 들어갈 자리 */}
+      >
+        {imageUrl.length === 0 ? (
+          // 이미지가 업로드되지 않았을 때
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              // backgroundColor: "lightgray",
+            }}
+          >
+            <TouchableOpacity
+              onPress={uploadImage}
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "#EBEBEB",
+                width: "70%",
+                height: "70%",
+                borderRadius: 10,
+              }}
+            >
+              <Text>No Image</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          // 이미지가 업로드된 후
+          <Carousel
+            loop
+            mode="parallax"
+            width={width}
+            autoPlay={false}
+            data={imageUrl}
+            scrollAnimationDuration={2000}
+            onSnapToItem={(index) => console.log("current index:", index)}
+            renderItem={({ item, index }) => (
+              <View style={{ flex: 1, justifyContent: "center" }}>
+                <Image
+                  source={{ uri: item }}
+                  style={{
+                    width: width,
+                    height: "100%",
+                    resizeMode: "cover",
+                    borderRadius: 7,
+                  }}
+                />
+              </View>
+            )}
+          />
+        )}
+      </View>
 
       <View style={styles.formTitleContainer}>
         <Text style={styles.formTitleText}>🍪 사진 정보 작성</Text>
-        {/* <EventImagePicker value={newEvent.imgUrl} /> */}
-        <TouchableOpacity style={styles.inputBtn} onPress={uploadImage}>
-          <MaterialIcons name="add-photo-alternate" size={26} color="red" />
-        </TouchableOpacity>
       </View>
 
       <View style={styles.formContainer}>
@@ -283,7 +342,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignContent: "center",
   },
-  formTitleText: { fontSize: 20, fontWeight: "600", margin: 13 },
+  formTitleText: {
+    fontSize: 20,
+    fontWeight: "600",
+    marginLeft: 13,
+    marginRight: 10,
+    marginTop: 0,
+  },
   InputContainer: {
     flexDirection: "row",
     alignContent: "center",
@@ -323,7 +388,8 @@ const styles = StyleSheet.create({
   },
   headerBtn: {
     backgroundColor: "#D9D9D9",
-    margin: 20,
+    marginTop: 20,
+    marginRight: 20,
     padding: 8,
     paddingHorizontal: 12,
     borderRadius: 5,
@@ -341,10 +407,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fafafa",
   },
   //이미지 추가 버튼
-  inputBtn: {
+  imageInputBtn: {
     display: "flex",
     alignSelf: "center",
     width: "auto",
-    height: "auto",
+    height: 40,
+    position: "relative",
   },
 });

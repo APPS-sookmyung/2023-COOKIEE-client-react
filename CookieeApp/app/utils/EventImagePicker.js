@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import axios from "axios";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
