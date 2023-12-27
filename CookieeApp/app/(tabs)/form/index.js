@@ -5,9 +5,11 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import EventImagePicker from "../../utils/EventImagePicker";
+import DropDownPicker from "react-native-dropdown-picker";
+import getCate from "../../../api/category/getCate";
 
 import { createEvent } from "../../../api/event/createEvent";
 
@@ -18,7 +20,40 @@ import { createEvent } from "../../../api/event/createEvent";
 //    submit 할 때 내보내기
 
 const AddEventFormScreen = (selectedDate) => {
+  const [data, setData] = useState([]);
   const [userId, setUserId] = useState(1);
+
+  useEffect(() => {
+    let completed = false; // 첫 번째 1회 실행을 위한 flag
+
+    async function get() {
+      try {
+        const result = await getCate(userId);
+        if (!completed) {
+          if (result != null) {
+            setData(result);
+            console.log(result);
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    get();
+    return () => {
+      completed = true;
+    };
+  }, [userId]); // userId가 변경될 때 마다 실행
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: "여행", value: 1 },
+    { label: "카페", value: 2 },
+    { label: "죽사죽사", value: 3 },
+  ]);
+
   const [newEvent, setNewEvent] = useState({
     year: selectedDate.year,
     month: selectedDate.month,
@@ -100,15 +135,6 @@ const AddEventFormScreen = (selectedDate) => {
 
       <View style={styles.formContainer}>
         <View style={styles.InputContainer}>
-          <Text style={styles.InputTitle}>카테고리</Text>
-          <TextInput
-            style={styles.InputBox}
-            placeholder="  카테고리"
-            value={newEvent.cate}
-            onChangeText={(text) => handleInputChange(text, "cate")}
-          />
-        </View>
-        <View style={styles.InputContainer}>
           <Text style={styles.InputTitle}>시간</Text>
           <TextInput
             style={styles.InputBox}
@@ -143,6 +169,66 @@ const AddEventFormScreen = (selectedDate) => {
             value={newEvent.people}
             onChangeText={(text) => handleInputChange(text, "people")}
           />
+        </View>
+        <View style={styles.InputContainer}>
+          <Text style={styles.InputTitle}>카테고리</Text>
+          {/* <TextInput
+            style={styles.InputBox}
+            placeholder="  카테고리"
+            value={newEvent.cate}
+            onChangeText={(text) => handleInputChange(text, "cate")}
+          /> */}
+          <View style={styles.test1}>
+            <DropDownPicker
+              style={{
+                backgroundColor: "blue",
+                borderRadius: 5,
+                width: "100%",
+                backgroundColor: "#EBEBEB",
+                minHeight: 25,
+              }}
+              listItemContainerStyle={styles.dropdown}
+              multiple={true}
+              min={0}
+              max={5}
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValue}
+              setItems={setItems}
+              stickyHeader={true}
+              listMode="FLATLIST"
+              placeholder="카테고리 선택"
+              onChangeValue={(value) => {
+                handleInputChange(value, "cate");
+                console.log(value);
+              }}
+              textStyle={{
+                fontSize: 13,
+                margin: 0,
+                padding: 0,
+              }}
+              containerStyle={{
+                // backgroundColor: "red",
+                height: 0,
+                margin: 0,
+                padding: 0,
+                borderRadius: 0,
+                minHeight: 6,
+              }}
+              dropDownContainerStyle={{
+                height: "auto",
+                margin: 0,
+                padding: 0,
+                borderRadius: 0,
+                backgroundColor: "green",
+              }}
+              placeholderStyle={{
+                color: "gray",
+              }}
+            />
+          </View>
         </View>
       </View>
     </View>
@@ -187,6 +273,9 @@ const styles = StyleSheet.create({
     height: 25,
     margin: "auto",
     backgroundColor: "#EBEBEB",
+    borderColor: "black",
+    borderStyle: "solid",
+    borderWidth: 1,
   },
   inputBtn: {
     backgroundColor: "white",
@@ -210,5 +299,13 @@ const styles = StyleSheet.create({
   headerBtnText: {
     fontSize: 15,
     fontWeight: "400",
+  },
+  test1: {
+    width: "70%",
+    height: 25,
+    zIndex: 100000,
+  },
+  dropdown: {
+    backgroundColor: "#fafafa",
   },
 });

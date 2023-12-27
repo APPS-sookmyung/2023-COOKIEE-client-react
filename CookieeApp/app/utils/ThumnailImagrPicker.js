@@ -19,6 +19,7 @@ export default function ThumnailImagrPicker({ onImageSelected }) {
     if (!result.canceled) {
       setImage(result.assets[0].uri);
       onImageSelected(result.assets[0].uri); // 선택한 이미지의 uri를 부모 컴포넌트로 전달
+      console.log(result.assets[0].uri);
     }
   };
 
