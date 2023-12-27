@@ -11,6 +11,9 @@ import EventImagePicker from "../../utils/EventImagePicker";
 import DropDownPicker from "react-native-dropdown-picker";
 import getCate from "../../../api/category/getCate";
 
+import { MaterialIcons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
+
 import { createEvent } from "../../../api/event/createEvent";
 
 // 카테고리 불러와 드롭다운으로 구성하기, id를 value 로 사용할 것
@@ -20,6 +23,28 @@ import { createEvent } from "../../../api/event/createEvent";
 //    submit 할 때 내보내기
 
 const AddEventFormScreen = (selectedDate) => {
+  // 이미지 업로드 구현
+  const [imageUrl, setImageUrl] = useState("");
+
+  const uploadImage = async () => {
+    // 이미지 업로드 기능
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: false,
+      quality: 1,
+      aspect: [1, 1],
+      allowsMultipleSelection: true,
+    });
+    if (result.canceled) {
+      return null; // 이미지 업로드 취소한 경우
+    }
+
+    // 이미지 업로드 결과 및 이미지 경로 업데이트
+    console.log(result);
+    setImageUrl(result.assets);
+  };
+  // 이미지 업로드 구현 끝
+
   const [data, setData] = useState([]);
   const [userId, setUserId] = useState(1);
 
@@ -130,7 +155,10 @@ const AddEventFormScreen = (selectedDate) => {
 
       <View style={styles.formTitleContainer}>
         <Text style={styles.formTitleText}>🍪 사진 정보 작성</Text>
-        <EventImagePicker value={newEvent.imgUrl} />
+        {/* <EventImagePicker value={newEvent.imgUrl} /> */}
+        <TouchableOpacity style={styles.inputBtn} onPress={uploadImage}>
+          <MaterialIcons name="add-photo-alternate" size={26} color="red" />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.formContainer}>
@@ -307,5 +335,12 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     backgroundColor: "#fafafa",
+  },
+  //이미지 추가 버튼
+  inputBtn: {
+    display: "flex",
+    alignSelf: "center",
+    width: "auto",
+    height: "auto",
   },
 });
