@@ -21,34 +21,7 @@ const myPage = () => {
                 <Text style={styles.title}>마이페이지</Text>
             </View>
 
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                style={styles.buttonStyle}
-                onPress={goBack}>
-                <Text style={styles.buttonText}>프로필 수정</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                style={styles.buttonStyle}
-                onPress={goBack}>
-                <Text style={styles.buttonText}>사용 가이드</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                style={styles.buttonStyle}
-                onPress={goBack}>
-                <Text style={styles.buttonText}>알림설정</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                style={styles.buttonStyle}
-                onPress={goBack}>
-                <Text style={styles.buttonText}>로그아웃</Text>
-                </TouchableOpacity>
-            </View>
+            <Button ></Button>
         </SafeAreaView>
     );
 };
@@ -77,22 +50,6 @@ const styles = StyleSheet.create({
       marginLeft: 30,
       width: "100%",
     },
-    buttonStyle: {
-        width: 368,
-        height: 60,
-        backgroundColor: "#FFF6F1E4",
-        borderRadius: 10,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    buttonContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    buttonText: {
-        fontSize: 20,
-    }
 });
 
 export default myPage;
