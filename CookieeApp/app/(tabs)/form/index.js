@@ -86,7 +86,7 @@ const AddEventFormScreen = (selectedDate) => {
   //   };
   // }, [userId]); // userId가 변경될 때 마다 실행
 
-  const [date, onChangeDate] = useState(new Date()); // 선택 날짜
+  const [selectedTime, onChangeDate] = useState(new Date()); // 선택 날짜
   const [visible, setVisible] = useState(false); // 모달 노출 여부
 
   const onPressTime = () => {
@@ -97,7 +97,11 @@ const AddEventFormScreen = (selectedDate) => {
   const onConfirm = (selectedDate) => {
     // 날짜 또는 시간 선택 시
     setVisible(false); // 모달 close
-    handleInputChange(selectedDate, "time"); // 선택한 날짜 변경
+    handleInputChange(
+      selectedTime.getHours() + " : " + selectedTime.getMinutes(),
+      "time"
+    ); // 선택한 날짜 변경
+    onChangeDate(selectedDate);
   };
 
   const onCancel = () => {
@@ -249,14 +253,19 @@ const AddEventFormScreen = (selectedDate) => {
         <View style={styles.InputContainer}>
           <Text style={styles.InputTitle}>시간</Text>
           <TouchableOpacity onPress={onPressTime} style={styles.InputBox}>
-            <Text style={styles.buttonText}>{"  "}시간</Text>
+            <Text style={styles.buttonText}>
+              {"  "}
+              {selectedTime != null
+                ? selectedTime.getHours() + " : " + selectedTime.getMinutes()
+                : "시간"}
+            </Text>
           </TouchableOpacity>
           <DateTimePickerModal
             isVisible={visible}
             mode={"time"}
             onConfirm={onConfirm}
             onCancel={onCancel}
-            date={date}
+            date={selectedTime}
           />
         </View>
         <View style={styles.InputContainer}>
