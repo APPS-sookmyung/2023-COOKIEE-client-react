@@ -86,22 +86,45 @@ const AddEventFormScreen = (selectedDate) => {
   //   };
   // }, [userId]); // userId가 변경될 때 마다 실행
 
-  const [selectedTime, onChangeDate] = useState(new Date()); // 선택 날짜
+  const [startTime, setStartTime] = useState(new Date()); // 선택 시작 날짜
+  const [endTime, setEndTime] = useState(new Date()); // 선택 종료 날짜
+
+  const [startOrEnd, setStartOrEnd] = useState("start");
   const [visible, setVisible] = useState(false); // 모달 노출 여부
 
-  const onPressTime = () => {
-    // 시간 클릭 시
+  const onPressStartTime = () => {
+    // 시작 시간 클릭 시
+    setStartOrEnd("start");
+    setVisible(true); // 모달 open
+  };
+
+  const onPressEndTime = () => {
+    // 종료 시간 클릭 시
+    setStartOrEnd("end");
     setVisible(true); // 모달 open
   };
 
   const onConfirm = (selectedDate) => {
     // 날짜 또는 시간 선택 시
+    if (startOrEnd == "start") {
+      setStartTime(selectedDate);
+    } else {
+      setEndTime(selectedDate);
+    }
+
     setVisible(false); // 모달 close
+
     handleInputChange(
-      selectedTime.getHours() + " : " + selectedTime.getMinutes(),
+      startTime.getHours() +
+        ":" +
+        startTime.getMinutes() +
+        " - " +
+        endTime.getHours() +
+        ":" +
+        endTime.getMinutes(),
       "time"
-    ); // 선택한 날짜 변경
-    onChangeDate(selectedDate);
+    );
+    console.log("새 이벤트 정보:", newEvent);
   };
 
   const onCancel = () => {
@@ -137,8 +160,6 @@ const AddEventFormScreen = (selectedDate) => {
   };
 
   const handleSubmit = () => {
-    console.log("새 이벤트 정보:", newEvent);
-
     // 입력 필드 초기화
     setNewEvent({
       year: selectedDate.year,
@@ -188,7 +209,7 @@ const AddEventFormScreen = (selectedDate) => {
           alignSelf: "center",
           justifyContent: "center",
           width: "100%",
-          height: "55%",
+          height: "50%",
           // margin: 10,
           // backgroundColor: "lightgray",
           position: "relative",
@@ -251,12 +272,12 @@ const AddEventFormScreen = (selectedDate) => {
 
       <View style={styles.formContainer}>
         <View style={styles.InputContainer}>
-          <Text style={styles.InputTitle}>시간</Text>
-          <TouchableOpacity onPress={onPressTime} style={styles.InputBox}>
+          <Text style={styles.InputTitle}>시작 시간</Text>
+          <TouchableOpacity onPress={onPressStartTime} style={styles.InputBox}>
             <Text style={styles.buttonText}>
               {"  "}
-              {selectedTime != null
-                ? selectedTime.getHours() + " : " + selectedTime.getMinutes()
+              {startTime != null
+                ? startTime.getHours() + " : " + startTime.getMinutes()
                 : "시간"}
             </Text>
           </TouchableOpacity>
@@ -265,7 +286,25 @@ const AddEventFormScreen = (selectedDate) => {
             mode={"time"}
             onConfirm={onConfirm}
             onCancel={onCancel}
-            date={selectedTime}
+            date={startTime}
+          />
+        </View>
+        <View style={styles.InputContainer}>
+          <Text style={styles.InputTitle}>종료 시간</Text>
+          <TouchableOpacity onPress={onPressEndTime} style={styles.InputBox}>
+            <Text style={styles.buttonText}>
+              {"  "}
+              {endTime != null
+                ? endTime.getHours() + " : " + endTime.getMinutes()
+                : "시간"}
+            </Text>
+          </TouchableOpacity>
+          <DateTimePickerModal
+            isVisible={visible}
+            mode={"time"}
+            onConfirm={onConfirm}
+            onCancel={onCancel}
+            date={endTime}
           />
         </View>
         <View style={styles.InputContainer}>
@@ -343,7 +382,7 @@ const AddEventFormScreen = (selectedDate) => {
                 borderRadius: 0,
                 backgroundColor: "green",
               }}
-              placeholderStyle={styles.buttonText}
+              placeholderStyle={{ color: "#bdbbbb", marginLeft: 0 }}
             />
           </View>
         </View>
@@ -442,7 +481,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   buttonText: {
-    color: "#bdbbbb",
+    color: "black",
     marginLeft: 0,
   },
 });
