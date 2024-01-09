@@ -380,7 +380,6 @@ const AddEventFormScreen = (selectedDate) => {
                 margin: 0,
                 padding: 0,
                 borderRadius: 0,
-                backgroundColor: "green",
               }}
               placeholderStyle={{ color: "#bdbbbb", marginLeft: 0 }}
             />
