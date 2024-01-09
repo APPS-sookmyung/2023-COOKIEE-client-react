@@ -43,7 +43,7 @@ const AddEventFormScreen = (selectedDate) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
       quality: 1,
-      aspect: [1, 1],
+      // aspect: [1, 1],
       allowsMultipleSelection: true,
     });
     if (result.canceled) {
@@ -235,7 +235,7 @@ const AddEventFormScreen = (selectedDate) => {
                   style={{
                     width: width,
                     height: "100%",
-                    resizeMode: "cover",
+                    resizeMode: "contain",
                     borderRadius: 7,
                   }}
                 />
