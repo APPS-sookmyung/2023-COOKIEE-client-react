@@ -11,6 +11,8 @@ import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import ThumnailImagrPicker from "../../utils/ThumnailImagrPicker";
 import EventBox from "../../components/EventBox";
 
+import CalendarHome from "../home";
+
 const BottomModalContnet = () => {
   const router = useRouter();
 
@@ -25,6 +27,7 @@ const BottomModalContnet = () => {
     const updatedImageUris = { ...selectedImageUris };
     updatedImageUris[selectedDate.date] = imageUri;
     setSelectedImageUris(updatedImageUris);
+    console.log("selectedImageUris", selectedImageUris);
   };
 
   const [isOpenAddEventForm, setIsOpenAddEventForm] = useState(false);

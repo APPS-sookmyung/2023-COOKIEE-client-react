@@ -15,8 +15,10 @@ export default function EventBox() {
       try {
         const result = await getCate(userId);
         if (!completed) {
-          setData(result);
-          console.log(result);
+          if (result != null) {
+            setData(result);
+            console.log(result);
+          }
         }
       } catch (error) {
         console.log(error);
