@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ImageBackground } from "react-native";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -35,6 +35,13 @@ export default function EventBox() {
     <View style={styles.AddEventContainer}>
       <View style={styles.FirstEventImageContainer}>
         <View style={styles.FirstEventImageBox}>
+          <ImageBackground
+            source={require("../../assets/testImage/test.jpeg")}
+            resizeMode="cover"
+            style={styles.image}
+          >
+            <Text style={styles.test}></Text>
+          </ImageBackground>
           {/* <Text>선택한 사진 중 첫번째 사진이 들어가는 공간</Text> */}
         </View>
       </View>
@@ -60,7 +67,7 @@ export default function EventBox() {
             <Text style={styles.EventInfoNameText}>시간</Text>
           </View>
           <View style={styles.EventInfoDetail}>
-            <Text style={styles.EventInfoDetailText}>13:00-15:00</Text>
+            <Text style={styles.EventInfoDetailText}>13:00-18:00</Text>
           </View>
         </View>
 
@@ -69,7 +76,7 @@ export default function EventBox() {
             <Text style={styles.EventInfoNameText}>장소</Text>
           </View>
           <View style={styles.EventInfoDetail}>
-            <Text style={styles.EventInfoDetailText}>스타벅스 강남점</Text>
+            <Text style={styles.EventInfoDetailText}>제주도</Text>
           </View>
         </View>
 
@@ -78,7 +85,7 @@ export default function EventBox() {
             <Text style={styles.EventInfoNameText}>내용</Text>
           </View>
           <View style={styles.EventInfoDetail}>
-            <Text style={styles.EventInfoDetailText}>맛있는 자허블</Text>
+            <Text style={styles.EventInfoDetailText}>통귤 탕후루와 바다</Text>
           </View>
         </View>
 
@@ -87,7 +94,7 @@ export default function EventBox() {
             <Text style={styles.EventInfoNameText}>사람</Text>
           </View>
           <View style={styles.EventInfoDetail}>
-            <Text style={styles.EventInfoDetailText}>민서랑</Text>
+            <Text style={styles.EventInfoDetailText}>동기들</Text>
           </View>
         </View>
       </View>
@@ -164,5 +171,10 @@ const styles = StyleSheet.create({
   },
   EventInfoCategoryText: {
     fontSize: 15,
+  },
+  test: {
+    borderRadius: 10,
+    width: "100%",
+    height: "100%",
   },
 });
