@@ -85,7 +85,9 @@ const BottomModalContnet = () => {
           <View style={styles.AddEventContainer}>
             <TouchableOpacity
               style={styles.AddEventBtnContainer}
-              onPress={() => router.push("form")}
+              onPress={() => {
+                router.push("form");
+              }}
             >
               <View style={styles.addPlusBtn}>
                 <Text style={{ fontSize: 25 }}>+</Text>
@@ -150,7 +152,7 @@ const styles = StyleSheet.create({
     borderRadius: "10px",
     width: "90%",
     height: 32,
-    margin: 10,
+    margin: 1,
   },
   addPlusBtn: {
     display: "flex",

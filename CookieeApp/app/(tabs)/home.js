@@ -185,15 +185,7 @@ function Body(props) {
     }
   };
 
-  const [selectedImageUris, setSelectedImageUris] = useState({});
-
-  const getSelectedImageUris = (imageUris) => {
-    setSelectedImageUris((selectedImageUris) => imageUris);
-  };
-
-  const getSelectedImageForDate = (date) => {
-    return selectedImageUris[date] || null;
-  };
+  const [selectedImageUris, setSelectedImageUris] = useState(testImg);
 
   return (
     <View style={S.calendarBody}>
@@ -216,19 +208,31 @@ function Body(props) {
             return (
               <View style={S.box} key={uuidv4()}>
                 <ImageBackground
-                  source={{ uri: getSelectedImageForDate(day) }}
+                  source={
+                    selectedImageUris[
+                      `${checkPressedDate.year}${checkPressedDate.month
+                        .toString()
+                        .padStart(2, "0")}${checkPressedDate.date
+                        .toString()
+                        .padStart(2, "0")}`
+                    ]
+                  }
+                  imageStyle={{ borderRadius: 5 }}
                   style={{
                     width: "100%",
                     height: "100%",
-                    zIndex: "2",
+                    zIndex: "0",
                     position: "relative",
                     alignContent: "center",
                     justifyContent: "center",
+                    borderRadius: 50,
                   }}
                   resizeMode="cover"
                 >
                   <TouchableOpacity
-                    onPress={() => handlePressDay(checkPressedDate)}
+                    onPress={() => {
+                      handlePressDay(checkPressedDate);
+                    }}
                     style={
                       (({ pressed }) => {
                         return [
