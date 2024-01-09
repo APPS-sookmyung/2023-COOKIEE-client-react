@@ -21,8 +21,6 @@ import Carousel from "react-native-reanimated-carousel";
 import { createEvent } from "../../../api/event/createEvent";
 import { Link, router, useRouter } from "expo-router";
 
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-
 // 카테고리 불러와 드롭다운으로 구성하기, id를 value 로 사용할 것
 // 카테고리 선택하면 id 값으로 반환하기
 // EventImagePicker가 반환하는 assets의 uri 갖고와서
@@ -85,25 +83,6 @@ const AddEventFormScreen = (selectedDate) => {
   //     completed = true;
   //   };
   // }, [userId]); // userId가 변경될 때 마다 실행
-
-  const [date, onChangeDate] = useState(new Date()); // 선택 날짜
-  const [visible, setVisible] = useState(false); // 모달 노출 여부
-
-  const onPressTime = () => {
-    // 시간 클릭 시
-    setVisible(true); // 모달 open
-  };
-
-  const onConfirm = (selectedDate) => {
-    // 날짜 또는 시간 선택 시
-    setVisible(false); // 모달 close
-    handleInputChange(selectedDate, "time"); // 선택한 날짜 변경
-  };
-
-  const onCancel = () => {
-    // 취소 시
-    setVisible(false); // 모달 close
-  };
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
@@ -248,15 +227,11 @@ const AddEventFormScreen = (selectedDate) => {
       <View style={styles.formContainer}>
         <View style={styles.InputContainer}>
           <Text style={styles.InputTitle}>시간</Text>
-          <TouchableOpacity onPress={onPressTime} style={styles.InputBox}>
-            <Text style={styles.buttonText}>{"  "}시간</Text>
-          </TouchableOpacity>
-          <DateTimePickerModal
-            isVisible={visible}
-            mode={"time"}
-            onConfirm={onConfirm}
-            onCancel={onCancel}
-            date={date}
+          <TextInput
+            style={styles.InputBox}
+            placeholder="  시간"
+            value={newEvent.time}
+            onChangeText={(text) => handleInputChange(text, "time")}
           />
         </View>
         <View style={styles.InputContainer}>
@@ -288,7 +263,13 @@ const AddEventFormScreen = (selectedDate) => {
         </View>
         <View style={styles.InputContainer}>
           <Text style={styles.InputTitle}>카테고리</Text>
-          <View style={styles.DropdownContainer}>
+          {/* <TextInput
+            style={styles.InputBox}
+            placeholder="  카테고리"
+            value={newEvent.cate}
+            onChangeText={(text) => handleInputChange(text, "cate")}
+          /> */}
+          <View style={styles.test1}>
             <DropDownPicker
               style={{
                 backgroundColor: "blue",
@@ -296,7 +277,6 @@ const AddEventFormScreen = (selectedDate) => {
                 width: "100%",
                 backgroundColor: "#EBEBEB",
                 minHeight: 25,
-                borderWidth: 0.5,
               }}
               listItemContainerStyle={styles.dropdown}
               multiple={true}
@@ -321,6 +301,7 @@ const AddEventFormScreen = (selectedDate) => {
                 padding: 0,
               }}
               containerStyle={{
+                // backgroundColor: "red",
                 height: 0,
                 margin: 0,
                 padding: 0,
@@ -334,7 +315,9 @@ const AddEventFormScreen = (selectedDate) => {
                 borderRadius: 0,
                 backgroundColor: "green",
               }}
-              placeholderStyle={styles.buttonText}
+              placeholderStyle={{
+                color: "gray",
+              }}
             />
           </View>
         </View>
@@ -364,7 +347,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     marginLeft: 13,
     marginRight: 10,
-    marginBottom: 10,
+    marginTop: 0,
   },
   InputContainer: {
     flexDirection: "row",
@@ -389,8 +372,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#EBEBEB",
     borderColor: "black",
     borderStyle: "solid",
-    borderWidth: 0.5,
-    justifyContent: "center",
+    borderWidth: 1,
   },
   inputBtn: {
     backgroundColor: "white",
@@ -416,7 +398,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "400",
   },
-  DropdownContainer: {
+  test1: {
     width: "70%",
     height: 25,
     zIndex: 100000,
@@ -431,9 +413,5 @@ const styles = StyleSheet.create({
     width: "auto",
     height: 40,
     position: "relative",
-  },
-  buttonText: {
-    color: "#bdbbbb",
-    marginLeft: 0,
   },
 });

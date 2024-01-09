@@ -185,8 +185,6 @@ function Body(props) {
     }
   };
 
-  const testImg = [];
-
   const [selectedImageUris, setSelectedImageUris] = useState(testImg);
 
   return (
