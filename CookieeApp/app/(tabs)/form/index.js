@@ -6,6 +6,7 @@ import {
   TextInput,
   Dimensions,
   Image,
+  SectionList,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 
@@ -19,7 +20,13 @@ import * as ImagePicker from "expo-image-picker";
 import Carousel from "react-native-reanimated-carousel";
 
 import { createEvent } from "../../../api/event/createEvent";
-import { Link, router, useRouter } from "expo-router";
+import {
+  Link,
+  router,
+  useGlobalSearchParams,
+  useLocalSearchParams,
+  useRouter,
+} from "expo-router";
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
@@ -29,8 +36,11 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 //    화면에 띄우기
 //    submit 할 때 내보내기
 
-const AddEventFormScreen = (selectedDate) => {
+const AddEventFormScreen = () => {
   const router = useRouter();
+  const { year, month, date } = useGlobalSearchParams();
+
+  selectedDate = { year: year, month: month, date: date };
 
   const width = Dimensions.get("window").width;
 
@@ -56,12 +66,12 @@ const AddEventFormScreen = (selectedDate) => {
     const uploadedImageURIs = result.assets.map((asset) => asset.uri);
 
     setImageUrl(uploadedImageURIs);
-    console.log(uploadedImageURIs);
+    // console.log(uploadedImageURIs);
   };
   // 이미지 업로드 구현 끝
 
   // const [data, setData] = useState([]);
-  // const [userId, setUserId] = useState(1);
+  const [userId, setUserId] = useState(1);
 
   // useEffect(() => {
   //   let completed = false; // 첫 번째 1회 실행을 위한 flag
@@ -104,12 +114,12 @@ const AddEventFormScreen = (selectedDate) => {
     setVisible(true); // 모달 open
   };
 
-  const onConfirm = (selectedDate) => {
+  const onConfirm = (selected) => {
     // 날짜 또는 시간 선택 시
     if (startOrEnd == "start") {
-      setStartTime(selectedDate);
+      setStartTime(selected);
     } else {
-      setEndTime(selectedDate);
+      setEndTime(selected);
     }
 
     setVisible(false); // 모달 close
@@ -124,7 +134,6 @@ const AddEventFormScreen = (selectedDate) => {
         endTime.getMinutes(),
       "time"
     );
-    console.log("새 이벤트 정보:", newEvent);
   };
 
   const onCancel = () => {
@@ -185,10 +194,23 @@ const AddEventFormScreen = (selectedDate) => {
     //   newEvent.year,
     //   newEvent.month,
     //   newEvent.date,
-    //   null,
-    //   null,
+    //   imageUrl,
+    //   imageUrl[0],
     //   newEvent.cate
     // );
+
+    console.log(
+      userId,
+      newEvent.what,
+      newEvent.place,
+      newEvent.people,
+      newEvent.year,
+      newEvent.month,
+      newEvent.date,
+      imageUrl,
+      imageUrl[0],
+      newEvent.cate
+    );
   };
 
   return (
@@ -248,7 +270,7 @@ const AddEventFormScreen = (selectedDate) => {
             autoPlay={false}
             data={imageUrl}
             scrollAnimationDuration={2000}
-            onSnapToItem={(index) => console.log("current index:", index)}
+            // onSnapToItem={(index) => console.log("current index:", index)}
             renderItem={({ item, index }) => (
               <View style={{ flex: 1, justifyContent: "center" }}>
                 <Image
@@ -361,7 +383,7 @@ const AddEventFormScreen = (selectedDate) => {
               placeholder="카테고리 선택"
               onChangeValue={(value) => {
                 handleInputChange(value, "cate");
-                console.log(value);
+                // console.log(value);
               }}
               textStyle={{
                 fontSize: 13,

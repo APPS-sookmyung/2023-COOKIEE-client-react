@@ -86,7 +86,14 @@ const BottomModalContnet = () => {
             <TouchableOpacity
               style={styles.AddEventBtnContainer}
               onPress={() => {
-                router.push("form");
+                router.push({
+                  pathname: "form",
+                  params: {
+                    year: selectedDate.year,
+                    month: selectedDate.month,
+                    date: selectedDate.date,
+                  },
+                });
               }}
             >
               <View style={styles.addPlusBtn}>
