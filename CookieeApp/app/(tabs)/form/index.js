@@ -192,16 +192,16 @@ const AddEventFormScreen = () => {
     // );
 
     console.log(
-      userId,
-      newEvent.what,
-      newEvent.place,
-      newEvent.people,
-      newEvent.year,
-      newEvent.month,
-      newEvent.date,
-      imageUrl,
-      imageUrl[0],
-      newEvent.cate
+      `userId : ${userId} //`,
+      `what : ${newEvent.what} //`,
+      `place : ${newEvent.place} //`,
+      `people : ${newEvent.people} //`,
+      `year : ${newEvent.year} //`,
+      `month : ${newEvent.month} //`,
+      `date : ${newEvent.date} //`,
+      `imageUrl : ${imageUrl} //`,
+      `Thumb : ${imageUrl[0]} //`,
+      `cate : ${newEvent.cate}`
     );
   };
 
