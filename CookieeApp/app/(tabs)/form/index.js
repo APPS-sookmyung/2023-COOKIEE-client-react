@@ -10,31 +10,15 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 
-import EventImagePicker from "../../utils/EventImagePicker";
+import { useGlobalSearchParams, useRouter } from "expo-router";
+
 import DropDownPicker from "react-native-dropdown-picker";
-import getCate from "../../../api/category/getCate";
-
-import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-
 import Carousel from "react-native-reanimated-carousel";
-
-import { createEvent } from "../../../api/event/createEvent";
-import {
-  Link,
-  router,
-  useGlobalSearchParams,
-  useLocalSearchParams,
-  useRouter,
-} from "expo-router";
-
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-// 카테고리 불러와 드롭다운으로 구성하기, id를 value 로 사용할 것
-// 카테고리 선택하면 id 값으로 반환하기
-// EventImagePicker가 반환하는 assets의 uri 갖고와서
-//    화면에 띄우기
-//    submit 할 때 내보내기
+import getCate from "../../../api/category/getCate";
+import { createEvent } from "../../../api/event/createEvent";
 
 const AddEventFormScreen = () => {
   const router = useRouter();
@@ -53,48 +37,56 @@ const AddEventFormScreen = () => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
       quality: 1,
-      // aspect: [1, 1],
       allowsMultipleSelection: true,
     });
     if (result.canceled) {
       return null; // 이미지 업로드 취소한 경우
     }
 
-    // 이미지 업로드 결과 및 이미지 경로 업데이트
-
     // uri 추출
     const uploadedImageURIs = result.assets.map((asset) => asset.uri);
 
     setImageUrl(uploadedImageURIs);
-    // console.log(uploadedImageURIs);
   };
-  // 이미지 업로드 구현 끝
 
-  // const [data, setData] = useState([]);
+  const [items, setItems] = useState([]);
   const [userId, setUserId] = useState(1);
 
-  // useEffect(() => {
-  //   let completed = false; // 첫 번째 1회 실행을 위한 flag
+  useEffect(() => {
+    let completed = false; // 첫 번째 1회 실행을 위한 flag
 
-  //   async function get() {
-  //     try {
-  //       const result = await getCate(userId);
-  //       if (!completed) {
-  //         if (result != null) {
-  //           setData(result);
-  //           console.log(result);
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
+    async function get() {
+      try {
+        const result = await getCate(userId);
+        if (!completed) {
+          if (result != null) {
+            let cateNum = 0;
+            let presentCates = []; // Initialize an array to accumulate objects
 
-  //   get();
-  //   return () => {
-  //     completed = true;
-  //   };
-  // }, [userId]); // userId가 변경될 때 마다 실행
+            for (cateNum = 0; cateNum < result.length; cateNum++) {
+              const presentCate = {
+                label: result[cateNum].categoryName,
+                value: result[cateNum].categoryId,
+              };
+              console.log(presentCate);
+
+              presentCates.push(presentCate); // Add the object to the array
+            }
+
+            setItems([...presentCates, ...items]); // Spread the accumulated array
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    get(); // Call the function immediately
+
+    return () => {
+      completed = true;
+    };
+  }, [userId]);
 
   const [startTime, setStartTime] = useState(new Date()); // 선택 시작 날짜
   const [endTime, setEndTime] = useState(new Date()); // 선택 종료 날짜
@@ -143,11 +135,11 @@ const AddEventFormScreen = () => {
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    { label: "여행", value: 1 },
-    { label: "카페", value: 2 },
-    { label: "죽사죽사", value: 3 },
-  ]);
+  // const [items, setItems] = useState([
+  //   { label: "여행", value: 1 },
+  //   { label: "카페", value: 2 },
+  //   { label: "죽사죽사", value: 3 },
+  // ]);
 
   const [newEvent, setNewEvent] = useState({
     year: selectedDate.year,
