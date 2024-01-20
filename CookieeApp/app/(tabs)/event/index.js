@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import { EvilIcons } from "@expo/vector-icons";
 import Carousel from "react-native-reanimated-carousel";
@@ -53,15 +60,12 @@ const EventDetailIndex = () => {
             alignItems: "center",
           }}
         >
-          <View style={styles.iconContainer}>
+          <TouchableOpacity style={styles.iconContainer}>
             <EvilIcons name="pencil" size={37} color="black" />
-          </View>
-          <View style={styles.iconContainer}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconContainer}>
             <EvilIcons name="trash" size={35} color="black" />
-          </View>
-          <View style={styles.iconContainer}>
-            <EvilIcons name="close" size={33} color="black" />
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
       <View style={styles.imageSection}>
