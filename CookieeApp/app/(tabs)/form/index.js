@@ -20,6 +20,8 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import getCate from "../../../api/category/getCate";
 import { createEvent } from "../../../api/event/createEvent";
 
+import axios from "axios";
+
 const AddEventFormScreen = () => {
   const router = useRouter();
   const { year, month, date } = useGlobalSearchParams();
@@ -135,11 +137,6 @@ const AddEventFormScreen = () => {
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  // const [items, setItems] = useState([
-  //   { label: "여행", value: 1 },
-  //   { label: "카페", value: 2 },
-  //   { label: "죽사죽사", value: 3 },
-  // ]);
 
   const [newEvent, setNewEvent] = useState({
     year: selectedDate.year,
@@ -160,6 +157,21 @@ const AddEventFormScreen = () => {
     }));
   };
 
+  var formData = new FormData();
+
+  var eventWhat = "모같코를 했당";
+  var eventWhere = "신당역에성";
+  var withWho = "쿠키팀이랑";
+  var eventYear = 2023;
+  var eventMonth = 12;
+  var eventDate = 24;
+  var images = [
+    require("../../../assets/testImage/데사눈송이.png"),
+    require("../../../assets/testImage/컴과눈송이.png"),
+  ];
+  var thumbnail = require("../../../assets/testImage/데사눈송이.png");
+  var categories = "1, 2";
+
   const handleSubmit = () => {
     // 입력 필드 초기화
     setNewEvent({
@@ -176,32 +188,84 @@ const AddEventFormScreen = () => {
 
     router.back();
 
+    //form-data append
+    const userId = 1; // 예시로 1로 설정, 실제 사용자 ID를 적절하게 설정하세요
+    const eventWhat = "이벤트 제목";
+    const eventPlace = "이벤트 장소";
+    const eventPeople = "참석자 목록";
+    const eventYear = 2024;
+    const eventMonth = 1;
+    const eventDate = 16;
+
+    // 이미지 파일들을 담을 FormData 객체 생성
+    const formData = new FormData();
+
+    // 필수 데이터 추가
+    formData.append("userId", userId);
+    formData.append("images", require("../../../assets/testImage/test.jpeg")); // file1, file2는 File 또는 Blob 객체여야 함
+
+    // 기타 필요한 데이터 추가
+    formData.append("eventWhat", eventWhat);
+    formData.append("eventPlace", eventPlace);
+    formData.append("eventPeople", eventPeople);
+    formData.append("eventYear", eventYear);
+    formData.append("eventMonth", eventMonth);
+    formData.append("eventDate", eventDate);
+
+    // 이미지 파일이 여러 개인 경우 추가로 append
+    // formData.append('images', file2);
+
+    // 나머지 필요한 데이터 추가...
+
+    // 서버에 POST 요청 보내기
+    axios
+      .post(`http://localhost:8080/event/${userId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => console.log(response.data))
+      .catch((error) => console.error("에러 내용:", error));
+
     // 서버로 post 전송
 
-    // createEvent(
-    //   userId,
-    //   newEvent.what,
-    //   newEvent.place,
-    //   newEvent.people,
-    //   newEvent.year,
-    //   newEvent.month,
-    //   newEvent.date,
-    //   imageUrl,
-    //   imageUrl[0],
-    //   newEvent.cate
-    // );
+    createEvent(
+      userId,
+      newEvent.what,
+      newEvent.place,
+      newEvent.people,
+      Number(newEvent.year),
+      Number(newEvent.month),
+      Number(newEvent.date),
+      imageUrl,
+      imageUrl[0],
+      JSON.stringify(newEvent.cate)
+    );
 
     console.log(
       `userId : ${userId} //`,
       `what : ${newEvent.what} //`,
       `place : ${newEvent.place} //`,
       `people : ${newEvent.people} //`,
-      `year : ${newEvent.year} //`,
-      `month : ${newEvent.month} //`,
-      `date : ${newEvent.date} //`,
+      `year : ${Number(newEvent.year)} //`,
+      `month : ${Number(newEvent.month)} //`,
+      `date : ${Number(newEvent.date)} //`,
       `imageUrl : ${imageUrl} //`,
       `Thumb : ${imageUrl[0]} //`,
-      `cate : ${newEvent.cate}`
+      `cate : ${JSON.stringify(newEvent.cate)}`
+    );
+
+    console.log(
+      `userId : ${typeof userId} //`,
+      `what : ${typeof newEvent.what} //`,
+      `place : ${typeof newEvent.place} //`,
+      `people : ${typeof newEvent.people} //`,
+      `year : ${typeof Number(newEvent.year)} //`,
+      `month : ${typeof Number(newEvent.month)} //`,
+      `date : ${typeof Number(newEvent.date)} //`,
+      `imageUrl : ${typeof imageUrl} //`,
+      `Thumb : ${typeof imageUrl[0]} //`,
+      `cate : ${typeof JSON.stringify(newEvent.cate)}`
     );
   };
 
