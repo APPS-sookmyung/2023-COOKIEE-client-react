@@ -11,8 +11,11 @@ import { EvilIcons } from "@expo/vector-icons";
 import Carousel from "react-native-reanimated-carousel";
 
 import getCate from "../../../api/category/getCate";
+import { useRouter } from "expo-router";
 
 const EventDetailIndex = () => {
+  const router = useRouter();
+
   const [cate, setCate] = useState([]);
   const [userId, setUserId] = useState(1);
 
@@ -65,6 +68,12 @@ const EventDetailIndex = () => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.iconContainer}>
             <EvilIcons name="trash" size={35} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.iconContainer}
+            onPress={() => router.back()}
+          >
+            <EvilIcons name="close" size={33} color="black" />
           </TouchableOpacity>
         </View>
       </View>
