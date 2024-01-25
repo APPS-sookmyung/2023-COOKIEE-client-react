@@ -6,7 +6,6 @@ import {
   TextInput,
   Dimensions,
   Image,
-  SectionList,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 
@@ -30,27 +29,6 @@ const AddEventFormScreen = () => {
 
   const width = Dimensions.get("window").width;
 
-  // 이미지 업로드 구현
-  const [imageUrl, setImageUrl] = useState([]);
-
-  const uploadImage = async () => {
-    // 이미지 업로드 기능
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: false,
-      quality: 1,
-      allowsMultipleSelection: true,
-    });
-    if (result.canceled) {
-      return null; // 이미지 업로드 취소한 경우
-    }
-
-    // uri 추출
-    const uploadedImageURIs = result.assets.map((asset) => asset.uri);
-
-    setImageUrl(uploadedImageURIs);
-  };
-
   const [items, setItems] = useState([]);
   const [userId, setUserId] = useState(1);
 
@@ -60,7 +38,7 @@ const AddEventFormScreen = () => {
     async function get() {
       try {
         const result = await getCate(userId);
-        if (!completed) {
+        if (!completed && result != null) {
           if (result != null) {
             let cateNum = 0;
             let presentCates = []; // Initialize an array to accumulate objects
@@ -77,6 +55,8 @@ const AddEventFormScreen = () => {
 
             setItems([...presentCates, ...items]); // Spread the accumulated array
           }
+        } else {
+          console.error("getCate returned undefined or null result");
         }
       } catch (error) {
         console.log(error);
@@ -135,6 +115,65 @@ const AddEventFormScreen = () => {
     setVisible(false); // 모달 close
   };
 
+  /* 이미지 업로드 구현 */
+  const formData = new FormData();
+  const [imageUrl, setImageUrl] = useState([]);
+
+  const uploadImage = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: false,
+        quality: 1,
+        allowsMultipleSelection: true,
+      });
+
+      // 이미지 업로드 취소한 경우
+      if (result.canceled) {
+        return null;
+      }
+
+      // 이미지를 비동기적으로 가져와서 FormData에 추가
+      if (result.assets != null && result.assets.length > 0) {
+        await Promise.all(
+          result.assets.map(async (asset, index) => {
+            const imagePath = asset.uri;
+            const imageExt = (imagePath || "").split(".").pop();
+            const imageMime = `image/${imageExt}`;
+
+            try {
+              // 이미지를 비동기적으로 가져오기
+              const response = await fetch(imagePath);
+              const arrayBuffer = await response.arrayBuffer();
+
+              // Create a Blob from the ArrayBuffer using Uint8Array
+              const blob = new Blob([new Uint8Array(arrayBuffer)], {
+                type: imageMime,
+              });
+
+              // 이미지를 'images'라는 이름으로 FormData에 추가
+              formData.append("images", blob, `photo_${index}.${imageExt}`);
+              await handleFormdataAppend();
+            } catch (error) {
+              console.error("Error fetching image:", error);
+            }
+          })
+        );
+      }
+
+      if (result.assets != null) {
+        // result.uris에 선택된 이미지들의 URI 배열이 있음
+        const selectedImageUris = result.assets;
+
+        // carousel에 보이는 이미지 데이터
+        const uploadedImageURIs = selectedImageUris.map((asset) => asset.uri);
+        setImageUrl(uploadedImageURIs);
+      }
+    } catch (error) {
+      console.error("Error while picking image:", error);
+    }
+  };
+
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
 
@@ -157,22 +196,7 @@ const AddEventFormScreen = () => {
     }));
   };
 
-  var formData = new FormData();
-
-  var eventWhat = "모같코를 했당";
-  var eventWhere = "신당역에성";
-  var withWho = "쿠키팀이랑";
-  var eventYear = 2023;
-  var eventMonth = 12;
-  var eventDate = 24;
-  var images = [
-    require("../../../assets/testImage/데사눈송이.png"),
-    require("../../../assets/testImage/컴과눈송이.png"),
-  ];
-  var thumbnail = require("../../../assets/testImage/데사눈송이.png");
-  var categories = "1, 2";
-
-  const handleSubmit = () => {
+  const handleFormdataAppend = async () => {
     // 입력 필드 초기화
     setNewEvent({
       year: selectedDate.year,
@@ -186,61 +210,44 @@ const AddEventFormScreen = () => {
       people: "",
     });
 
-    router.back();
+    // FormData
 
-    //form-data append
-    const userId = 1; // 예시로 1로 설정, 실제 사용자 ID를 적절하게 설정하세요
-    const eventWhat = "이벤트 제목";
-    const eventPlace = "이벤트 장소";
-    const eventPeople = "참석자 목록";
-    const eventYear = 2024;
-    const eventMonth = 1;
-    const eventDate = 16;
-
-    // 이미지 파일들을 담을 FormData 객체 생성
-    const formData = new FormData();
-
-    // 필수 데이터 추가
     formData.append("userId", userId);
-    formData.append("images", require("../../../assets/testImage/test.jpeg")); // file1, file2는 File 또는 Blob 객체여야 함
 
-    // 기타 필요한 데이터 추가
-    formData.append("eventWhat", eventWhat);
-    formData.append("eventPlace", eventPlace);
-    formData.append("eventPeople", eventPeople);
-    formData.append("eventYear", eventYear);
-    formData.append("eventMonth", eventMonth);
-    formData.append("eventDate", eventDate);
+    formData.append("eventWhat", newEvent.what);
+    formData.append("eventWhere", newEvent.place);
+    formData.append("withWho", newEvent.people);
+    formData.append("eventYear", Number(newEvent.year));
+    formData.append("eventMonth", Number(newEvent.month));
+    formData.append("eventDate", Number(newEvent.date));
 
-    // 이미지 파일이 여러 개인 경우 추가로 append
-    // formData.append('images', file2);
+    formData.append(`categories`, newEvent.cate);
 
-    // 나머지 필요한 데이터 추가...
+    // 값 확인
+    try {
+      console.log(formData);
 
-    // 서버에 POST 요청 보내기
-    axios
-      .post(`http://localhost:8080/event/${userId}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => console.log(response.data))
-      .catch((error) => console.error("에러 내용:", error));
+      const res = await axios.post(
+        `http://localhost:8080/event/${userId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-    // 서버로 post 전송
+      if (res.status === 200 && res.data.result === 1) {
+        console.log(res);
+        console.log("event saved");
 
-    createEvent(
-      userId,
-      newEvent.what,
-      newEvent.place,
-      newEvent.people,
-      Number(newEvent.year),
-      Number(newEvent.month),
-      Number(newEvent.date),
-      imageUrl,
-      imageUrl[0],
-      JSON.stringify(newEvent.cate)
-    );
+        router.back();
+      } else {
+        console.error("Error in form submission:", res);
+      }
+    } catch (err) {
+      console.log("에러", err);
+    }
 
     console.log(
       `userId : ${userId} //`,
@@ -250,9 +257,8 @@ const AddEventFormScreen = () => {
       `year : ${Number(newEvent.year)} //`,
       `month : ${Number(newEvent.month)} //`,
       `date : ${Number(newEvent.date)} //`,
-      `imageUrl : ${imageUrl} //`,
-      `Thumb : ${imageUrl[0]} //`,
-      `cate : ${JSON.stringify(newEvent.cate)}`
+
+      `cate : ${newEvent.cate}`
     );
 
     console.log(
@@ -263,10 +269,13 @@ const AddEventFormScreen = () => {
       `year : ${typeof Number(newEvent.year)} //`,
       `month : ${typeof Number(newEvent.month)} //`,
       `date : ${typeof Number(newEvent.date)} //`,
-      `imageUrl : ${typeof imageUrl} //`,
-      `Thumb : ${typeof imageUrl[0]} //`,
-      `cate : ${typeof JSON.stringify(newEvent.cate)}`
+
+      `cate : ${typeof newEvent.cate}`
     );
+  };
+
+  const handleSubmit = async () => {
+    await handleFormdataAppend();
   };
 
   return (
@@ -293,7 +302,7 @@ const AddEventFormScreen = () => {
           position: "relative",
         }}
       >
-        {imageUrl.length === 0 ? (
+        {imageUrl && imageUrl.length === 0 ? (
           // 이미지가 업로드되지 않았을 때
           <View
             style={{
