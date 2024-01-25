@@ -135,37 +135,47 @@ const AddEventFormScreen = () => {
 
       // 이미지를 비동기적으로 가져와서 FormData에 추가
       if (result.assets != null && result.assets.length > 0) {
-        await Promise.all(
-          result.assets.map(async (asset, index) => {
-            const imagePath = asset.uri;
-            const imageExt = (imagePath || "").split(".").pop();
-            const imageMime = `image/${imageExt}`;
+        result.assets.map(async (asset, index) => {
+          const imagePath = asset.uri;
+          const imageName = asset.fileName;
+          const imageExt = (imagePath || "").split(".").pop();
+          const imageMime = `images/${imageExt}`;
 
-            try {
-              // 이미지를 비동기적으로 가져오기
-              const response = await fetch(imagePath);
-              const arrayBuffer = await response.arrayBuffer();
+          var image = {
+            name: imageName,
+            type: "multipart/form-data",
+            uri:
+              Platform.OS === "ios"
+                ? imagePath.replace("file://", "")
+                : imagePath,
+          };
 
-              // Create a Blob from the ArrayBuffer using Uint8Array
-              const blob = new Blob([new Uint8Array(arrayBuffer)], {
-                type: imageMime,
-              });
+          console.log(image);
 
-              // 이미지를 'images'라는 이름으로 FormData에 추가
-              formData.append("images", blob, `photo_${index}.${imageExt}`);
-              await handleFormdataAppend();
-            } catch (error) {
-              console.error("Error fetching image:", error);
-            }
-          })
-        );
+          try {
+            const response = await fetch(imagePath);
+            const blob = await response.blob();
+
+            // // 이미지를 'images'라는 이름으로 FormData에 추가
+            // formData.append("images", {
+            //   type: `${asset.type}/${asset.uri.split(".").pop()}`,
+            //   name: asset.uri.split("/").pop(),
+            //   uri: asset.uri.replace("file://", ""),
+            // });
+
+            formData.append("images", blob);
+            console.log("blob appended");
+            // console.log(formData);
+          } catch (error) {
+            console.error("Error fetching image:", error);
+          }
+        });
       }
 
+      // carousel에 이미지 데이터 보이기
       if (result.assets != null) {
-        // result.uris에 선택된 이미지들의 URI 배열이 있음
         const selectedImageUris = result.assets;
 
-        // carousel에 보이는 이미지 데이터
         const uploadedImageURIs = selectedImageUris.map((asset) => asset.uri);
         setImageUrl(uploadedImageURIs);
       }
@@ -212,20 +222,27 @@ const AddEventFormScreen = () => {
 
     // FormData
 
+    formData.append("images");
+
     formData.append("userId", userId);
 
     formData.append("eventWhat", newEvent.what);
     formData.append("eventWhere", newEvent.place);
     formData.append("withWho", newEvent.people);
-    formData.append("eventYear", Number(newEvent.year));
-    formData.append("eventMonth", Number(newEvent.month));
-    formData.append("eventDate", Number(newEvent.date));
+    formData.append("eventYear", newEvent.year);
+    formData.append("eventMonth", newEvent.month);
+    formData.append("eventDate", newEvent.date);
 
-    formData.append(`categories`, newEvent.cate);
+    // newEvent.cate.map((category, index) => {
+    //   formData.append(`categories`, category);
+    // });
+    formData.append(`categories`, "1, 2");
+
+    console.log(formData);
 
     // 값 확인
     try {
-      console.log(formData);
+      // console.log(formData);
 
       const res = await axios.post(
         `http://localhost:8080/event/${userId}`,
@@ -233,6 +250,9 @@ const AddEventFormScreen = () => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+          },
+          transformRequest: (data, headers) => {
+            return data;
           },
         }
       );
@@ -272,6 +292,8 @@ const AddEventFormScreen = () => {
 
       `cate : ${typeof newEvent.cate}`
     );
+
+    router.back();
   };
 
   const handleSubmit = async () => {
