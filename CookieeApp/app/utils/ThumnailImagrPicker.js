@@ -5,8 +5,6 @@ import * as ImagePicker from "expo-image-picker";
 import { MaterialIcons } from "@expo/vector-icons";
 
 export default function ThumnailImagrPicker({ onImageSelected }) {
-  const [image, setImage] = useState(null);
-
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -17,9 +15,7 @@ export default function ThumnailImagrPicker({ onImageSelected }) {
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      onImageSelected(result.assets[0].uri); // 선택한 이미지의 uri를 부모 컴포넌트로 전달
-      console.log(result.assets[0].uri);
+      onImageSelected(result.assets[0]); // 선택한 이미지의 데이터를 부모 컴포넌트로 전달
     }
   };
 
