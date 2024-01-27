@@ -213,8 +213,6 @@ const AddEventFormScreen = () => {
 
     // FormData
 
-    formData.append("userId", userId.toString);
-
     formData.append("eventWhat", newEvent.what);
     formData.append("eventWhere", newEvent.place);
     formData.append("withWho", newEvent.people);
@@ -235,7 +233,6 @@ const AddEventFormScreen = () => {
 
     console.log("이벤트 정보 확인");
     console.log(formData.getAll("images"));
-    console.log(formData.getAll("userId"));
     console.log(formData.getAll("eventWhat"));
     console.log(formData.getAll("eventWhere"));
     console.log(formData.getAll("withWho"));
