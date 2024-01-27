@@ -16,21 +16,40 @@ export const createEvent = async (
   categories
 ) => {
   try {
+    console.log(
+      userId,
+
+      eventWhat,
+      eventWhere,
+      withWho,
+
+      eventYear,
+      eventMonth,
+      eventDate,
+
+      images,
+      thumbnail,
+      categories
+    );
     const response = await axios.post(
       `http://localhost:8080/event/${userId}`,
-      null,
       {
-        params: {
-          eventWhat: eventWhat,
-          eventWhere: eventWhere,
-          withWho: withWho,
+        userId: userId,
+        eventWhat: eventWhat,
+        eventWhere: eventWhere,
+        withWho: withWho,
 
-          eventYear: eventYear,
-          eventMonth: eventMonth,
-          eventDate: eventDate,
+        eventYear: eventYear,
+        eventMonth: eventMonth,
+        eventDate: eventDate,
 
-          images: images,
-          categories: categories,
+        images: images,
+        thumbnail: thumbnail,
+        categories: categories,
+      },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
       }
     );

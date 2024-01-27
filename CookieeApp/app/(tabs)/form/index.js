@@ -6,7 +6,6 @@ import {
   TextInput,
   Dimensions,
   Image,
-  SectionList,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 
@@ -28,27 +27,6 @@ const AddEventFormScreen = () => {
 
   const width = Dimensions.get("window").width;
 
-  // 이미지 업로드 구현
-  const [imageUrl, setImageUrl] = useState([]);
-
-  const uploadImage = async () => {
-    // 이미지 업로드 기능
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: false,
-      quality: 1,
-      allowsMultipleSelection: true,
-    });
-    if (result.canceled) {
-      return null; // 이미지 업로드 취소한 경우
-    }
-
-    // uri 추출
-    const uploadedImageURIs = result.assets.map((asset) => asset.uri);
-
-    setImageUrl(uploadedImageURIs);
-  };
-
   const [items, setItems] = useState([]);
   const [userId, setUserId] = useState(1);
 
@@ -58,7 +36,7 @@ const AddEventFormScreen = () => {
     async function get() {
       try {
         const result = await getCate(userId);
-        if (!completed) {
+        if (!completed && result != null) {
           if (result != null) {
             let cateNum = 0;
             let presentCates = []; // Initialize an array to accumulate objects
@@ -75,6 +53,8 @@ const AddEventFormScreen = () => {
 
             setItems([...presentCates, ...items]); // Spread the accumulated array
           }
+        } else {
+          console.error("getCate returned undefined or null result");
         }
       } catch (error) {
         console.log(error);
@@ -133,13 +113,63 @@ const AddEventFormScreen = () => {
     setVisible(false); // 모달 close
   };
 
+  /* 이미지 업로드 구현 */
+  const formData = new FormData();
+  const [imageUrl, setImageUrl] = useState([]);
+  const [imageData, setImageData] = useState();
+  const [imageDataArray, setImageDataArray] = useState([]);
+
+  const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
+
+  const uploadImage = async () => {
+    // 권한 확인 코드: 권한 없으면 물어보고, 승인하지 않으면 함수 종료
+    if (!status?.granted) {
+      const permission = await requestPermission();
+      if (!permission.granted) {
+        return null;
+      }
+    }
+
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: false,
+        quality: 1,
+        allowsMultipleSelection: true,
+      });
+
+      // 이미지 업로드 취소한 경우
+      if (result.canceled) {
+        return null;
+      }
+
+      if (result.assets != null && result.assets.length > 0) {
+        const selectedImageUris = result.assets;
+
+        const uploadedImageURIs = selectedImageUris.map((asset) => asset.uri);
+        setImageUrl((prevImageUrls) => [
+          ...prevImageUrls,
+          ...uploadedImageURIs,
+        ]);
+
+        const uploadedImageData = selectedImageUris.map((asset) => ({
+          name: asset.fileName,
+          type: "image/png",
+          size: asset.fileSize,
+          uri: asset.uri,
+        }));
+        setImageDataArray((prevImageDataArray) => [
+          ...prevImageDataArray,
+          ...uploadedImageData,
+        ]);
+      }
+    } catch (error) {
+      console.error("Error while picking image:", error);
+    }
+  };
+
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  // const [items, setItems] = useState([
-  //   { label: "여행", value: 1 },
-  //   { label: "카페", value: 2 },
-  //   { label: "죽사죽사", value: 3 },
-  // ]);
 
   const [newEvent, setNewEvent] = useState({
     year: selectedDate.year,
@@ -160,7 +190,7 @@ const AddEventFormScreen = () => {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // 입력 필드 초기화
     setNewEvent({
       year: selectedDate.year,
@@ -174,35 +204,50 @@ const AddEventFormScreen = () => {
       people: "",
     });
 
+    // FormData
+    formData.append("eventWhat", newEvent.what);
+    formData.append("eventWhere", newEvent.place);
+    formData.append("withWho", newEvent.people);
+    formData.append("eventYear", selectedDate.year);
+    formData.append("eventMonth", selectedDate.month);
+    formData.append("eventDate", selectedDate.date);
+
+    imageDataArray.forEach((imageData, index) => {
+      formData.append(`images`, imageData);
+    });
+
+    newEvent.cate.map((category, index) => {
+      formData.append(`categoryIds`, category);
+    });
+
+    console.log("이벤트 정보 확인");
+    console.log(formData.getAll("images"));
+    console.log(formData.getAll("eventWhat"));
+    console.log(formData.getAll("eventWhere"));
+    console.log(formData.getAll("withWho"));
+    console.log(formData.getAll("eventYear"));
+    console.log(formData.getAll("eventMonth"));
+    console.log(formData.getAll("eventDate"));
+    console.log(formData.getAll("categoryIds"));
+
+    console.log("fetch 시도");
+    fetch(`http://localhost:8080/event/${userId}`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+      .then((res) => {
+        console.log("이벤트 등록 통신 성공. LOG의 'ok'가 true인지 확인하세요.");
+        console.log(JSON.stringify(res));
+      })
+      .catch((err) => {
+        console.log("이벤트 등록 통신 실패");
+        console.log(JSON.stringify(err.response));
+      });
+
     router.back();
-
-    // 서버로 post 전송
-
-    // createEvent(
-    //   userId,
-    //   newEvent.what,
-    //   newEvent.place,
-    //   newEvent.people,
-    //   newEvent.year,
-    //   newEvent.month,
-    //   newEvent.date,
-    //   imageUrl,
-    //   imageUrl[0],
-    //   newEvent.cate
-    // );
-
-    console.log(
-      userId,
-      newEvent.what,
-      newEvent.place,
-      newEvent.people,
-      newEvent.year,
-      newEvent.month,
-      newEvent.date,
-      imageUrl,
-      imageUrl[0],
-      newEvent.cate
-    );
   };
 
   return (
@@ -229,7 +274,7 @@ const AddEventFormScreen = () => {
           position: "relative",
         }}
       >
-        {imageUrl.length === 0 ? (
+        {imageUrl && imageUrl.length === 0 ? (
           // 이미지가 업로드되지 않았을 때
           <View
             style={{
