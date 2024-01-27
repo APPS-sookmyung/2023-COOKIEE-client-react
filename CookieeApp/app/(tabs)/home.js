@@ -19,6 +19,8 @@ import { Link, router, useRouter } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
 import { Drawer } from "expo-router/drawer";
 
+import { getThumb } from "../../api/thumbnail/getThumb";
+
 export default function CalendarHome() {
   const router = useRouter();
 
@@ -114,6 +116,8 @@ function Header(props) {
 
 //Year,Monty,date
 function Body(props) {
+  const [userId, setUserId] = useState(1);
+
   const [totalDays, setTotalDays] = useState({});
   const [pressedDate, setPressedDate] = useState({
     state: "",
@@ -180,14 +184,50 @@ function Body(props) {
         date: date.date,
       };
       let daykey = JSON.stringify(data);
-      console.log("daykey: " + daykey);
+      // console.log("daykey: " + daykey);
       router.push(`day/${daykey}`);
     }
   };
 
-  const testImg = [];
+  // 썸네일 불러오기
+  const [thumbnailUris, setThumbnailUris] = useState();
 
-  const [selectedImageUris, setSelectedImageUris] = useState(testImg);
+  useEffect(() => {
+    let completed = false; // 첫 번째 1회 실행을 위한 flag
+
+    async function get() {
+      try {
+        const result = await getThumb(userId);
+
+        if (!completed && result != null) {
+          setThumbnailUris(result);
+        } else {
+          console.error("getThumb returned undefined or null result");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    get(); // Call the function immediately
+
+    return () => {
+      completed = true;
+    };
+  }, [userId]);
+
+  const findThumbUriByDay = (selectedDate) => {
+    if (thumbnailUris != null) {
+      const thumbnail = thumbnailUris.find(
+        (thumb) =>
+          thumb.eventYear === selectedDate.year &&
+          thumb.eventMonth === selectedDate.month &&
+          thumb.eventDate === selectedDate.date
+      );
+
+      if (thumbnail != null) return thumbnail.thumbnailUrl;
+    }
+  };
 
   return (
     <View style={S.calendarBody}>
@@ -210,15 +250,7 @@ function Body(props) {
             return (
               <View style={S.box} key={uuidv4()}>
                 <ImageBackground
-                  source={
-                    selectedImageUris[
-                      `${checkPressedDate.year}${checkPressedDate.month
-                        .toString()
-                        .padStart(2, "0")}${checkPressedDate.date
-                        .toString()
-                        .padStart(2, "0")}`
-                    ]
-                  }
+                  source={{ uri: findThumbUriByDay(checkPressedDate) }}
                   imageStyle={{ borderRadius: 5 }}
                   style={{
                     width: "100%",
