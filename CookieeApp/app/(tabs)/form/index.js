@@ -117,6 +117,7 @@ const AddEventFormScreen = () => {
   const formData = new FormData();
   const [imageUrl, setImageUrl] = useState([]);
   const [imageData, setImageData] = useState();
+  const [imageDataArray, setImageDataArray] = useState([]);
 
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 
@@ -142,33 +143,25 @@ const AddEventFormScreen = () => {
         return null;
       }
 
-      // 이미지를 비동기적으로 가져와서 FormData에 추가
       if (result.assets != null && result.assets.length > 0) {
-        result.assets.map(async (asset, index) => {
-          var image = result.assets[0];
-          const imagePath = image.uri;
-          const imageName = image.fileName;
-          const imageSize = image.fileSize;
+        const selectedImageUris = result.assets;
 
-          var image = {
-            name: imageName,
-            type: "image/png",
-            size: imageSize,
-            uri: imagePath,
-          };
+        const uploadedImageURIs = selectedImageUris.map((asset) => asset.uri);
+        setImageUrl((prevImageUrls) => [
+          ...prevImageUrls,
+          ...uploadedImageURIs,
+        ]);
 
-          setImageData(image);
-
-          // carousel에 이미지 데이터 보이기
-          if (result.assets != null) {
-            const selectedImageUris = result.assets;
-
-            const uploadedImageURIs = selectedImageUris.map(
-              (asset) => asset.uri
-            );
-            setImageUrl(uploadedImageURIs);
-          }
-        });
+        const uploadedImageData = selectedImageUris.map((asset) => ({
+          name: asset.fileName,
+          type: "image/png",
+          size: asset.fileSize,
+          uri: asset.uri,
+        }));
+        setImageDataArray((prevImageDataArray) => [
+          ...prevImageDataArray,
+          ...uploadedImageData,
+        ]);
       }
     } catch (error) {
       console.error("Error while picking image:", error);
@@ -212,7 +205,6 @@ const AddEventFormScreen = () => {
     });
 
     // FormData
-
     formData.append("eventWhat", newEvent.what);
     formData.append("eventWhere", newEvent.place);
     formData.append("withWho", newEvent.people);
@@ -220,16 +212,9 @@ const AddEventFormScreen = () => {
     formData.append("eventMonth", selectedDate.month);
     formData.append("eventDate", selectedDate.date);
 
-    formData.append("images", imageData);
-
-    // formData.append("userId", "1");
-    // formData.append("eventWhat", "xptmxmdpdy");
-    // formData.append("eventWhere", "신당역");
-    // formData.append("withWho", "쿠키팀");
-    // formData.append("eventYear", "2024");
-    // formData.append("eventMonth", "1");
-    // formData.append("eventDate", "18");
-    // formData.append("categoryIds", "1, 2");
+    imageDataArray.forEach((imageData, index) => {
+      formData.append(`images`, imageData);
+    });
 
     newEvent.cate.map((category, index) => {
       formData.append(`categoryIds`, category);
@@ -245,10 +230,7 @@ const AddEventFormScreen = () => {
     console.log(formData.getAll("eventDate"));
     console.log(formData.getAll("categoryIds"));
 
-    // 값 확인
-
     console.log("fetch 시도");
-
     fetch(`http://localhost:8080/event/${userId}`, {
       method: "POST",
       body: formData,
