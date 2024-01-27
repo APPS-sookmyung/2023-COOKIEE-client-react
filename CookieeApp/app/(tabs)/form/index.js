@@ -213,24 +213,24 @@ const AddEventFormScreen = () => {
 
     // FormData
 
-    // formData.append("userId", userId.toString);
+    formData.append("userId", userId.toString);
 
-    // formData.append("eventWhat", newEvent.what);
-    // formData.append("eventWhere", newEvent.place);
-    // formData.append("withWho", newEvent.people);
-    // formData.append("eventYear", newEvent.year.toString);
-    // formData.append("eventMonth", newEvent.month.toString);
-    // formData.append("eventDate", newEvent.date.toString);
+    formData.append("eventWhat", newEvent.what);
+    formData.append("eventWhere", newEvent.place);
+    formData.append("withWho", newEvent.people);
+    formData.append("eventYear", selectedDate.year);
+    formData.append("eventMonth", selectedDate.month);
+    formData.append("eventDate", selectedDate.date);
 
     formData.append("images", imageData);
 
-    formData.append("userId", "1");
-    formData.append("eventWhat", "xptmxmdpdy");
-    formData.append("eventWhere", "신당역");
-    formData.append("withWho", "쿠키팀");
-    formData.append("eventYear", "2024");
-    formData.append("eventMonth", "1");
-    formData.append("eventDate", "18");
+    // formData.append("userId", "1");
+    // formData.append("eventWhat", "xptmxmdpdy");
+    // formData.append("eventWhere", "신당역");
+    // formData.append("withWho", "쿠키팀");
+    // formData.append("eventYear", "2024");
+    // formData.append("eventMonth", "1");
+    // formData.append("eventDate", "18");
     formData.append("categoryIds", "1, 2");
 
     console.log("이벤트 정보 확인");
@@ -256,12 +256,12 @@ const AddEventFormScreen = () => {
       },
     })
       .then((res) => {
-        console.log("이벤트 등록 성공");
-        console.log(res);
+        console.log("이벤트 등록 통신 성공. LOG의 'ok'가 true인지 확인하세요.");
+        console.log(JSON.stringify(res));
       })
       .catch((err) => {
-        console.log("이벤트 등록 실패");
-        console.log(err.response);
+        console.log("이벤트 등록 통신 실패");
+        console.log(JSON.stringify(err.response));
       });
 
     router.back();
