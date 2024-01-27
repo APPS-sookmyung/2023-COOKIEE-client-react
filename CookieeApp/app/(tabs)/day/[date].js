@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 
 import ThumnailImagrPicker from "../../utils/ThumnailImagrPicker";
@@ -13,6 +13,7 @@ import EventBox from "../../components/EventBox";
 
 import CalendarHome from "../home";
 import { createThumb } from "../../../api/thumbnail/createThumb";
+import { getThumb } from "../../../api/thumbnail/getThumb";
 
 const BottomModalContnet = () => {
   const router = useRouter();
@@ -21,27 +22,45 @@ const BottomModalContnet = () => {
   const { date } = useLocalSearchParams();
 
   const selectedDate = JSON.parse(date);
-  console.log(selectedDate);
 
-  const [selectedImageUris, setSelectedImageUris] = useState({});
+  const [selectedThumbnail, setSelectedThumbnail] = useState();
 
   const handleImageSelected = (imageData) => {
-    const updatedImageUris = { ...selectedImageUris };
-    updatedImageUris[selectedDate.date] = imageData.uri;
-    setSelectedImageUris(updatedImageUris);
+    setSelectedThumbnail(imageData.uri);
 
     createThumb(userId, selectedDate, imageData);
   };
 
-  const [isOpenAddEventForm, setIsOpenAddEventForm] = useState(false);
+  useEffect(() => {
+    let completed = false; // 첫 번째 1회 실행을 위한 flag
 
-  const openForm = () => {
-    setIsOpenAddEventForm(true);
-  };
+    async function get() {
+      try {
+        const result = await getThumb(userId);
 
-  const closeForm = () => {
-    setIsOpenAddEventForm(false);
-  };
+        if (!completed && result != null) {
+          const thumbnail = result.find(
+            (thumb) =>
+              thumb.eventYear === selectedDate.year &&
+              thumb.eventMonth === selectedDate.month &&
+              thumb.eventDate === selectedDate.date
+          );
+
+          setSelectedThumbnail(thumbnail.thumbnailUrl);
+        } else {
+          console.error("getThumb returned undefined or null result");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    get(); // Call the function immediately
+
+    return () => {
+      completed = true;
+    };
+  }, [userId]);
 
   return (
     <View style={styles.modalContainer}>
@@ -50,10 +69,10 @@ const BottomModalContnet = () => {
         <View>
           <View style={styles.thumnailContainer}>
             <View>
-              {selectedDate && selectedImageUris[selectedDate.date] && (
+              {selectedThumbnail !== null && (
                 <ImageBackground
                   style={{ width: "100%", height: "100%" }}
-                  source={{ uri: selectedImageUris[selectedDate.date] }}
+                  source={{ uri: selectedThumbnail }}
                   resizeMode="cover"
                 ></ImageBackground>
               )}

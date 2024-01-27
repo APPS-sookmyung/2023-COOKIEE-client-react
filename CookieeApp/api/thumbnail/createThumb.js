@@ -27,7 +27,7 @@ export const createThumb = (userId, selectedDate, asset) => {
     },
   })
     .then((res) => {
-      console.log("썸네일 통신 성공. LOG의 'ok'가 true인지 확인하세요.");
+      console.log("썸네일 등록 통신 성공. LOG의 'ok'가 true인지 확인하세요.");
       console.log(JSON.stringify(res));
     })
     .catch((err) => {
