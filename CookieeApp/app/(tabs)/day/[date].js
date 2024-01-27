@@ -12,9 +12,11 @@ import ThumnailImagrPicker from "../../utils/ThumnailImagrPicker";
 import EventBox from "../../components/EventBox";
 
 import CalendarHome from "../home";
+import { createThumb } from "../../../api/thumbnail/createThumb";
 
 const BottomModalContnet = () => {
   const router = useRouter();
+  const [userId, setUserId] = useState(1);
 
   const { date } = useLocalSearchParams();
 
@@ -23,11 +25,12 @@ const BottomModalContnet = () => {
 
   const [selectedImageUris, setSelectedImageUris] = useState({});
 
-  const handleImageSelected = (imageUri) => {
+  const handleImageSelected = (imageData) => {
     const updatedImageUris = { ...selectedImageUris };
-    updatedImageUris[selectedDate.date] = imageUri;
+    updatedImageUris[selectedDate.date] = imageData.uri;
     setSelectedImageUris(updatedImageUris);
-    console.log("selectedImageUris", selectedImageUris);
+
+    createThumb(userId, selectedDate, imageData);
   };
 
   const [isOpenAddEventForm, setIsOpenAddEventForm] = useState(false);
