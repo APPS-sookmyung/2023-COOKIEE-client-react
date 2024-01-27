@@ -119,6 +119,8 @@ const AddEventFormScreen = () => {
   /* 이미지 업로드 구현 */
   const formData = new FormData();
   const [imageUrl, setImageUrl] = useState([]);
+  const [imageFile, setImageFile] = useState();
+  const [imageData, setImageData] = useState();
 
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 
@@ -149,19 +151,22 @@ const AddEventFormScreen = () => {
         result.assets.map(async (asset, index) => {
           const imagePath = asset.uri;
           const imageName = asset.fileName;
-          const imageExt = (imagePath || "").split(".").pop();
-          const imageMime = `images/${imageExt}`;
+          const imageSize = asset.size;
+          // const imageExt = (imagePath || "").split(".").pop();
+          // const imageMime = `images/${imageExt}`;
 
           var image = {
             name: imageName,
-            type: "multipart/form-data",
-            uri:
-              Platform.OS === "ios"
-                ? imagePath.replace("file://", "")
-                : imagePath,
+            type: "image/png",
+            size: imageSize,
+            uri: imagePath,
+            // Platform.OS === "ios"
+            //   ? imagePath.replace("file://", "")
+            //   : imagePath,
           };
 
-          console.log(image);
+          setImageData(image);
+          setImageFile(asset);
 
           try {
             // // 이미지를 'images'라는 이름으로 FormData에 추가
@@ -171,11 +176,10 @@ const AddEventFormScreen = () => {
             //   uri: asset.uri.replace("file://", ""),
             // });
 
-            const convertedImage = convertToBlob(imagePath);
+            // const convertedImage = convertToBlob(imagePath);
 
-            formData.append("images", image);
+            // formData.append("images", image);
             console.log("blob appended");
-            // console.log(formData);
           } catch (error) {
             console.error("Error fetching image:", error);
           }
@@ -204,6 +208,7 @@ const AddEventFormScreen = () => {
       const blob = new Blob([base64Image], { type: "image/png" });
       console.log("Blob 파일 타입:", blob.type);
       console.log("Blob 파일 크기:", blob.size);
+
       console.log("images convertToBlob");
 
       return blob;
@@ -257,22 +262,29 @@ const AddEventFormScreen = () => {
     // formData.append("eventMonth", newEvent.month.toString);
     // formData.append("eventDate", newEvent.date.toString);
 
-    formData.append("userId", "1");
+    const convertedImage = convertToBlob(imageFile);
 
-    formData.append("eventWhat", "모같코");
+    formData.append("images", imageData);
+
+    formData.append("userId", "1");
+    formData.append("eventWhat", "xptmxmdpdy");
     formData.append("eventWhere", "신당역");
     formData.append("withWho", "쿠키팀");
     formData.append("eventYear", "2024");
     formData.append("eventMonth", "1");
     formData.append("eventDate", "18");
+    formData.append("categoryIds", "1, 2");
 
-    // newEvent.cate.map((category, index) => {
-    //   formData.append(`categories`, category);
-    // });
-
-    formData.append(`categoryIds`, "1, 2");
-
-    console.log("이벤트 정보 입력됨");
+    console.log("이벤트 정보 확인");
+    console.log(formData.getAll("images"));
+    console.log(formData.getAll("userId"));
+    console.log(formData.getAll("eventWhat"));
+    console.log(formData.getAll("eventWhere"));
+    console.log(formData.getAll("withWho"));
+    console.log(formData.getAll("eventYear"));
+    console.log(formData.getAll("eventMonth"));
+    console.log(formData.getAll("eventDate"));
+    console.log(formData.getAll("categoryIds"));
 
     // 값 확인
     try {
@@ -291,7 +303,7 @@ const AddEventFormScreen = () => {
       //   }
       // );
 
-      let res = await fetch(`http://localhost:8080/event/${userId}`, {
+      let res = await fetch(`http://localhost:8080/event/1`, {
         method: "post",
         body: formData,
         headers: {
