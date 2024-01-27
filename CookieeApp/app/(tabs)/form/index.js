@@ -15,6 +15,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import * as ImagePicker from "expo-image-picker";
 import Carousel from "react-native-reanimated-carousel";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import * as FileSystem from "expo-file-system";
 
 import getCate from "../../../api/category/getCate";
 import { createEvent } from "../../../api/event/createEvent";
@@ -119,7 +120,17 @@ const AddEventFormScreen = () => {
   const formData = new FormData();
   const [imageUrl, setImageUrl] = useState([]);
 
+  const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
+
   const uploadImage = async () => {
+    // 권한 확인 코드: 권한 없으면 물어보고, 승인하지 않으면 함수 종료
+    if (!status?.granted) {
+      const permission = await requestPermission();
+      if (!permission.granted) {
+        return null;
+      }
+    }
+
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -153,9 +164,6 @@ const AddEventFormScreen = () => {
           console.log(image);
 
           try {
-            const response = await fetch(imagePath);
-            const blob = await response.blob();
-
             // // 이미지를 'images'라는 이름으로 FormData에 추가
             // formData.append("images", {
             //   type: `${asset.type}/${asset.uri.split(".").pop()}`,
@@ -163,7 +171,9 @@ const AddEventFormScreen = () => {
             //   uri: asset.uri.replace("file://", ""),
             // });
 
-            formData.append("images", blob);
+            const convertedImage = convertToBlob(imagePath);
+
+            formData.append("images", image);
             console.log("blob appended");
             // console.log(formData);
           } catch (error) {
@@ -181,6 +191,22 @@ const AddEventFormScreen = () => {
       }
     } catch (error) {
       console.error("Error while picking image:", error);
+    }
+  };
+
+  const convertToBlob = async (image) => {
+    if (image) {
+      const fileInfo = await FileSystem.getInfoAsync(image);
+      const base64Image = await FileSystem.readAsStringAsync(image, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+
+      const blob = new Blob([base64Image], { type: "image/png" });
+      console.log("Blob 파일 타입:", blob.type);
+      console.log("Blob 파일 크기:", blob.size);
+      console.log("images convertToBlob");
+
+      return blob;
     }
   };
 
@@ -222,40 +248,56 @@ const AddEventFormScreen = () => {
 
     // FormData
 
-    formData.append("images");
+    // formData.append("userId", userId.toString);
 
-    formData.append("userId", userId);
+    // formData.append("eventWhat", newEvent.what);
+    // formData.append("eventWhere", newEvent.place);
+    // formData.append("withWho", newEvent.people);
+    // formData.append("eventYear", newEvent.year.toString);
+    // formData.append("eventMonth", newEvent.month.toString);
+    // formData.append("eventDate", newEvent.date.toString);
 
-    formData.append("eventWhat", newEvent.what);
-    formData.append("eventWhere", newEvent.place);
-    formData.append("withWho", newEvent.people);
-    formData.append("eventYear", newEvent.year);
-    formData.append("eventMonth", newEvent.month);
-    formData.append("eventDate", newEvent.date);
+    formData.append("userId", "1");
+
+    formData.append("eventWhat", "모같코");
+    formData.append("eventWhere", "신당역");
+    formData.append("withWho", "쿠키팀");
+    formData.append("eventYear", "2024");
+    formData.append("eventMonth", "1");
+    formData.append("eventDate", "18");
 
     // newEvent.cate.map((category, index) => {
     //   formData.append(`categories`, category);
     // });
-    formData.append(`categories`, "1, 2");
 
-    console.log(formData);
+    formData.append(`categoryIds`, "1, 2");
+
+    console.log("이벤트 정보 입력됨");
 
     // 값 확인
     try {
       // console.log(formData);
 
-      const res = await axios.post(
-        `http://localhost:8080/event/${userId}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          transformRequest: (data, headers) => {
-            return data;
-          },
-        }
-      );
+      // const res = await axios.post(
+      //   `http://localhost:8080/event/${userId}`,
+      //   formData,
+      //   {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //     },
+      //     transformRequest: (data, headers) => {
+      //       return data;
+      //     },
+      //   }
+      // );
+
+      let res = await fetch(`http://localhost:8080/event/${userId}`, {
+        method: "post",
+        body: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (res.status === 200 && res.data.result === 1) {
         console.log(res);
@@ -269,29 +311,17 @@ const AddEventFormScreen = () => {
       console.log("에러", err);
     }
 
-    console.log(
-      `userId : ${userId} //`,
-      `what : ${newEvent.what} //`,
-      `place : ${newEvent.place} //`,
-      `people : ${newEvent.people} //`,
-      `year : ${Number(newEvent.year)} //`,
-      `month : ${Number(newEvent.month)} //`,
-      `date : ${Number(newEvent.date)} //`,
+    // console.log(
+    //   `userId : ${typeof userId} //`,
+    //   `what : ${typeof newEvent.what} //`,
+    //   `place : ${typeof newEvent.place} //`,
+    //   `people : ${typeof newEvent.people} //`,
+    //   `year : ${typeof newEvent.year} //`,
+    //   `month : ${typeof newEvent.month} //`,
+    //   `date : ${typeof newEvent.date} //`,
 
-      `cate : ${newEvent.cate}`
-    );
-
-    console.log(
-      `userId : ${typeof userId} //`,
-      `what : ${typeof newEvent.what} //`,
-      `place : ${typeof newEvent.place} //`,
-      `people : ${typeof newEvent.people} //`,
-      `year : ${typeof Number(newEvent.year)} //`,
-      `month : ${typeof Number(newEvent.month)} //`,
-      `date : ${typeof Number(newEvent.date)} //`,
-
-      `cate : ${typeof newEvent.cate}`
-    );
+    //   `cate : ${typeof newEvent.cate}`
+    // );
 
     router.back();
   };
