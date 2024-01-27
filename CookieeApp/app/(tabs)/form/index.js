@@ -229,7 +229,11 @@ const AddEventFormScreen = () => {
     // formData.append("eventYear", "2024");
     // formData.append("eventMonth", "1");
     // formData.append("eventDate", "18");
-    formData.append("categoryIds", "1, 2");
+    // formData.append("categoryIds", "1, 2");
+
+    newEvent.cate.map((category, index) => {
+      formData.append(`categoryIds`, category);
+    });
 
     console.log("이벤트 정보 확인");
     console.log(formData.getAll("images"));
