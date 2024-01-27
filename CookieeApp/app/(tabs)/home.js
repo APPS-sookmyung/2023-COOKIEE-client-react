@@ -9,13 +9,13 @@ import {
 } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 import isSameObj from "../../utils/isSameObj";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Link, router, useRouter } from "expo-router";
+import { Link, router, useRouter, useFocusEffect } from "expo-router";
 import { useNavigation } from "@react-navigation/native";
 import { Drawer } from "expo-router/drawer";
 
@@ -170,6 +170,7 @@ function Body(props) {
   const handlePressDay = (date) => {
     setPressedDate(date);
     setSelectedDate(date);
+
     if (date.state === "prev" || date.state === "next") {
       props.moveToSpecificYearAndMonth(date.year, date.month);
     }
@@ -185,37 +186,40 @@ function Body(props) {
       };
       let daykey = JSON.stringify(data);
       // console.log("daykey: " + daykey);
-      router.push(`day/${daykey}`);
+      router.push({
+        pathname: `day/${daykey}`,
+      });
     }
   };
 
   // 썸네일 불러오기
   const [thumbnailUris, setThumbnailUris] = useState();
 
-  useEffect(() => {
-    let completed = false; // 첫 번째 1회 실행을 위한 flag
+  useFocusEffect(
+    useCallback(() => {
+      let completed = false; // 첫 번째 1회 실행을 위한 flag
 
-    async function get() {
-      try {
-        const result = await getThumb(userId);
+      async function get() {
+        try {
+          const result = await getThumb(userId);
 
-        if (!completed && result != null) {
-          setThumbnailUris(result);
-        } else {
-          console.error("getThumb returned undefined or null result");
+          if (!completed && result != null) {
+            setThumbnailUris(result);
+          } else {
+            console.error("getThumb returned undefined or null result");
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
-    }
 
-    get(); // Call the function immediately
+      get(); // Call the function immediately
 
-    return () => {
-      completed = true;
-    };
-  }, [userId]);
-
+      return () => {
+        completed = true;
+      };
+    }, [])
+  );
   const findThumbUriByDay = (selectedDate) => {
     if (thumbnailUris != null) {
       const thumbnail = thumbnailUris.find(
