@@ -46,7 +46,9 @@ const BottomModalContnet = () => {
               thumb.eventDate === selectedDate.date
           );
 
-          setSelectedThumbnail(thumbnail.thumbnailUrl);
+          if (thumbnail != null) {
+            setSelectedThumbnail(thumbnail.thumbnailUrl);
+          }
         } else {
           console.error("getThumb returned undefined or null result");
         }

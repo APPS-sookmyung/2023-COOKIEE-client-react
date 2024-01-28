@@ -205,8 +205,6 @@ function Body(props) {
 
           if (!completed && result != null) {
             setThumbnailUris(result);
-          } else {
-            console.error("getThumb returned undefined or null result");
           }
         } catch (error) {
           console.log(error);
@@ -229,7 +227,11 @@ function Body(props) {
           thumb.eventDate === selectedDate.date
       );
 
-      if (thumbnail != null) return thumbnail.thumbnailUrl;
+      if (thumbnail != null) {
+        if (thumbnail.thumbnailUrl != undefined) {
+          return thumbnail.thumbnailUrl;
+        }
+      }
     }
   };
 
