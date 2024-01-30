@@ -3,7 +3,7 @@ import axios from "axios";
 export const getThumb = async (userId) => {
   try {
     const response = await axios.get(
-      `http://localhost:8080/thumbnail/view/${userId}`
+      `https://cookiee.site/thumbnail/view/${userId}`
     );
 
     if (response.status !== 200) {

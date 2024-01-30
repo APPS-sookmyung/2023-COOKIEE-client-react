@@ -95,6 +95,8 @@ const AddEventFormScreen = () => {
     }
 
     setVisible(false); // 모달 close
+    console.log(startTime.getHours());
+    console.log(typeof startTime.getHours());
 
     handleInputChange(
       startTime.getHours() +
@@ -231,7 +233,7 @@ const AddEventFormScreen = () => {
     console.log(formData.getAll("categoryIds"));
 
     console.log("fetch 시도");
-    fetch(`http://localhost:8080/event/${userId}`, {
+    fetch(`https://cookiee.site/event/${userId}`, {
       method: "POST",
       body: formData,
       headers: {

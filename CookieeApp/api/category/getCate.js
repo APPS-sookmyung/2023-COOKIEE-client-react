@@ -2,9 +2,7 @@ import axios from "axios";
 
 export const getCate = async (userId) => {
   try {
-    const response = await axios.get(
-      `http://localhost:8080/category/${userId}`
-    );
+    const response = await axios.get(`https://cookiee.site/category/${userId}`);
 
     if (response.status !== 200) {
       throw new Error("Network response was not ok");

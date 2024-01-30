@@ -3,7 +3,7 @@ import axios from "axios";
 export const updateEvent = async (userId, eventId, eventDataToUpdate) => {
   try {
     const response = await axios.put(
-      `https://api.example.com/event/${userId}/${eventId}`,
+      `https://cookiee.site/event/${userId}/${eventId}`,
       eventDataToUpdate
     );
 

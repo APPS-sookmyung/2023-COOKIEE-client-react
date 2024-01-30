@@ -32,7 +32,7 @@ export const createEvent = async (
       categories
     );
     const response = await axios.post(
-      `http://localhost:8080/event/${userId}`,
+      `https://cookiee.site/event/${userId}`,
       {
         userId: userId,
         eventWhat: eventWhat,
