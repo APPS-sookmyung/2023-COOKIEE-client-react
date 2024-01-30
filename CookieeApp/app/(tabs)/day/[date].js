@@ -14,6 +14,7 @@ import EventBox from "../../components/EventBox";
 import CalendarHome from "../home";
 import { createThumb } from "../../../api/thumbnail/createThumb";
 import { getThumb } from "../../../api/thumbnail/getThumb";
+import { getEventList } from "../../../api/event/getEventList";
 
 const BottomModalContnet = () => {
   const router = useRouter();
@@ -39,6 +40,7 @@ const BottomModalContnet = () => {
         const result = await getThumb(userId);
 
         if (!completed && result != null) {
+          getEventList(userId, 2023, 12, 24);
           const thumbnail = result.find(
             (thumb) =>
               thumb.eventYear === selectedDate.year &&
