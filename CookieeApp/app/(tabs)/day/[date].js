@@ -25,7 +25,7 @@ const BottomModalContnet = () => {
   const selectedDate = JSON.parse(date);
 
   const [selectedThumbnail, setSelectedThumbnail] = useState();
-  const [eventList, setEventList] = useState();
+  const [eventList, setEventList] = useState([]);
 
   const handleImageSelected = (imageData) => {
     setSelectedThumbnail(imageData.uri);
@@ -41,7 +41,7 @@ const BottomModalContnet = () => {
         const result = await getThumb(userId);
 
         if (!completed && result != null) {
-          const eventList = getEventList(
+          const eventList = await getEventList(
             userId,
             selectedDate.year,
             selectedDate.month,
@@ -60,6 +60,7 @@ const BottomModalContnet = () => {
           if (eventList != null) {
             setEventList(eventList);
             console.log(await eventList);
+            // console.log(await eventList[0].categories);
           }
         } else {
           console.error("getThumb returned undefined or null result");
@@ -114,7 +115,10 @@ const BottomModalContnet = () => {
             onPress={() => router.push("event")}
           >
             <View style={{ width: "100%", height: "auto" }}>
-              <EventBox />
+              {eventList &&
+                eventList.map((event, index) => {
+                  return <EventBox key={index} eventData={event} />;
+                })}
             </View>
           </TouchableOpacity>
 
