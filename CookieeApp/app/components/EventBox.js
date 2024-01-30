@@ -1,105 +1,87 @@
 import { StyleSheet, Text, View, ImageBackground } from "react-native";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 
-import getCate from "../../api/category/getCate";
+export default function EventBox(eventData) {
+  const event = eventData.eventData;
+  console.log("event :", JSON.stringify(event));
 
-export default function EventBox() {
-  const [data, setData] = useState([]);
-  const [userId, setUserId] = useState(1);
-
-  useEffect(() => {
-    let completed = false; // 첫 번째 1회 실행을 위한 flag
-
-    async function get() {
-      try {
-        const result = await getCate(userId);
-        if (!completed) {
-          if (result != null) {
-            setData(result);
-            console.log(result);
-          }
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    get();
-    return () => {
-      completed = true;
-    };
-  }, [userId]); // userId가 변경될 때 마다 실행
-
-  return (
-    <View style={styles.AddEventContainer}>
-      <View style={styles.FirstEventImageContainer}>
-        <View style={styles.FirstEventImageBox}>
-          <ImageBackground
-            source={require("../../assets/testImage/test.jpeg")}
-            resizeMode="cover"
-            style={styles.image}
-          >
-            <Text style={styles.test}></Text>
-          </ImageBackground>
-          {/* <Text>선택한 사진 중 첫번째 사진이 들어가는 공간</Text> */}
-        </View>
-      </View>
-      <View style={styles.EventInfoContainer}>
-        <View style={styles.EventInfo}>
-          {data.map((category, index) => (
-            <View
-              key={index}
-              style={{
-                ...styles.EventInfoCategoryBox,
-                backgroundColor: category.categoryColor,
-              }}
+  if (event != null) {
+    return (
+      <View style={styles.AddEventContainer}>
+        <View style={styles.FirstEventImageContainer}>
+          <View style={styles.FirstEventImageBox}>
+            <ImageBackground
+              source={{ uri: event.imageUrlList[0] }}
+              resizeMode="cover"
+              style={styles.image}
             >
-              <Text style={styles.EventInfoCategoryText}>
-                #{category.categoryName}
-              </Text>
+              <Text style={styles.test}></Text>
+            </ImageBackground>
+            {/* <Text>선택한 사진 중 첫번째 사진이 들어가는 공간</Text> */}
+          </View>
+        </View>
+        <View style={styles.EventInfoContainer}>
+          <View style={styles.EventInfo}>
+            {event.categories.map((category, index) => (
+              <View
+                key={index}
+                style={{
+                  ...styles.EventInfoCategoryBox,
+                  backgroundColor: category.categoryColor,
+                }}
+              >
+                <Text style={styles.EventInfoCategoryText}>
+                  #{category.categoryName}
+                </Text>
+              </View>
+            ))}
+          </View>
+
+          <View style={styles.EventInfo}>
+            <View style={styles.EventInfoName}>
+              <Text style={styles.EventInfoNameText}>시간</Text>
             </View>
-          ))}
-        </View>
+            <View style={styles.EventInfoDetail}>
+              <Text style={styles.EventInfoDetailText}>13:00-18:00</Text>
+            </View>
+          </View>
 
-        <View style={styles.EventInfo}>
-          <View style={styles.EventInfoName}>
-            <Text style={styles.EventInfoNameText}>시간</Text>
+          <View style={styles.EventInfo}>
+            <View style={styles.EventInfoName}>
+              <Text style={styles.EventInfoNameText}>장소</Text>
+            </View>
+            <View style={styles.EventInfoDetail}>
+              <Text style={styles.EventInfoDetailText}>{event.eventWhere}</Text>
+            </View>
           </View>
-          <View style={styles.EventInfoDetail}>
-            <Text style={styles.EventInfoDetailText}>13:00-18:00</Text>
-          </View>
-        </View>
 
-        <View style={styles.EventInfo}>
-          <View style={styles.EventInfoName}>
-            <Text style={styles.EventInfoNameText}>장소</Text>
+          <View style={styles.EventInfo}>
+            <View style={styles.EventInfoName}>
+              <Text style={styles.EventInfoNameText}>내용</Text>
+            </View>
+            <View style={styles.EventInfoDetail}>
+              <Text style={styles.EventInfoDetailText}>{event.what}</Text>
+            </View>
           </View>
-          <View style={styles.EventInfoDetail}>
-            <Text style={styles.EventInfoDetailText}>제주도</Text>
-          </View>
-        </View>
 
-        <View style={styles.EventInfo}>
-          <View style={styles.EventInfoName}>
-            <Text style={styles.EventInfoNameText}>내용</Text>
-          </View>
-          <View style={styles.EventInfoDetail}>
-            <Text style={styles.EventInfoDetailText}>통귤 탕후루와 바다</Text>
-          </View>
-        </View>
-
-        <View style={styles.EventInfo}>
-          <View style={styles.EventInfoName}>
-            <Text style={styles.EventInfoNameText}>사람</Text>
-          </View>
-          <View style={styles.EventInfoDetail}>
-            <Text style={styles.EventInfoDetailText}>동기들</Text>
+          <View style={styles.EventInfo}>
+            <View style={styles.EventInfoName}>
+              <Text style={styles.EventInfoNameText}>사람</Text>
+            </View>
+            <View style={styles.EventInfoDetail}>
+              <Text style={styles.EventInfoDetailText}>{event.withWho}</Text>
+            </View>
           </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  } else {
+    return (
+      <View>
+        <Text>No Event</Text>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({

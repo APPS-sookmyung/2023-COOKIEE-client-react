@@ -19,7 +19,7 @@ export const createThumb = (userId, selectedDate, asset) => {
   console.log(formData.getAll("eventMonth"));
   console.log(formData.getAll("eventDate"));
 
-  fetch(`http://localhost:8080/thumbnail/${userId}`, {
+  fetch(`https://cookiee.site/thumbnail/${userId}`, {
     method: "POST",
     body: formData,
     headers: {
