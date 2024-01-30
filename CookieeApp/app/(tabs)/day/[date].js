@@ -108,19 +108,24 @@ const BottomModalContnet = () => {
             </View>
           </View>
           {/* 이벤트 리스트가 들어가는 위치 */}
-          <TouchableOpacity
-            style={{ margin: 10 }}
-            // 밖에 이벤트 아이디 백엔드로 요청하는 함수 만들기
-            // onPress={() => router.push("form")}
-            onPress={() => router.push("event")}
-          >
-            <View style={{ width: "100%", height: "auto" }}>
-              {eventList &&
-                eventList.map((event, index) => {
-                  return <EventBox key={index} eventData={event} />;
-                })}
-            </View>
-          </TouchableOpacity>
+
+          <View>
+            {eventList != null
+              ? eventList.map((event, index) => {
+                  return (
+                    <View key={index} style={{ width: "100%", height: "auto" }}>
+                      <TouchableOpacity
+                        // 밖에 이벤트 아이디 백엔드로 요청하는 함수 만들기
+                        // onPress={() => router.push("form")}
+                        onPress={() => router.push("event")}
+                      >
+                        <EventBox eventData={event} />
+                      </TouchableOpacity>
+                    </View>
+                  );
+                })
+              : null}
+          </View>
 
           <View style={styles.AddEventContainer}>
             <TouchableOpacity
@@ -189,6 +194,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: "100%",
     width: "100%",
+    marginTop: 15,
   },
   AddEventBtnContainer: {
     display: "flex",
@@ -197,7 +203,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#EFEFEF",
     borderRadius: "10px",
-    width: "90%",
+    width: "95%",
     height: 32,
     margin: 1,
   },
