@@ -11,7 +11,6 @@ export const getEventList = async (userId, year, month, date) => {
       throw new Error("Network response was not ok");
     }
 
-    console.log(response);
     return response.data.result; // 업데이트된 데이터 반환 또는 처리
   } catch (error) {
     console.error("Error getEventList:", error);

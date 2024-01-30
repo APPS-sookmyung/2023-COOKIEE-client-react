@@ -25,6 +25,7 @@ const BottomModalContnet = () => {
   const selectedDate = JSON.parse(date);
 
   const [selectedThumbnail, setSelectedThumbnail] = useState();
+  const [eventList, setEventList] = useState();
 
   const handleImageSelected = (imageData) => {
     setSelectedThumbnail(imageData.uri);
@@ -40,7 +41,12 @@ const BottomModalContnet = () => {
         const result = await getThumb(userId);
 
         if (!completed && result != null) {
-          getEventList(userId, 2023, 12, 24);
+          const eventList = getEventList(
+            userId,
+            selectedDate.year,
+            selectedDate.month,
+            selectedDate.date
+          );
           const thumbnail = result.find(
             (thumb) =>
               thumb.eventYear === selectedDate.year &&
@@ -50,6 +56,10 @@ const BottomModalContnet = () => {
 
           if (thumbnail != null) {
             setSelectedThumbnail(thumbnail.thumbnailUrl);
+          }
+          if (eventList != null) {
+            setEventList(eventList);
+            console.log(await eventList);
           }
         } else {
           console.error("getThumb returned undefined or null result");
