@@ -3,7 +3,6 @@ import { useState } from "react";
 
 export default function EventBox(eventData) {
   const event = eventData.eventData;
-  console.log("event :", JSON.stringify(event));
 
   if (event != null) {
     return (

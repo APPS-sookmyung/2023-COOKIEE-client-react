@@ -11,7 +11,6 @@ import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import ThumnailImagrPicker from "../../utils/ThumnailImagrPicker";
 import EventBox from "../../components/EventBox";
 
-import CalendarHome from "../home";
 import { createThumb } from "../../../api/thumbnail/createThumb";
 import { getThumb } from "../../../api/thumbnail/getThumb";
 import { getEventList } from "../../../api/event/getEventList";
@@ -107,17 +106,19 @@ const BottomModalContnet = () => {
                 )}
             </View>
           </View>
-          {/* 이벤트 리스트가 들어가는 위치 */}
 
+          {/* 이벤트 리스트가 들어가는 위치 */}
           <View>
             {eventList != null
               ? eventList.map((event, index) => {
                   return (
                     <View key={index} style={{ width: "100%", height: "auto" }}>
                       <TouchableOpacity
-                        // 밖에 이벤트 아이디 백엔드로 요청하는 함수 만들기
-                        // onPress={() => router.push("form")}
-                        onPress={() => router.push("event")}
+                        onPress={() =>
+                          router.push({
+                            pathname: `event/${event.eventId}`,
+                          })
+                        }
                       >
                         <EventBox eventData={event} />
                       </TouchableOpacity>
