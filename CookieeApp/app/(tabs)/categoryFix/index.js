@@ -48,7 +48,12 @@ const CategoryFix = () => {
       </View>
       <View style={styles.categoryList}>
         {data.map((category, index) => (
-          <View key={index} style={styles.categoryItem}>
+          <TouchableOpacity
+            key={index}
+            style={styles.categoryItem}
+            onPress={() => {
+            }}
+          >
             <View
               style={[
                 styles.colorBox,
@@ -56,7 +61,10 @@ const CategoryFix = () => {
               ]}
             />
             <Text style={styles.categoryText}>{category.categoryName}</Text>
-          </View>
+            <View style={styles.categoryFixBtn}>
+              <AntDesign name="edit" size={20} color="#594E4E" />
+            </View>
+          </TouchableOpacity>
         ))}
         <TouchableOpacity
           style={styles.categoryItem}
@@ -121,6 +129,13 @@ const styles = StyleSheet.create({
   },
   categoryText: {
     fontSize: 20,
+  },
+  categoryFixBtn: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    flex: 1,
+    marginRight: 30,
   },
 });
 
