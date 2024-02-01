@@ -17,7 +17,6 @@ import Carousel from "react-native-reanimated-carousel";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 import getCate from "../../../api/category/getCate";
-import { createEvent } from "../../../api/event/createEvent";
 
 const AddEventFormScreen = () => {
   const router = useRouter();
