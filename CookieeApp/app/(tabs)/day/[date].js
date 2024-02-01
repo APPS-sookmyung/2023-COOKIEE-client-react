@@ -15,6 +15,9 @@ import { createThumb } from "../../../api/thumbnail/createThumb";
 import { getThumb } from "../../../api/thumbnail/getThumb";
 import { getEventList } from "../../../api/event/getEventList";
 
+import { MaterialIcons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
+
 const BottomModalContnet = () => {
   const router = useRouter();
   const [userId, setUserId] = useState(1);
@@ -26,7 +29,7 @@ const BottomModalContnet = () => {
   const [selectedThumbnail, setSelectedThumbnail] = useState();
   const [eventList, setEventList] = useState([]);
 
-  const handleImageSelected = (imageData) => {
+  const onImageSelected = (imageData) => {
     setSelectedThumbnail(imageData.uri);
 
     createThumb(userId, selectedDate, imageData);
@@ -76,6 +79,19 @@ const BottomModalContnet = () => {
     };
   }, [userId]);
 
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      onImageSelected(result.assets[0]); // 선택한 이미지의 데이터를 부모 컴포넌트로 전달
+    }
+  };
+
   return (
     <View style={styles.modalContainer}>
       <Stack.Screen options={{ headerShown: false, presentation: "modal" }} />
@@ -92,7 +108,15 @@ const BottomModalContnet = () => {
               )}
             </View>
             <View style={styles.addContainer}>
-              <ThumnailImagrPicker onImageSelected={handleImageSelected} />
+              <View style={styles.addThumnailBtnContainer}>
+                <TouchableOpacity onPress={pickImage}>
+                  <MaterialIcons
+                    name="add-photo-alternate"
+                    size={45}
+                    color="#594E4E"
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={styles.modalDateContainer}>
               {selectedDate &&
@@ -215,5 +239,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "auto",
     height: "auto",
+  },
+  addThumnailBtnContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
