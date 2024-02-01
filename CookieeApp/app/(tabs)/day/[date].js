@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Alert,
+  ScrollView,
 } from "react-native";
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
@@ -182,63 +183,67 @@ const BottomModalContnet = () => {
 
   return (
     <View style={styles.modalContainer}>
-      <Stack.Screen options={{ headerShown: false, presentation: "modal" }} />
-      <View>
+      <View style={styles.thumnailContainer}>
         <View>
-          <View style={styles.thumnailContainer}>
-            <View>
-              {selectedThumbnailUrl !== null && (
-                <ImageBackground
-                  style={{ width: "100%", height: "100%" }}
-                  source={{ uri: selectedThumbnailUrl }}
-                  resizeMode="cover"
-                ></ImageBackground>
-              )}
-            </View>
-            <View style={styles.addContainer}>
-              <View style={styles.addThumnailBtnContainer}>
-                <TouchableOpacity onPress={alertPickThumb}>
-                  <MaterialIcons
-                    name="add-photo-alternate"
-                    size={45}
-                    color="#594E4E"
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.modalDateContainer}>
-              {selectedDate &&
-                selectedDate.year &&
-                selectedDate.month &&
-                selectedDate.date && (
-                  <Text style={styles.modalDate}>
-                    {selectedDate.year}년 {selectedDate.month}월{" "}
-                    {selectedDate.date}일
-                  </Text>
-                )}
-            </View>
+          {selectedThumbnailUrl !== null && (
+            <ImageBackground
+              style={{ width: "100%", height: "100%" }}
+              source={{ uri: selectedThumbnailUrl }}
+              resizeMode="cover"
+            ></ImageBackground>
+          )}
+        </View>
+        <View style={styles.addContainer}>
+          <View style={styles.addThumnailBtnContainer}>
+            <TouchableOpacity onPress={alertPickThumb}>
+              <MaterialIcons
+                name="add-photo-alternate"
+                size={45}
+                color="#594E4E"
+              />
+            </TouchableOpacity>
           </View>
+        </View>
+        <View style={styles.modalDateContainer}>
+          {selectedDate &&
+            selectedDate.year &&
+            selectedDate.month &&
+            selectedDate.date && (
+              <Text style={styles.modalDate}>
+                {selectedDate.year}년 {selectedDate.month}월 {selectedDate.date}
+                일
+              </Text>
+            )}
+        </View>
+      </View>
 
-          {/* 이벤트 리스트가 들어가는 위치 */}
-          <View>
-            {eventList != null
-              ? eventList.map((event, index) => {
-                  return (
-                    <View key={index} style={{ width: "100%", height: "auto" }}>
-                      <TouchableOpacity
-                        onPress={() =>
-                          router.push({
-                            pathname: `event/${event.eventId}`,
-                          })
-                        }
-                      >
-                        <EventBox eventData={event} />
-                      </TouchableOpacity>
-                    </View>
-                  );
-                })
-              : null}
-          </View>
+      {/* 이벤트 리스트가 들어가는 위치 */}
+      <View style={styles.scrollView}>
+        <ScrollView
+          onScroll={console.log("scrooled")}
+          contentContainerStyle={{
+            flexGrow: 1,
+            height: "auto",
+          }}
+          showsVerticalScrollIndicator={true}
+        >
+          {eventList != null
+            ? eventList.map((event, index) => {
+                return (
+                  <View key={index} style={{ width: "100%", height: "auto" }}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        router.push({
+                          pathname: `event/${event.eventId}`,
+                        })
+                      }
+                    >
+                      <EventBox eventData={event} />
+                    </TouchableOpacity>
+                  </View>
+                );
+              })
+            : null}
 
           <View style={styles.AddEventContainer}>
             <TouchableOpacity
@@ -259,7 +264,7 @@ const BottomModalContnet = () => {
               </View>
             </TouchableOpacity>
           </View>
-        </View>
+        </ScrollView>
       </View>
     </View>
   );
@@ -300,14 +305,14 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   AddEventContainer: {
-    flex: 1,
     display: "flex",
     flexDirection: "row",
     alignContent: "center",
     justifyContent: "center",
-    height: "100%",
+    alignSelf: "center",
     width: "100%",
-    marginTop: 15,
+    margin: 10,
+    marginBottom: 25,
   },
   AddEventBtnContainer: {
     display: "flex",
@@ -332,5 +337,12 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+  },
+  scrollView: {
+    display: "flex",
+    height: "100%",
+    width: "100%",
+    flex: 1,
+    position: "relative",
   },
 });
