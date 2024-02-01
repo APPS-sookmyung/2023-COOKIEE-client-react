@@ -8,7 +8,6 @@ import {
 import React, { useState, useEffect } from "react";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 
-import ThumnailImagrPicker from "../../utils/ThumnailImagrPicker";
 import EventBox from "../../components/EventBox";
 
 import { createThumb } from "../../../api/thumbnail/createThumb";
