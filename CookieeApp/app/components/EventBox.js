@@ -3,7 +3,6 @@ import { useState } from "react";
 
 export default function EventBox(eventData) {
   const event = eventData.eventData;
-  console.log("event :", JSON.stringify(event));
 
   if (event != null) {
     return (
@@ -13,11 +12,10 @@ export default function EventBox(eventData) {
             <ImageBackground
               source={{ uri: event.imageUrlList[0] }}
               resizeMode="cover"
-              style={styles.image}
+              imageStyle={styles.image}
             >
               <Text style={styles.test}></Text>
             </ImageBackground>
-            {/* <Text>선택한 사진 중 첫번째 사진이 들어가는 공간</Text> */}
           </View>
         </View>
         <View style={styles.EventInfoContainer}>
@@ -92,7 +90,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: "100%",
     height: "auto",
-    margin: 5,
+    marginTop: 15,
+    marginHorizontal: 15,
   },
   FirstEventImageContainer: {
     display: "flex",
@@ -103,7 +102,6 @@ const styles = StyleSheet.create({
     height: "auto",
   },
   FirstEventImageBox: {
-    borderRadius: 10,
     width: "90%",
     height: 170,
     backgroundColor: "#EBEBEB",
@@ -159,4 +157,5 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
+  image: { borderRadius: 5 },
 });

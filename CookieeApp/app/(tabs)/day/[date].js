@@ -11,10 +11,12 @@ import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import ThumnailImagrPicker from "../../utils/ThumnailImagrPicker";
 import EventBox from "../../components/EventBox";
 
-import CalendarHome from "../home";
 import { createThumb } from "../../../api/thumbnail/createThumb";
 import { getThumb } from "../../../api/thumbnail/getThumb";
 import { getEventList } from "../../../api/event/getEventList";
+
+import { MaterialIcons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 
 const BottomModalContnet = () => {
   const router = useRouter();
@@ -27,7 +29,7 @@ const BottomModalContnet = () => {
   const [selectedThumbnail, setSelectedThumbnail] = useState();
   const [eventList, setEventList] = useState([]);
 
-  const handleImageSelected = (imageData) => {
+  const onImageSelected = (imageData) => {
     setSelectedThumbnail(imageData.uri);
 
     createThumb(userId, selectedDate, imageData);
@@ -77,6 +79,19 @@ const BottomModalContnet = () => {
     };
   }, [userId]);
 
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      onImageSelected(result.assets[0]); // 선택한 이미지의 데이터를 부모 컴포넌트로 전달
+    }
+  };
+
   return (
     <View style={styles.modalContainer}>
       <Stack.Screen options={{ headerShown: false, presentation: "modal" }} />
@@ -93,7 +108,15 @@ const BottomModalContnet = () => {
               )}
             </View>
             <View style={styles.addContainer}>
-              <ThumnailImagrPicker onImageSelected={handleImageSelected} />
+              <View style={styles.addThumnailBtnContainer}>
+                <TouchableOpacity onPress={pickImage}>
+                  <MaterialIcons
+                    name="add-photo-alternate"
+                    size={45}
+                    color="#594E4E"
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
             <View style={styles.modalDateContainer}>
               {selectedDate &&
@@ -107,20 +130,27 @@ const BottomModalContnet = () => {
                 )}
             </View>
           </View>
+
           {/* 이벤트 리스트가 들어가는 위치 */}
-          <TouchableOpacity
-            style={{ margin: 10 }}
-            // 밖에 이벤트 아이디 백엔드로 요청하는 함수 만들기
-            // onPress={() => router.push("form")}
-            onPress={() => router.push("event")}
-          >
-            <View style={{ width: "100%", height: "auto" }}>
-              {eventList &&
-                eventList.map((event, index) => {
-                  return <EventBox key={index} eventData={event} />;
-                })}
-            </View>
-          </TouchableOpacity>
+          <View>
+            {eventList != null
+              ? eventList.map((event, index) => {
+                  return (
+                    <View key={index} style={{ width: "100%", height: "auto" }}>
+                      <TouchableOpacity
+                        onPress={() =>
+                          router.push({
+                            pathname: `event/${event.eventId}`,
+                          })
+                        }
+                      >
+                        <EventBox eventData={event} />
+                      </TouchableOpacity>
+                    </View>
+                  );
+                })
+              : null}
+          </View>
 
           <View style={styles.AddEventContainer}>
             <TouchableOpacity
@@ -189,6 +219,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: "100%",
     width: "100%",
+    marginTop: 15,
   },
   AddEventBtnContainer: {
     display: "flex",
@@ -197,7 +228,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#EFEFEF",
     borderRadius: "10px",
-    width: "90%",
+    width: "95%",
     height: 32,
     margin: 1,
   },
@@ -208,5 +239,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "auto",
     height: "auto",
+  },
+  addThumnailBtnContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
