@@ -1,4 +1,4 @@
-export const createThumb = (userId, selectedDate, asset) => {
+export const createThumb = async (userId, selectedDate, asset) => {
   const formData = new FormData();
 
   const uploadedImageData = {
@@ -17,19 +17,22 @@ export const createThumb = (userId, selectedDate, asset) => {
   console.log(formData.getAll("eventMonth"));
   console.log(formData.getAll("eventDate"));
 
-  fetch(`https://cookiee.site/thumbnail/${userId}`, {
-    method: "POST",
-    body: formData,
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  })
-    .then((res) => {
+  try {
+    const res = await fetch(`https://cookiee.site/thumbnail/${userId}`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    if (res.status == 200) {
       console.log("썸네일 등록 통신 성공. LOG의 'ok'가 true인지 확인하세요.");
       console.log(JSON.stringify(res));
-    })
-    .catch((err) => {
-      console.log("썸네일 등록 통신 실패");
-      console.log(JSON.stringify(err.response));
-    });
+      return res.ok;
+    }
+  } catch (err) {
+    console.log("썸네일 등록 통신 실패");
+    console.log(JSON.stringify(err.response));
+  }
 };
