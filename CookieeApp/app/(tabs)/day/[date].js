@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ImageBackground,
+  Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
@@ -33,6 +34,34 @@ const BottomModalContnet = () => {
 
     createThumb(userId, selectedDate, imageData);
   };
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      onImageSelected(result.assets[0]);
+    }
+  };
+
+  const alertPickThumb = () =>
+    Alert.alert(
+      "표지 사진 설정하기",
+      "",
+      [
+        {
+          text: "사진 수정하기",
+          onPress: () => console.log("수정"),
+        },
+        { text: "사진 삭제하기", onPress: () => console.log("삭제") },
+        { text: "취소", onPress: () => {} },
+      ],
+      { cancelable: false }
+    );
 
   useEffect(() => {
     let completed = false; // 첫 번째 1회 실행을 위한 flag
@@ -78,19 +107,6 @@ const BottomModalContnet = () => {
     };
   }, [userId]);
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      onImageSelected(result.assets[0]); // 선택한 이미지의 데이터를 부모 컴포넌트로 전달
-    }
-  };
-
   return (
     <View style={styles.modalContainer}>
       <Stack.Screen options={{ headerShown: false, presentation: "modal" }} />
@@ -108,7 +124,7 @@ const BottomModalContnet = () => {
             </View>
             <View style={styles.addContainer}>
               <View style={styles.addThumnailBtnContainer}>
-                <TouchableOpacity onPress={pickImage}>
+                <TouchableOpacity onPress={alertPickThumb}>
                   <MaterialIcons
                     name="add-photo-alternate"
                     size={45}
