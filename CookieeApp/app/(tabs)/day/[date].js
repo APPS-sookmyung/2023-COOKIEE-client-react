@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ImageBackground,
+  Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
@@ -13,6 +14,7 @@ import EventBox from "../../components/EventBox";
 import { createThumb } from "../../../api/thumbnail/createThumb";
 import { getThumb } from "../../../api/thumbnail/getThumb";
 import { getEventList } from "../../../api/event/getEventList";
+import { updateThumb } from "../../../api/thumbnail/updateThumb";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -25,14 +27,57 @@ const BottomModalContnet = () => {
 
   const selectedDate = JSON.parse(date);
 
-  const [selectedThumbnail, setSelectedThumbnail] = useState();
+  const [selectedThumbnailUrl, setSelectedThumbnailUrl] = useState();
+  const [thumbnailId, setThumbnailId] = useState();
+  const [hasThumb, setHasThumb] = useState(false);
+
   const [eventList, setEventList] = useState([]);
 
   const onImageSelected = (imageData) => {
-    setSelectedThumbnail(imageData.uri);
+    setSelectedThumbnailUrl(imageData.uri);
 
-    createThumb(userId, selectedDate, imageData);
+    if (hasThumb == false) {
+      console.log("등록 api");
+      createThumb(userId, selectedDate, imageData);
+    } else {
+      console.log("수정 api");
+      console.log(userId, thumbnailId, imageData);
+
+      updateThumb(userId, thumbnailId, imageData);
+    }
   };
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      onImageSelected(result.assets[0]);
+    }
+  };
+
+  const alertPickThumb = () =>
+    Alert.alert(
+      "표지 사진 설정하기",
+      "",
+      [
+        {
+          text: "사진 수정하기",
+          onPress: () => {
+            {
+              pickImage();
+            }
+          },
+        },
+        { text: "사진 삭제하기", onPress: () => console.log("삭제") },
+        { text: "취소", onPress: () => {} },
+      ],
+      { cancelable: false }
+    );
 
   useEffect(() => {
     let completed = false; // 첫 번째 1회 실행을 위한 flag
@@ -56,7 +101,10 @@ const BottomModalContnet = () => {
           );
 
           if (thumbnail != null) {
-            setSelectedThumbnail(thumbnail.thumbnailUrl);
+            setSelectedThumbnailUrl(thumbnail.thumbnailUrl);
+            setThumbnailId(thumbnail.thumbnailId);
+            setHasThumb(true);
+            console.log(thumbnail.thumbnailUrl);
           }
           if (eventList != null) {
             setEventList(eventList);
@@ -78,19 +126,6 @@ const BottomModalContnet = () => {
     };
   }, [userId]);
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      onImageSelected(result.assets[0]); // 선택한 이미지의 데이터를 부모 컴포넌트로 전달
-    }
-  };
-
   return (
     <View style={styles.modalContainer}>
       <Stack.Screen options={{ headerShown: false, presentation: "modal" }} />
@@ -98,17 +133,17 @@ const BottomModalContnet = () => {
         <View>
           <View style={styles.thumnailContainer}>
             <View>
-              {selectedThumbnail !== null && (
+              {selectedThumbnailUrl !== null && (
                 <ImageBackground
                   style={{ width: "100%", height: "100%" }}
-                  source={{ uri: selectedThumbnail }}
+                  source={{ uri: selectedThumbnailUrl }}
                   resizeMode="cover"
                 ></ImageBackground>
               )}
             </View>
             <View style={styles.addContainer}>
               <View style={styles.addThumnailBtnContainer}>
-                <TouchableOpacity onPress={pickImage}>
+                <TouchableOpacity onPress={alertPickThumb}>
                   <MaterialIcons
                     name="add-photo-alternate"
                     size={45}
