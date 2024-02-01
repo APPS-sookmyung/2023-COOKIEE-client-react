@@ -48,12 +48,7 @@ const CategoryFix = () => {
       </View>
       <View style={styles.categoryList}>
         {data.map((category, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.categoryItem}
-            onPress={() => {
-            }}
-          >
+          <View key={index} style={styles.categoryItem}>
             <View
               style={[
                 styles.colorBox,
@@ -61,10 +56,15 @@ const CategoryFix = () => {
               ]}
             />
             <Text style={styles.categoryText}>{category.categoryName}</Text>
-            <View style={styles.categoryFixBtn}>
+            <TouchableOpacity
+              style={styles.categoryFixBtn}
+              onPress={() => {
+                router.push('categoryEdit', { categoryId: category.id });
+              }}
+            >
               <AntDesign name="edit" size={20} color="#594E4E" />
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </View>
         ))}
         <TouchableOpacity
           style={styles.categoryItem}
