@@ -1,5 +1,3 @@
-import axios from "axios";
-
 export const createThumb = (userId, selectedDate, asset) => {
   const formData = new FormData();
 

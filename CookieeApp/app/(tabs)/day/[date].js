@@ -14,6 +14,7 @@ import EventBox from "../../components/EventBox";
 import { createThumb } from "../../../api/thumbnail/createThumb";
 import { getThumb } from "../../../api/thumbnail/getThumb";
 import { getEventList } from "../../../api/event/getEventList";
+import { updateThumb } from "../../../api/thumbnail/updateThumb";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -26,13 +27,24 @@ const BottomModalContnet = () => {
 
   const selectedDate = JSON.parse(date);
 
-  const [selectedThumbnail, setSelectedThumbnail] = useState();
+  const [selectedThumbnailUrl, setSelectedThumbnailUrl] = useState();
+  const [thumbnailId, setThumbnailId] = useState();
+  const [hasThumb, setHasThumb] = useState(false);
+
   const [eventList, setEventList] = useState([]);
 
   const onImageSelected = (imageData) => {
-    setSelectedThumbnail(imageData.uri);
+    setSelectedThumbnailUrl(imageData.uri);
 
-    createThumb(userId, selectedDate, imageData);
+    if (hasThumb == false) {
+      console.log("등록 api");
+      createThumb(userId, selectedDate, imageData);
+    } else {
+      console.log("수정 api");
+      console.log(userId, thumbnailId, imageData);
+
+      updateThumb(userId, thumbnailId, imageData);
+    }
   };
 
   const pickImage = async () => {
@@ -55,7 +67,11 @@ const BottomModalContnet = () => {
       [
         {
           text: "사진 수정하기",
-          onPress: () => console.log("수정"),
+          onPress: () => {
+            {
+              pickImage();
+            }
+          },
         },
         { text: "사진 삭제하기", onPress: () => console.log("삭제") },
         { text: "취소", onPress: () => {} },
@@ -85,7 +101,10 @@ const BottomModalContnet = () => {
           );
 
           if (thumbnail != null) {
-            setSelectedThumbnail(thumbnail.thumbnailUrl);
+            setSelectedThumbnailUrl(thumbnail.thumbnailUrl);
+            setThumbnailId(thumbnail.thumbnailId);
+            setHasThumb(true);
+            console.log(thumbnail.thumbnailUrl);
           }
           if (eventList != null) {
             setEventList(eventList);
@@ -114,10 +133,10 @@ const BottomModalContnet = () => {
         <View>
           <View style={styles.thumnailContainer}>
             <View>
-              {selectedThumbnail !== null && (
+              {selectedThumbnailUrl !== null && (
                 <ImageBackground
                   style={{ width: "100%", height: "100%" }}
-                  source={{ uri: selectedThumbnail }}
+                  source={{ uri: selectedThumbnailUrl }}
                   resizeMode="cover"
                 ></ImageBackground>
               )}
