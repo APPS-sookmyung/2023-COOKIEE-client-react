@@ -15,6 +15,7 @@ import { createThumb } from "../../../api/thumbnail/createThumb";
 import { getThumb } from "../../../api/thumbnail/getThumb";
 import { getEventList } from "../../../api/event/getEventList";
 import { updateThumb } from "../../../api/thumbnail/updateThumb";
+import { deleteThumb } from "../../../api/thumbnail/deleteThumb";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -27,24 +28,54 @@ const BottomModalContnet = () => {
 
   const selectedDate = JSON.parse(date);
 
-  const [selectedThumbnailUrl, setSelectedThumbnailUrl] = useState();
+  const [selectedThumbnailUrl, setSelectedThumbnailUrl] = useState(null);
+
   const [thumbnailId, setThumbnailId] = useState();
   const [hasThumb, setHasThumb] = useState(false);
 
   const [eventList, setEventList] = useState([]);
 
-  const onImageSelected = (imageData) => {
-    setSelectedThumbnailUrl(imageData.uri);
-
-    if (hasThumb == false) {
-      console.log("등록 api");
-      createThumb(userId, selectedDate, imageData);
-    } else {
-      console.log("수정 api");
-      console.log(userId, thumbnailId, imageData);
-
-      updateThumb(userId, thumbnailId, imageData);
+  const onImageSelected = async (imageData) => {
+    var status = false;
+    try {
+      if (hasThumb === false) {
+        console.log("등록 api");
+        status = await createThumb(userId, selectedDate, imageData);
+      } else {
+        console.log("수정 api", thumbnailId);
+        status = await updateThumb(userId, thumbnailId, imageData);
+      }
+    } catch (error) {
+      console.error("Error in onImageSelected:", error);
     }
+    if (status == true) {
+      setSelectedThumbnailUrl(imageData.uri);
+      console.log("setSelectedThumbnailUrl 실행됨");
+    }
+  };
+
+  const deleteThumbnail = () => {
+    console.log("삭제 api");
+    Alert.alert(
+      "표지 사진 삭제하기",
+      "정말로 삭제하시겠습니까?",
+      [
+        {
+          text: "삭제",
+          onPress: async () => {
+            const status = await deleteThumb(userId, thumbnailId);
+            if (status == true) {
+              setSelectedThumbnailUrl(null);
+            }
+          },
+        },
+        {
+          text: "취소",
+          onPress: () => {},
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   const pickImage = async () => {
@@ -68,63 +99,68 @@ const BottomModalContnet = () => {
         {
           text: "사진 수정하기",
           onPress: () => {
-            {
-              pickImage();
-            }
+            pickImage();
           },
         },
-        { text: "사진 삭제하기", onPress: () => console.log("삭제") },
-        { text: "취소", onPress: () => {} },
+        {
+          text: "사진 삭제하기",
+          onPress: () => {
+            deleteThumbnail();
+          },
+        },
+        {
+          text: "취소",
+          onPress: () => {},
+        },
       ],
       { cancelable: false }
     );
 
-  useEffect(() => {
-    let completed = false; // 첫 번째 1회 실행을 위한 flag
+  async function handelGetThumb() {
+    console.log("handelGetThumb 실행");
+    try {
+      const result = await getThumb(userId);
 
-    async function get() {
-      try {
-        const result = await getThumb(userId);
+      if (result != null) {
+        const eventList = await getEventList(
+          userId,
+          selectedDate.year,
+          selectedDate.month,
+          selectedDate.date
+        );
+        const thumbnail = result.find(
+          (thumb) =>
+            thumb.eventYear === selectedDate.year &&
+            thumb.eventMonth === selectedDate.month &&
+            thumb.eventDate === selectedDate.date
+        );
 
-        if (!completed && result != null) {
-          const eventList = await getEventList(
-            userId,
-            selectedDate.year,
-            selectedDate.month,
-            selectedDate.date
-          );
-          const thumbnail = result.find(
-            (thumb) =>
-              thumb.eventYear === selectedDate.year &&
-              thumb.eventMonth === selectedDate.month &&
-              thumb.eventDate === selectedDate.date
-          );
-
-          if (thumbnail != null) {
-            setSelectedThumbnailUrl(thumbnail.thumbnailUrl);
-            setThumbnailId(thumbnail.thumbnailId);
-            setHasThumb(true);
-            console.log(thumbnail.thumbnailUrl);
-          }
-          if (eventList != null) {
-            setEventList(eventList);
-            console.log(await eventList);
-            // console.log(await eventList[0].categories);
-          }
+        if (thumbnail != null) {
+          setSelectedThumbnailUrl(thumbnail.thumbnailUrl);
+          setThumbnailId(thumbnail.thumbnailId);
+          setHasThumb(true);
+          console.log(thumbnail.thumbnailUrl, thumbnail.thumbnailId);
         } else {
-          console.error("getThumb returned undefined or null result");
+          console.log("thumbnail==null");
+          setSelectedThumbnailUrl(null);
+          setHasThumb(false);
         }
-      } catch (error) {
-        console.log(error);
+
+        if (eventList != null) {
+          setEventList(eventList);
+          console.log(await eventList);
+        }
+      } else {
+        console.error("getThumb returned undefined or null result");
       }
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    get(); // Call the function immediately
-
-    return () => {
-      completed = true;
-    };
-  }, [userId]);
+  useEffect(() => {
+    handelGetThumb();
+  }, [selectedThumbnailUrl]);
 
   return (
     <View style={styles.modalContainer}>
