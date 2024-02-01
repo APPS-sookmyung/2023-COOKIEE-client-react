@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 
-import { useGlobalSearchParams, useRouter } from "expo-router";
+import { useGlobalSearchParams, useRouter, Redirect } from "expo-router";
 
 import DropDownPicker from "react-native-dropdown-picker";
 import * as ImagePicker from "expo-image-picker";
@@ -242,13 +242,12 @@ const AddEventFormScreen = () => {
       .then((res) => {
         console.log("이벤트 등록 통신 성공. LOG의 'ok'가 true인지 확인하세요.");
         console.log(JSON.stringify(res));
+        router.back();
       })
       .catch((err) => {
         console.log("이벤트 등록 통신 실패");
         console.log(JSON.stringify(err.response));
       });
-
-    router.back();
   };
 
   return (

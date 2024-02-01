@@ -6,8 +6,13 @@ import {
   ImageBackground,
   Alert,
 } from "react-native";
-import React, { useState, useEffect } from "react";
-import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import {
+  Stack,
+  useLocalSearchParams,
+  useRouter,
+  useFocusEffect,
+} from "expo-router";
 
 import EventBox from "../../components/EventBox";
 
@@ -25,15 +30,15 @@ const BottomModalContnet = () => {
   const [userId, setUserId] = useState(1);
 
   const { date } = useLocalSearchParams();
-
   const selectedDate = JSON.parse(date);
 
   const [selectedThumbnailUrl, setSelectedThumbnailUrl] = useState(null);
-
   const [thumbnailId, setThumbnailId] = useState();
   const [hasThumb, setHasThumb] = useState(false);
 
   const [eventList, setEventList] = useState([]);
+  const [eventListCount, setEventListCount] = useState(-1);
+  const [updatedEventListCount, setUpdatedEventListCount] = useState(0);
 
   const onImageSelected = async (imageData) => {
     var status = false;
@@ -50,7 +55,6 @@ const BottomModalContnet = () => {
     }
     if (status == true) {
       setSelectedThumbnailUrl(imageData.uri);
-      console.log("setSelectedThumbnailUrl 실행됨");
     }
   };
 
@@ -122,12 +126,6 @@ const BottomModalContnet = () => {
       const result = await getThumb(userId);
 
       if (result != null) {
-        const eventList = await getEventList(
-          userId,
-          selectedDate.year,
-          selectedDate.month,
-          selectedDate.date
-        );
         const thumbnail = result.find(
           (thumb) =>
             thumb.eventYear === selectedDate.year &&
@@ -139,16 +137,9 @@ const BottomModalContnet = () => {
           setSelectedThumbnailUrl(thumbnail.thumbnailUrl);
           setThumbnailId(thumbnail.thumbnailId);
           setHasThumb(true);
-          console.log(thumbnail.thumbnailUrl, thumbnail.thumbnailId);
         } else {
-          console.log("thumbnail==null");
           setSelectedThumbnailUrl(null);
           setHasThumb(false);
-        }
-
-        if (eventList != null) {
-          setEventList(eventList);
-          console.log(await eventList);
         }
       } else {
         console.error("getThumb returned undefined or null result");
@@ -157,6 +148,33 @@ const BottomModalContnet = () => {
       console.log(error);
     }
   }
+
+  async function handelGetEventList() {
+    console.log("handelGetEventList 실행");
+    try {
+      const eventList = await getEventList(
+        userId,
+        selectedDate.year,
+        selectedDate.month,
+        selectedDate.date
+      );
+
+      if (eventList != null) {
+        setEventList(eventList);
+        console.log("eventList: ", await eventList);
+        const num = await eventList.length;
+        setEventListCount(num);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      handelGetEventList();
+    }, [])
+  );
 
   useEffect(() => {
     handelGetThumb();
