@@ -28,7 +28,7 @@ const BottomModalContnet = () => {
 
   const selectedDate = JSON.parse(date);
 
-  const [selectedThumbnailUrl, setSelectedThumbnailUrl] = useState();
+  const [selectedThumbnailUrl, setSelectedThumbnailUrl] = useState(null);
 
   const [thumbnailId, setThumbnailId] = useState();
   const [hasThumb, setHasThumb] = useState(false);
@@ -36,21 +36,21 @@ const BottomModalContnet = () => {
   const [eventList, setEventList] = useState([]);
 
   const onImageSelected = async (imageData) => {
-    setSelectedThumbnailUrl(imageData.uri);
-
-    if (hasThumb == false) {
-      console.log("등록 api");
-      const status = await createThumb(userId, selectedDate, imageData);
-      console.log("status:", status);
-      if (status == true) {
-        get();
+    var status = false;
+    try {
+      if (hasThumb === false) {
+        console.log("등록 api");
+        status = await createThumb(userId, selectedDate, imageData);
+      } else {
+        console.log("수정 api", thumbnailId);
+        status = await updateThumb(userId, thumbnailId, imageData);
       }
-    } else {
-      console.log("수정 api", thumbnailId);
-      const status = await updateThumb(userId, thumbnailId, imageData);
-      if (status == 200) {
-        get();
-      }
+    } catch (error) {
+      console.error("Error in onImageSelected:", error);
+    }
+    if (status == true) {
+      setSelectedThumbnailUrl(imageData.uri);
+      console.log("setSelectedThumbnailUrl 실행됨");
     }
   };
 
@@ -116,8 +116,8 @@ const BottomModalContnet = () => {
       { cancelable: false }
     );
 
-  async function get() {
-    console.log("get 실행");
+  async function handelGetThumb() {
+    console.log("handelGetThumb 실행");
     try {
       const result = await getThumb(userId);
 
@@ -140,7 +140,12 @@ const BottomModalContnet = () => {
           setThumbnailId(thumbnail.thumbnailId);
           setHasThumb(true);
           console.log(thumbnail.thumbnailUrl, thumbnail.thumbnailId);
+        } else {
+          console.log("thumbnail==null");
+          setSelectedThumbnailUrl(null);
+          setHasThumb(false);
         }
+
         if (eventList != null) {
           setEventList(eventList);
           console.log(await eventList);
@@ -154,10 +159,8 @@ const BottomModalContnet = () => {
   }
 
   useEffect(() => {
-    console.log("useEffect 실행됨");
-
-    get();
-  }, [userId]);
+    handelGetThumb();
+  }, [selectedThumbnailUrl]);
 
   return (
     <View style={styles.modalContainer}>

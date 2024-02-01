@@ -12,10 +12,10 @@ export const createThumb = async (userId, selectedDate, asset) => {
   formData.append("eventYear", selectedDate.year);
   formData.append("eventMonth", selectedDate.month);
   formData.append("eventDate", selectedDate.date);
-  console.log(formData.getAll("thumbnail"));
-  console.log(formData.getAll("eventYear"));
-  console.log(formData.getAll("eventMonth"));
-  console.log(formData.getAll("eventDate"));
+  // console.log(formData.getAll("thumbnail"));
+  // console.log(formData.getAll("eventYear"));
+  // console.log(formData.getAll("eventMonth"));
+  // console.log(formData.getAll("eventDate"));
 
   try {
     const res = await fetch(`https://cookiee.site/thumbnail/${userId}`, {
