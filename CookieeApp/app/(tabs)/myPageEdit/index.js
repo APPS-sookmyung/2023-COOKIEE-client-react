@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
 import { View, StyleSheet, TouchableOpacity, Text, TextInput } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import { getUser } from "../../../api/user/getUser";
+import { putUser } from "../../../api/user/putUser";
 
 const myPageEdit = () => {
   const navigation = useNavigation();
@@ -14,6 +16,51 @@ const myPageEdit = () => {
 
   const goBack = () => {
     navigation.goBack();
+  };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userId = 1;
+        const userData = await getUser(userId);
+
+        if (userData) {
+          setProfileImage(userData.profileImage);
+          setNickname(userData.nickname);
+          setIntro(userData.selfDescription);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setError("Failed to fetch user data. Please try again.");
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const handleProfileUpdate = async () => {
+    try {
+      const userId = 1;
+      setProfileImage('test01'); // 임시로
+      
+      const userData = {
+        nickname: nickname,
+        selfDescription: intro,
+        profileImage,
+      };
+
+      const result = await putUser(userId, userData);
+
+      if (result) {
+        console.log("Profile updated successfully!");
+        goBack();
+      } else {
+        setError("Failed to update profile. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      setError("An unexpected error occurred. Please try again.");
+    }
   };
 
   return (
@@ -45,7 +92,7 @@ const myPageEdit = () => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.buttonStyle}
-        // onPress={handleComplete}
+          onPress={handleProfileUpdate}
         >
           <Text style={styles.buttonText}>프로필 수정</Text>
         </TouchableOpacity>

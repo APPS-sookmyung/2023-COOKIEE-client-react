@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getUser } from '../../../api/user/getUser';
+import { useFocusEffect } from "@react-navigation/native";
 
 const sideBarIndex = () => {
   const [userData, setUserData] = useState(null);
@@ -18,9 +19,11 @@ const sideBarIndex = () => {
     }
   };
 
-  useEffect(() => {
-    fetchUserData();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchUserData();
+    }, [])
+  );
 
   return (
     <SafeAreaView style={S.container}>

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { router } from "expo-router";
 import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { getUser } from '../../../api/user/getUser';
 
 const myPage = () => {
@@ -25,9 +25,11 @@ const myPage = () => {
     }
   };
 
-  useEffect(() => {
-    fetchUserData();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchUserData();
+    }, [])
+  );
 
   return (
     <SafeAreaView style={styles.container}>
