@@ -1,16 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
-import { View, StyleSheet, TouchableOpacity, Text, Button } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import { getUser } from '../../../api/user/getUser';
 
 const myPage = () => {
   const navigation = useNavigation();
+  const [userData, setUserData] = useState(null);
 
   const goBack = () => {
     navigation.goBack();
   };
+
+  const fetchUserData = async () => {
+    try {
+      const userId = 1;
+      const data = await getUser(userId);
+      setUserData(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -20,6 +37,22 @@ const myPage = () => {
         </TouchableOpacity>
         <Text style={styles.title}>마이페이지</Text>
       </View>
+
+      <View style={styles.profileContainer}>
+        {userData?.profileImage && (
+          <Image
+            source={{ uri: userData.profileImage }}
+            style={styles.profileImage}
+          />
+
+        )}
+        <View style={styles.textContainer}>
+          {/* <Text style={styles.profileText}>Email: {userData?.email}</Text> */}
+          <Text style={styles.nicknameText}>{userData?.nickname}</Text>
+          <Text style={styles.selfDescriptionText}>{userData?.selfDescription}</Text>
+        </View>
+      </View>
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.buttonStyle}
@@ -82,6 +115,29 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 16,
+  },
+  profileContainer: {
+    alignItems: "center",
+    margin: 20,
+    flexDirection: "row",
+  },
+  profileImage: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+  },
+  textContainer: {
+    marginLeft: 30,
+    justifyContent: "center",
+  },
+  nicknameText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginVertical: 8,
+  },
+  selfDescriptionText: {
+    fontSize: 16,
+    marginVertical: 8,
   },
 });
 
