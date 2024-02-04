@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  contentDetail: { fontSize: 15 },
+  contentDetail: { fontSize: 15, flexGrow: 1, flexShrink: 1 },
   contentTitle: {
     color: "#7C7C7C",
     fontSize: 15,
