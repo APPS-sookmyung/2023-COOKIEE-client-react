@@ -25,13 +25,7 @@ export default HomeLayout = () => {
           presentation: "modal",
         }}
       />
-      <Stack.Screen
-        name="updateForm"
-        options={{
-          headerShown: false,
-          presentation: "modal",
-        }}
-      />
+
       <Stack.Screen
         name="event"
         options={{
@@ -79,6 +73,13 @@ export default HomeLayout = () => {
         name="myPage"
         options={{
           headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="updateForm"
+        options={{
+          headerShown: false,
+          presentation: "modal",
         }}
       />
     </Stack>
