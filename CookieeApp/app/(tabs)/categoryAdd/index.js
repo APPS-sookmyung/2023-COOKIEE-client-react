@@ -3,6 +3,8 @@ import { View, StyleSheet, TouchableOpacity, Text, FlatList, TextInput, ScrollVi
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import { postCate } from "../../../api/category/postCate";
+
 
 const ColorItem = ({ color, onPress }) => {
     return (
@@ -16,6 +18,7 @@ const ColorItem = ({ color, onPress }) => {
 const CategoryAdd = () => {
     const navigation = useNavigation();
     const [selectedColor, setSelectedColor] = useState("#FFFFFF");
+    const [categoryName, setCategoryName] = useState("");
 
     const goBack = () => {
         navigation.goBack();
@@ -30,9 +33,27 @@ const CategoryAdd = () => {
         );
     };
 
-    // const handleComplete = () => {
-    //     console.log('완료!');
-    // };
+    const handleComplete = async () => {
+        try {
+          const userId = "1"; // Replace with your actual user ID
+    
+          const categoryData = {
+            categoryName: categoryName,
+            categoryColor: selectedColor,
+          };
+    
+          const result = await postCate(userId, categoryData);
+    
+          if (result) {
+            console.log("Category added successfully:", result);
+            goBack();
+          } else {
+            console.log("Failed to add category");
+          }
+        } catch (error) {
+          console.error("Error adding category:", error);
+        }
+      };
 
     const colors = [
         "#FFC3C3B2", "#D0FFBA", "#9370DB", "#FFB6C1", "#87CEFA", "#FFD700", "#40E0D0", "#FF69B4", "#7B68EE", "#FFA500", "#00FA9A", 
@@ -42,47 +63,44 @@ const CategoryAdd = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.titleHeader}>
-                <TouchableOpacity style={styles.menuIcon} onPress={goBack}>
-                    <AntDesign name="arrowleft" size={30} color="#594E4E" />
-                </TouchableOpacity>
-                <Text style={styles.title}>카테고리 추가</Text>
+          <View style={styles.titleHeader}>
+            <TouchableOpacity style={styles.menuIcon} onPress={goBack}>
+              <AntDesign name="arrowleft" size={30} color="#594E4E" />
+            </TouchableOpacity>
+            <Text style={styles.title}>카테고리 추가</Text>
+          </View>
+    
+          <View style={styles.centeredContainer}>
+            <View style={styles.editContainer}>
+              <View style={[styles.selectedColor, { backgroundColor: selectedColor }]} />
+              <FlatList
+                data={colors}
+                renderItem={({ item }) => (
+                  <ColorItem
+                    color={item}
+                    onPress={() => setSelectedColor(item)}
+                  />
+                )}
+                keyExtractor={(item, index) => index.toString()}
+                numColumns={5}
+              />
+              <TextInput
+                style={styles.textInput}
+                placeholder="카테고리를 입력하세요"
+                placeholderTextColor="black"
+                value={categoryName}
+                onChangeText={(text) => setCategoryName(text)}
+              />
+              <TouchableOpacity
+                style={styles.completeButton}
+                onPress={handleComplete}
+              >
+                <Text style={styles.buttonStyle}>완료</Text>
+              </TouchableOpacity>
             </View>
-
-            <View style={styles.centeredContainer}>
-                <View style={styles.editContainer}>
-                    <View style={[styles.selectedColor, { backgroundColor: selectedColor }]} />
-                    <FlatList
-                        data={colors}
-                        renderItem={({ item }) => (
-                            <ColorItem
-                                color={item}
-                                onPress={() => setSelectedColor(item)}
-                            />
-                        )}
-                        keyExtractor={(item, index) => index.toString()}
-                        numColumns={5}
-                    />
-                    <TextInput
-                        style={styles.textInput}
-                        placeholder="카테고리를 입력하세요"
-                        placeholderTextColor="black"
-                    />
-                    <TouchableOpacity
-                        style={styles.completeButton}
-                        onPress={goBack}
-                    >
-                        <TouchableOpacity
-                            style={[styles.completeButton, { alignSelf: 'center' }]} // 여기에 가운데 정렬 스타일 추가
-                            onPress={goBack}
-                        >
-                            <Text style={styles.buttonStyle}>완료</Text>
-                        </TouchableOpacity>
-                    </TouchableOpacity>
-                </View>
-            </View>
+          </View>
         </SafeAreaView>
-    );
+      );
 };
 
 const styles = StyleSheet.create({

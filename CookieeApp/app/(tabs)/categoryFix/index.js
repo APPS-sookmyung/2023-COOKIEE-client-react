@@ -56,6 +56,14 @@ const CategoryFix = () => {
               ]}
             />
             <Text style={styles.categoryText}>{category.categoryName}</Text>
+            <TouchableOpacity
+              style={styles.categoryFixBtn}
+              onPress={() => {
+                router.push({pathname: 'categoryEdit', params: { categoryId: category.categoryId }});
+              }}
+            >
+              <AntDesign name="edit" size={20} color="#594E4E" />
+            </TouchableOpacity>
           </View>
         ))}
         <TouchableOpacity
@@ -121,6 +129,13 @@ const styles = StyleSheet.create({
   },
   categoryText: {
     fontSize: 20,
+  },
+  categoryFixBtn: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    flex: 1,
+    marginRight: 30,
   },
 });
 

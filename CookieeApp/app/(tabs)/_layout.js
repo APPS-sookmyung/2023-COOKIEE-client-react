@@ -54,6 +54,12 @@ export default HomeLayout = () => {
         }}
       />
       <Stack.Screen
+        name="categoryEdit"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="collectCookiee"
         options={{
           headerShown: false,
