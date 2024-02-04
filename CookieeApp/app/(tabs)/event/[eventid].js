@@ -129,7 +129,7 @@ const EventDetailIndex = () => {
           <View style={styles.contentContainer}>
             <View style={styles.contentTitleContainer}>
               <Text style={styles.contentTitle}>{"카테고리"}</Text>
-              <View style={styles.EventInfoCategoryBox}>
+              <View>
                 <View style={styles.EventInfo}>
                   {eventData.categories.map((category, index) => (
                     <View
@@ -221,22 +221,20 @@ const styles = StyleSheet.create({
     fontSize: 15,
     width: 90,
   },
-
   iconContainer: {
     marginLeft: 5,
     alignItems: "center",
   },
   EventInfoCategoryBox: {
     width: "auto",
-    padding: 2,
     borderRadius: 10,
-    padding: 3,
+    padding: 5,
   },
   EventInfo: {
     display: "flex",
     flexDirection: "row",
-    // backgroundColor: "cyan",
-    marginHorizontal: 4,
-    // marginLeft: 20,
+  },
+  EventInfoCategoryText: {
+    fontSize: 15,
   },
 });

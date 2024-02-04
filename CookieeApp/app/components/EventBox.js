@@ -144,9 +144,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
   EventInfoCategoryBox: {
-    backgroundColor: "lavender",
     width: "auto",
-    padding: 2,
     margin: 2,
     borderRadius: 10,
     padding: 5,
