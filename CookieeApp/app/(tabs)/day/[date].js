@@ -38,8 +38,6 @@ const BottomModalContnet = () => {
   const [hasThumb, setHasThumb] = useState(false);
 
   const [eventList, setEventList] = useState([]);
-  const [eventListCount, setEventListCount] = useState(-1);
-  const [updatedEventListCount, setUpdatedEventListCount] = useState(0);
 
   const onImageSelected = async (imageData) => {
     var status = false;
