@@ -4,6 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { deleteCate } from "../../../api/category/deleteCate";
+import { putCate } from "../../../api/category/putCate";
 
 
 const ColorItem = ({ color, onPress }) => {
@@ -51,7 +52,7 @@ const CategoryEdit = () => {
         categoryColor: selectedColor,
       };
 
-      const result = await postCate(userId, categoryData);
+      const result = await putCate(userId, categoryId, categoryData);
 
       if (result) {
         console.log("Category added successfully:", result);
