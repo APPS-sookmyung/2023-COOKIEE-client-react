@@ -95,7 +95,10 @@ const EventDetailIndex = () => {
                 alignItems: "center",
               }}
             >
-              <TouchableOpacity style={styles.iconContainer}>
+              <TouchableOpacity
+                style={styles.iconContainer}
+                onPress={() => router.push("updateForm")}
+              >
                 <EvilIcons name="pencil" size={37} color="black" />
               </TouchableOpacity>
               <TouchableOpacity
