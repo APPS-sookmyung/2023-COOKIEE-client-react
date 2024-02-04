@@ -77,6 +77,12 @@ export default HomeLayout = () => {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="myPageEdit"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 };
