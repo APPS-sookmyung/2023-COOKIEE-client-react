@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, TouchableOpacity, Text, FlatList, TextInput, ScrollView } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, FlatList, TextInput, ScrollView, Alert } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -54,11 +54,12 @@ const CategoryEdit = () => {
 
       const result = await putCate(userId, categoryId, categoryData);
 
-      if (result) {
+      if (result.isSuccess) {
         console.log("Category added successfully:", result);
         goBack();
       } else {
         console.log("Failed to add category");
+        Alert.alert("Error", result.message);
       }
     } catch (error) {
       console.error("Error adding category:", error);
@@ -69,12 +70,14 @@ const CategoryEdit = () => {
     try {
       const userId = "1";
       console.log("route.params", route.params)
-
+  
       const result = await deleteCate(userId, categoryId);
       console.log(result);
       
       if (result && result.isSuccess) {
         console.log("Category deleted successfully:", result.message);
+  
+        setCategoryId(null);
         goBack();
       } else {
         console.log("Failed to delete category");
@@ -83,6 +86,7 @@ const CategoryEdit = () => {
       console.error("Error deleting category:", error);
     }
   };
+  
 
   const colors = [
     "#FFC3C3B2", "#D0FFBA", "#9370DB", "#FFB6C1", "#87CEFA", "#FFD700", "#40E0D0", "#FF69B4", "#7B68EE", "#FFA500", "#00FA9A",
