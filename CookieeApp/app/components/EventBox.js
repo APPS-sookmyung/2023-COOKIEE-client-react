@@ -40,7 +40,9 @@ export default function EventBox(eventData) {
               <Text style={styles.EventInfoNameText}>시간</Text>
             </View>
             <View style={styles.EventInfoDetail}>
-              <Text style={styles.EventInfoDetailText}>13:00-18:00</Text>
+              <Text style={styles.EventInfoDetailText}>
+                {event.startTime}-{event.endTime}
+              </Text>
             </View>
           </View>
 
