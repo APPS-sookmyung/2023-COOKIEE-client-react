@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   EventInfo: {
     display: "flex",
     flexDirection: "row",
-    backgroundColor: "cyan",
+
     margin: 4,
     overflow: "hidden",
   },
@@ -154,7 +154,8 @@ const styles = StyleSheet.create({
     width: "auto",
     margin: 2,
     borderRadius: 10,
-    padding: 5,
+    padding: 3,
+    paddingHorizontal: 7,
   },
   EventInfoCategoryText: {
     fontSize: 15,
