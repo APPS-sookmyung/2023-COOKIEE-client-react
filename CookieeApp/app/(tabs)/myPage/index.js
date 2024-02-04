@@ -20,8 +20,6 @@ const myPage = () => {
                 </TouchableOpacity>
                 <Text style={styles.title}>마이페이지</Text>
             </View>
-
-            <Button ></Button>
         </SafeAreaView>
     );
 };

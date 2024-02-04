@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import getCate from "../../../api/category/getCate";
 
@@ -17,26 +17,24 @@ const CategoryFix = () => {
   const [data, setData] = useState([]);
   const [userId, setUserId] = useState(1);
 
-  useEffect(() => {
-    let completed = false; // 첫 번째 1회 실행을 위한 flag
-
-    async function get() {
-      try {
-        const result = await getCate(userId);
-        if (!completed) {
+  useFocusEffect(
+    React.useCallback(() => {
+      async function fetchData() {
+        try {
+          const result = await getCate(userId);
           setData(result);
           console.log(result);
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
-    }
 
-    get();
-    return () => {
-      completed = true;
-    };
-  }, [userId]); // userId가 변경될 때 마다 실행
+      fetchData();
+
+      return () => {
+      };
+    }, [userId])
+  );
 
   return (
     <SafeAreaView style={styles.container}>
