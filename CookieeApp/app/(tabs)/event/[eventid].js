@@ -7,14 +7,14 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
-  TouchableWithoutFeedback,
-  Pressable,
+
 } from "react-native";
 import React, { useState, useCallback } from "react";
 import { EvilIcons } from "@expo/vector-icons";
 import Carousel from "react-native-reanimated-carousel";
 
 import { getEventById } from "../../../api/event/getEventById";
+import { deleteEvent } from "../../../api/event/deleteEvent";
 import { useRouter, useLocalSearchParams, useFocusEffect } from "expo-router";
 
 const EventDetailIndex = () => {
@@ -49,8 +49,9 @@ const EventDetailIndex = () => {
 
   const width = Dimensions.get("window").width;
 
-  const deleteEvent = () => {
+  const hadleDeleteEvent = () => {
     console.log("이벤트 삭제 api");
+    console.log(userId, eventid);
     Alert.alert(
       "이벤트 삭제하기",
       "정말로 삭제하시겠습니까?",
@@ -58,8 +59,9 @@ const EventDetailIndex = () => {
         {
           text: "삭제",
           onPress: async () => {
-            // const status = await 이벤트 삭제 api;
-            // console.log(status);
+            const status = await deleteEvent(userId, eventid);
+            console.log(status);
+            router.back();
           },
         },
         {
@@ -99,7 +101,9 @@ const EventDetailIndex = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.iconContainer}
-                onPress={deleteEvent}
+
+                onPress={hadleDeleteEvent}
+
               >
                 <EvilIcons name="trash" size={35} color="black" />
               </TouchableOpacity>
