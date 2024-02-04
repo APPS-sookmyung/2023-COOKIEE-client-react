@@ -28,6 +28,14 @@ const CategoryEdit = () => {
     if (route.params?.categoryId) {
       setCategoryId(route.params.categoryId);
     }
+
+    if (route.params?.categoryName) {
+      setCategoryName(route.params.categoryName);
+    }
+
+    if (route.params?.categoryColor) {
+      setSelectedColor(route.params.categoryColor);
+    }
   }, [route.params]);
 
   const goBack = () => {

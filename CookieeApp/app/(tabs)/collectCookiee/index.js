@@ -44,7 +44,7 @@ const collectCookiee = () => {
   ];
 
   const handlePressCate = (categoryName) => {
-    router.push(`showCookiee/${categoryName}`);
+    router.push({pathname: `showCookiee/${categoryName}`, params: { categoryId: category.categoryId }});
   };
 
   return (
@@ -59,7 +59,7 @@ const collectCookiee = () => {
         {data.map((category, index) => (
           <View key={index}>
             <TouchableOpacity
-              onPress={() => handlePressCate(category.categoryName)}
+              onPress={() => router.push({pathname: `showCookiee/${category.categoryName}`, params: { categoryId: category.categoryId }})}
             >
               <View style={styles.categoryItem}>
                 <View
