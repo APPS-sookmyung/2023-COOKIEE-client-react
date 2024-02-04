@@ -4,6 +4,15 @@ import { useState } from "react";
 export default function EventBox(eventData) {
   const event = eventData.eventData;
 
+  const TruncateText = ({ text, maxLength }) => {
+    if (text.length <= maxLength) {
+      return <Text style={styles.EventInfoDetailText}>{text}</Text>;
+    } else {
+      const truncatedText = text.substring(0, maxLength - 3) + "...";
+      return <Text style={styles.EventInfoDetailText}>{truncatedText}</Text>;
+    }
+  };
+
   if (event != null) {
     return (
       <View style={styles.AddEventContainer}>
@@ -51,7 +60,7 @@ export default function EventBox(eventData) {
               <Text style={styles.EventInfoNameText}>장소</Text>
             </View>
             <View style={styles.EventInfoDetail}>
-              <Text style={styles.EventInfoDetailText}>{event.eventWhere}</Text>
+              <TruncateText text={event.eventWhere} maxLength={10} />
             </View>
           </View>
 
@@ -60,7 +69,7 @@ export default function EventBox(eventData) {
               <Text style={styles.EventInfoNameText}>내용</Text>
             </View>
             <View style={styles.EventInfoDetail}>
-              <Text style={styles.EventInfoDetailText}>{event.what}</Text>
+              <TruncateText text={event.what} maxLength={10} />
             </View>
           </View>
 
@@ -69,7 +78,7 @@ export default function EventBox(eventData) {
               <Text style={styles.EventInfoNameText}>사람</Text>
             </View>
             <View style={styles.EventInfoDetail}>
-              <Text style={styles.EventInfoDetailText}>{event.withWho}</Text>
+              <TruncateText text={event.withWho} maxLength={10} />
             </View>
           </View>
         </View>
@@ -114,19 +123,18 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignContent: "center",
     justifyContent: "center",
-    // backgroundColor: "yellow",
+
     width: "50%",
     height: "auto",
   },
   EventInfo: {
     display: "flex",
     flexDirection: "row",
-    // backgroundColor: "cyan",
+
     margin: 4,
-    // marginLeft: 20,
+    overflow: "hidden",
   },
   EventInfoName: {
-    // backgroundColor: "yellow",
     padding: 2,
     margin: 2,
   },
@@ -135,7 +143,6 @@ const styles = StyleSheet.create({
     color: "gray",
   },
   EventInfoDetail: {
-    // backgroundColor: "lavender",
     padding: 1,
     margin: 1,
     marginLeft: 7,
@@ -144,12 +151,11 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
   EventInfoCategoryBox: {
-    backgroundColor: "lavender",
     width: "auto",
-    padding: 2,
     margin: 2,
     borderRadius: 10,
-    padding: 5,
+    padding: 3,
+    paddingHorizontal: 7,
   },
   EventInfoCategoryText: {
     fontSize: 15,

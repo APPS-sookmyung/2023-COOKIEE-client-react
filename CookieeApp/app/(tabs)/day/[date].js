@@ -156,7 +156,7 @@ const BottomModalContnet = () => {
 
       if (eventList != null) {
         setEventList(eventList);
-        console.log("eventList: ", await eventList);
+        // console.log("eventList: ", await eventList);
       }
     } catch (error) {
       console.log(error);
