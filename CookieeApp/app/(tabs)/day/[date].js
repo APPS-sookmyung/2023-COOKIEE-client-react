@@ -220,7 +220,6 @@ const BottomModalContnet = () => {
       {/* 이벤트 리스트가 들어가는 위치 */}
       <View style={styles.scrollView}>
         <ScrollView
-          onScroll={console.log("scrooled")}
           contentContainerStyle={{
             flexGrow: 1,
             height: "auto",

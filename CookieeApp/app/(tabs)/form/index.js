@@ -117,7 +117,6 @@ const AddEventFormScreen = () => {
   /* 이미지 업로드 구현 */
   const formData = new FormData();
   const [imageUrl, setImageUrl] = useState([]);
-  const [imageData, setImageData] = useState();
   const [imageDataArray, setImageDataArray] = useState([]);
 
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
@@ -212,6 +211,11 @@ const AddEventFormScreen = () => {
     formData.append("eventYear", selectedDate.year);
     formData.append("eventMonth", selectedDate.month);
     formData.append("eventDate", selectedDate.date);
+    formData.append(
+      "startTime",
+      startTime.getHours() + ":" + startTime.getMinutes()
+    );
+    formData.append("endTime", endTime.getHours() + ":" + endTime.getMinutes());
 
     imageDataArray.forEach((imageData, index) => {
       formData.append(`images`, imageData);
@@ -222,14 +226,16 @@ const AddEventFormScreen = () => {
     });
 
     console.log("이벤트 정보 확인");
-    console.log(formData.getAll("images"));
-    console.log(formData.getAll("eventWhat"));
-    console.log(formData.getAll("eventWhere"));
-    console.log(formData.getAll("withWho"));
-    console.log(formData.getAll("eventYear"));
-    console.log(formData.getAll("eventMonth"));
-    console.log(formData.getAll("eventDate"));
-    console.log(formData.getAll("categoryIds"));
+    // console.log(formData.getAll("images"));
+    // console.log(formData.getAll("eventWhat"));
+    // console.log(formData.getAll("eventWhere"));
+    // console.log(formData.getAll("withWho"));
+    // console.log(formData.getAll("eventYear"));
+    // console.log(formData.getAll("eventMonth"));
+    // console.log(formData.getAll("eventDate"));
+    // console.log(formData.getAll("categoryIds"));
+    // console.log(formData.getAll("startTime"));
+    // console.log(formData.getAll("endTime"));
 
     console.log("fetch 시도");
     fetch(`https://cookiee.site/event/${userId}`, {
