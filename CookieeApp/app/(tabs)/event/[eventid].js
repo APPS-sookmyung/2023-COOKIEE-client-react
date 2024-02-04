@@ -6,6 +6,9 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Pressable,
 } from "react-native";
 import React, { useState, useCallback } from "react";
 import { EvilIcons } from "@expo/vector-icons";
@@ -71,111 +74,117 @@ const EventDetailIndex = () => {
   if (eventData.eventId != null) {
     return (
       <View style={styles.container}>
-        <View style={styles.headerSection}>
-          <View>
-            <Text style={{ fontSize: 27, fontWeight: 600 }}>
-              2023.12.20(수)
-            </Text>
-          </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <TouchableOpacity style={styles.iconContainer}>
-              <EvilIcons name="pencil" size={37} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.iconContainer}
-              onPress={deleteEvent}
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            height: "auto",
+          }}
+          showsVerticalScrollIndicator={true}
+        >
+          <View style={styles.headerSection}>
+            <View>
+              <Text style={{ fontSize: 27, fontWeight: 600 }}>
+                2023.12.20(수)
+              </Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
             >
-              <EvilIcons name="trash" size={35} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.iconContainer}
-              onPress={() => router.back()}
-            >
-              <EvilIcons name="close" size={33} color="black" />
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.iconContainer}>
+                <EvilIcons name="pencil" size={37} color="black" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.iconContainer}
+                onPress={deleteEvent}
+              >
+                <EvilIcons name="trash" size={35} color="black" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.iconContainer}
+                onPress={() => router.back()}
+              >
+                <EvilIcons name="close" size={33} color="black" />
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-        <View style={styles.imageSection}>
-          <Carousel
-            loop
-            mode="parallax"
-            width={width}
-            autoPlay={false}
-            data={eventImgData}
-            scrollAnimationDuration={2000}
-            onSnapToItem={(index) => console.log("current index:", index)}
-            renderItem={({ item, index }) => (
-              <View style={{ flex: 1, justifyContent: "center" }}>
-                <Image
-                  source={{ uri: item }}
-                  style={{
-                    width: width,
-                    height: "100%",
-                    resizeMode: "cover",
-                    borderRadius: 7,
-                  }}
-                />
-              </View>
-            )}
-          />
-        </View>
-        <View style={styles.contentSection}>
-          <View style={styles.contentContainer}>
-            <View style={styles.contentTitleContainer}>
-              <Text style={styles.contentTitle}>{"카테고리"}</Text>
-              <View>
-                <View style={styles.EventInfo}>
-                  {eventData.categories.map((category, index) => (
-                    <View
-                      key={index}
-                      style={{
-                        ...styles.EventInfoCategoryBox,
-                        backgroundColor: category.categoryColor,
-                        marginRight: 10,
-                      }}
-                    >
-                      <Text style={styles.EventInfoCategoryText}>
-                        #{category.categoryName}
-                      </Text>
-                    </View>
-                  ))}
+          <View style={styles.imageSection}>
+            <Carousel
+              loop
+              mode="parallax"
+              width={width}
+              autoPlay={false}
+              data={eventImgData}
+              renderItem={({ item, index }) => (
+                <View style={{ flex: 1, justifyContent: "center" }}>
+                  <Image
+                    source={{ uri: item }}
+                    style={{
+                      width: width,
+                      height: "100%",
+                      resizeMode: "contain",
+                      borderRadius: 7,
+                    }}
+                  />
+                </View>
+              )}
+            />
+          </View>
+          <View style={styles.contentSection}>
+            <View style={styles.contentContainer}>
+              <View style={styles.contentTitleContainer}>
+                <Text style={styles.contentTitle}>{"카테고리"}</Text>
+                <View>
+                  <View style={styles.EventInfo}>
+                    {eventData.categories.map((category, index) => (
+                      <View
+                        key={index}
+                        style={{
+                          ...styles.EventInfoCategoryBox,
+                          backgroundColor: category.categoryColor,
+                          marginRight: 10,
+                        }}
+                      >
+                        <Text style={styles.EventInfoCategoryText}>
+                          #{category.categoryName}
+                        </Text>
+                      </View>
+                    ))}
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
-          <View style={styles.contentContainer}>
-            <View style={styles.contentTitleContainer}>
-              <Text style={styles.contentTitle}>{"시간"}</Text>
-              <Text style={styles.contentDetail}>
-                {eventData.startTime}-{eventData.endTime}
-              </Text>
+            <View style={styles.contentContainer}>
+              <View style={styles.contentTitleContainer}>
+                <Text style={styles.contentTitle}>{"시간"}</Text>
+                <Text style={styles.contentDetail}>
+                  {eventData.startTime}-{eventData.endTime}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.contentContainer}>
+              <View style={styles.contentTitleContainer}>
+                <Text style={styles.contentTitle}>{"장소"}</Text>
+                <Text style={styles.contentDetail}>{eventData.eventWhere}</Text>
+              </View>
+            </View>
+            <View style={styles.contentContainer}>
+              <View style={styles.contentTitleContainer}>
+                <Text style={styles.contentTitle}>{"내용"}</Text>
+                <Text style={styles.contentDetail}>{eventData.what}</Text>
+              </View>
+            </View>
+            <View style={styles.contentContainer}>
+              <View style={styles.contentTitleContainer}>
+                <Text style={styles.contentTitle}>{"함께한 사람"}</Text>
+                <Text style={styles.contentDetail}>{eventData.withWho}</Text>
+              </View>
             </View>
           </View>
-          <View style={styles.contentContainer}>
-            <View style={styles.contentTitleContainer}>
-              <Text style={styles.contentTitle}>{"장소"}</Text>
-              <Text style={styles.contentDetail}>{eventData.eventWhere}</Text>
-            </View>
-          </View>
-          <View style={styles.contentContainer}>
-            <View style={styles.contentTitleContainer}>
-              <Text style={styles.contentTitle}>{"내용"}</Text>
-              <Text style={styles.contentDetail}>{eventData.what}</Text>
-            </View>
-          </View>
-          <View style={styles.contentContainer}>
-            <View style={styles.contentTitleContainer}>
-              <Text style={styles.contentTitle}>{"함께한 사람"}</Text>
-              <Text style={styles.contentDetail}>{eventData.withWho}</Text>
-            </View>
-          </View>
-        </View>
+        </ScrollView>
       </View>
     );
   }
@@ -187,14 +196,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFF",
+    display: "flex",
+    width: "100%",
+    flex: 1,
+    position: "relative",
+    paddingTop: 7,
   },
   headerSection: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    margin: 20,
-    marginTop: 30,
-    height: "5%",
+    marginHorizontal: 20,
+    marginTop: 25,
+    height: "auto",
     alignItems: "center",
   },
   imageSection: { height: "55%" },
