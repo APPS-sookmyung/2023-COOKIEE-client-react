@@ -7,13 +7,8 @@ import {
   Alert,
   ScrollView,
 } from "react-native";
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import {
-  Stack,
-  useLocalSearchParams,
-  useRouter,
-  useFocusEffect,
-} from "expo-router";
+import React, { useState, useEffect, useCallback } from "react";
+import { useLocalSearchParams, useRouter, useFocusEffect } from "expo-router";
 
 import EventBox from "../../components/EventBox";
 
@@ -25,6 +20,7 @@ import { deleteThumb } from "../../../api/thumbnail/deleteThumb";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import { LinearGradient } from "expo-linear-gradient";
 
 const BottomModalContnet = () => {
   const router = useRouter();
@@ -38,8 +34,6 @@ const BottomModalContnet = () => {
   const [hasThumb, setHasThumb] = useState(false);
 
   const [eventList, setEventList] = useState([]);
-  const [eventListCount, setEventListCount] = useState(-1);
-  const [updatedEventListCount, setUpdatedEventListCount] = useState(0);
 
   const onImageSelected = async (imageData) => {
     var status = false;
@@ -163,8 +157,6 @@ const BottomModalContnet = () => {
       if (eventList != null) {
         setEventList(eventList);
         console.log("eventList: ", await eventList);
-        const num = await eventList.length;
-        setEventListCount(num);
       }
     } catch (error) {
       console.log(error);
@@ -204,17 +196,28 @@ const BottomModalContnet = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.modalDateContainer}>
-          {selectedDate &&
-            selectedDate.year &&
-            selectedDate.month &&
-            selectedDate.date && (
-              <Text style={styles.modalDate}>
-                {selectedDate.year}년 {selectedDate.month}월 {selectedDate.date}
-                일
-              </Text>
-            )}
-        </View>
+        <LinearGradient
+          colors={[
+            "transparent",
+            "rgba(255,255,255,0.3)",
+            "rgba(255,255,255,0.7)",
+            "rgba(255,255,255,1)",
+          ]}
+          locations={[0.0, 0.4, 0.6, 0.8]}
+          style={styles.modalDateContainer}
+        >
+          <View style={styles.modalDateContainerInner}>
+            {selectedDate &&
+              selectedDate.year &&
+              selectedDate.month &&
+              selectedDate.date && (
+                <Text style={styles.modalDate}>
+                  {selectedDate.year}년 {selectedDate.month}월{" "}
+                  {selectedDate.date}일
+                </Text>
+              )}
+          </View>
+        </LinearGradient>
       </View>
 
       {/* 이벤트 리스트가 들어가는 위치 */}
@@ -278,7 +281,7 @@ const styles = StyleSheet.create({
   },
   thumnailContainer: {
     display: "flex",
-    height: 230,
+    height: 240,
     backgroundColor: "#D9D9D9",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
@@ -294,8 +297,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     bottom: 0,
-    padding: 10,
+    paddingLeft: 10,
+    paddingTop: 20,
+    width: "100%",
   },
+  modalDateContainerInner: { marginTop: 15 },
   addContainer: {
     display: "flex",
     alignContent: "center",
@@ -343,5 +349,6 @@ const styles = StyleSheet.create({
     width: "100%",
     flex: 1,
     position: "relative",
+    paddingTop: 7,
   },
 });

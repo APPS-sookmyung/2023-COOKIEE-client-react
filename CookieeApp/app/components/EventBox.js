@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: "100%",
     height: "auto",
-    marginTop: 15,
+    marginVertical: 7,
     marginHorizontal: 15,
   },
   FirstEventImageContainer: {
