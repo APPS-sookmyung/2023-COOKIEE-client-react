@@ -5,6 +5,7 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { EvilIcons } from "@expo/vector-icons";
@@ -52,6 +53,28 @@ const EventDetailIndex = () => {
     require("../../../assets/testImage/test3.jpeg"),
   ];
 
+  const deleteEvent = () => {
+    console.log("이벤트 삭제 api");
+    Alert.alert(
+      "이벤트 삭제하기",
+      "정말로 삭제하시겠습니까?",
+      [
+        {
+          text: "삭제",
+          onPress: async () => {
+            // const status = await 이벤트 삭제 api;
+            // console.log(status);
+          },
+        },
+        {
+          text: "취소",
+          onPress: () => {},
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.headerSection}>
@@ -68,7 +91,7 @@ const EventDetailIndex = () => {
           <TouchableOpacity style={styles.iconContainer}>
             <EvilIcons name="pencil" size={37} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.iconContainer}>
+          <TouchableOpacity style={styles.iconContainer} onPress={deleteEvent}>
             <EvilIcons name="trash" size={35} color="black" />
           </TouchableOpacity>
           <TouchableOpacity
