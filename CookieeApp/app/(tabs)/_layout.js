@@ -1,7 +1,4 @@
-import { Stack, Tabs } from "expo-router";
-import { Button, FlatList, StyleSheet, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { Drawer } from "expo-router/drawer";
+import { Stack } from "expo-router";
 
 export default HomeLayout = () => {
   return (
@@ -23,6 +20,13 @@ export default HomeLayout = () => {
       />
       <Stack.Screen
         name="form"
+        options={{
+          headerShown: false,
+          presentation: "modal",
+        }}
+      />
+      <Stack.Screen
+        name="updateForm"
         options={{
           headerShown: false,
           presentation: "modal",
