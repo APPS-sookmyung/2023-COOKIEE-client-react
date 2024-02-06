@@ -72,6 +72,14 @@ const EventDetailIndex = () => {
     );
   };
 
+  const CategoryBox = ({ categoryName, categoryColor }) => {
+    return (
+      <View style={[styles.categoryBox, { backgroundColor: categoryColor }]}>
+        <Text style={styles.categoryText}>#{categoryName}</Text>
+      </View>
+    );
+  };
+
   if (eventData.eventId != null) {
     return (
       <View style={styles.container}>
@@ -148,23 +156,14 @@ const EventDetailIndex = () => {
             <View style={styles.contentContainer}>
               <View style={styles.contentTitleContainer}>
                 <Text style={styles.contentTitle}>{"카테고리"}</Text>
-                <View>
-                  <View style={styles.EventInfo}>
-                    {eventData.categories.map((category, index) => (
-                      <View
-                        key={index}
-                        style={{
-                          ...styles.EventInfoCategoryBox,
-                          backgroundColor: category.categoryColor,
-                          marginRight: 10,
-                        }}
-                      >
-                        <Text style={styles.EventInfoCategoryText}>
-                          #{category.categoryName}
-                        </Text>
-                      </View>
-                    ))}
-                  </View>
+                <View style={styles.categoryContainer}>
+                  {eventData.categories.map((category, index) => (
+                    <CategoryBox
+                      key={index}
+                      categoryName={category.categoryName}
+                      categoryColor={category.categoryColor}
+                    />
+                  ))}
                 </View>
               </View>
             </View>
@@ -258,8 +257,25 @@ const styles = StyleSheet.create({
   EventInfo: {
     display: "flex",
     flexDirection: "row",
+    flex: 1,
+    backgroundColor: "red",
   },
   EventInfoCategoryText: {
+    fontSize: 15,
+  },
+  categoryContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    flexShrink: 1,
+  },
+  categoryBox: {
+    borderRadius: 10,
+    paddingVertical: 5,
+    paddingHorizontal: 5,
+    marginRight: 5,
+    marginVertical: 5,
+  },
+  categoryText: {
     fontSize: 15,
   },
 });
