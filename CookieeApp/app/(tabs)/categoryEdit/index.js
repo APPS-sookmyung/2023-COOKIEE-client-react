@@ -67,7 +67,7 @@ const CategoryEdit = () => {
         goBack();
       } else {
         console.log("Failed to add category");
-        Alert.alert("Error", result.message);
+        Alert.alert("Error", "이미 존재하는 이름 또는 색상입니다.");
       }
     } catch (error) {
       console.error("Error adding category:", error);

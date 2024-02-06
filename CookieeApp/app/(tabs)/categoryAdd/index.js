@@ -35,7 +35,7 @@ const CategoryAdd = () => {
 
     const handleComplete = async () => {
         try {
-          const userId = "1"; // Replace with your actual user ID
+          const userId = "1";
     
           const categoryData = {
             categoryName: categoryName,

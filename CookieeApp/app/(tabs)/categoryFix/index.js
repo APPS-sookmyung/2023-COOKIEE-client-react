@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, Alert } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useFocusEffect, useRoute } from "@react-navigation/native";
@@ -38,13 +38,28 @@ const CategoryFix = () => {
     }, [userId])
   );
 
-  const handleDelete = async (categoryId) => {
-    try {
-      await deleteCate(userId, categoryId);
-      setData(data.filter(category => category.categoryId !== categoryId));
-    } catch (error) {
-      console.log("카테고리 삭제 중 오류 발생:", error);
-    }
+  const handleDelete = async (categoryId, categoryName) => {
+    Alert.alert(
+      "카테고리 삭제",
+      `${categoryName} 카테고리를 삭제하시겠습니까?`,
+      [
+        {
+          text: "취소",
+          style: "cancel"
+        },
+        {
+          text: "확인",
+          onPress: async () => {
+            try {
+              await deleteCate(userId, categoryId);
+              setData(data.filter(category => category.categoryId !== categoryId));
+            } catch (error) {
+              console.log("카테고리 삭제 중 오류 발생:", error);
+            }
+          }
+        }
+      ]
+    );
   };
 
   return (
@@ -79,7 +94,7 @@ const CategoryFix = () => {
               </TouchableOpacity>
               <TouchableOpacity 
                 style={styles.categoryDeleteBtn}
-                onPress={() => handleDelete(category.categoryId)}>
+                onPress={() => handleDelete(category.categoryId, category.categoryName)}>
                 <AntDesign name="delete" size={24} color="#594E4E" />
               </TouchableOpacity>
             </View>
