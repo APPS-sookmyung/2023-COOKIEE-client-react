@@ -6,7 +6,6 @@ import {
   TextInput,
   Dimensions,
   Image,
-  ScrollView,
 } from "react-native";
 import React, { useState, useCallback } from "react";
 
