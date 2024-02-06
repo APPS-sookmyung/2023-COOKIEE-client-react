@@ -17,6 +17,8 @@ import Carousel from "react-native-reanimated-carousel";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 import getCate from "../../../api/category/getCate";
+import { MultiSelect } from "react-native-element-dropdown";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 const AddEventFormScreen = () => {
   const router = useRouter();
@@ -27,6 +29,8 @@ const AddEventFormScreen = () => {
   const width = Dimensions.get("window").width;
 
   const [items, setItems] = useState([]);
+  const [selected, setSelected] = useState([]);
+
   const [userId, setUserId] = useState(1);
 
   useEffect(() => {
@@ -402,51 +406,22 @@ const AddEventFormScreen = () => {
         <View style={styles.InputContainer}>
           <Text style={styles.InputTitle}>카테고리</Text>
           <View style={styles.DropdownContainer}>
-            <DropDownPicker
-              style={{
-                backgroundColor: "blue",
-                borderRadius: 5,
-                width: "100%",
-                backgroundColor: "#EBEBEB",
-                minHeight: 25,
-                borderWidth: 0.5,
+            <MultiSelect
+              style={styles.dropdown}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={items}
+              labelField="label"
+              valueField="value"
+              placeholder="카테고리 선택하기"
+              value={selected}
+              onChange={(item) => {
+                setSelected(item);
+                console.log(item);
               }}
-              listItemContainerStyle={styles.dropdown}
-              multiple={true}
-              min={0}
-              max={5}
-              open={open}
-              value={value}
-              items={items}
-              setOpen={setOpen}
-              setValue={setValue}
-              setItems={setItems}
-              stickyHeader={true}
-              listMode="FLATLIST"
-              placeholder="카테고리 선택"
-              onChangeValue={(value) => {
-                handleInputChange(value, "cate");
-                // console.log(value);
-              }}
-              textStyle={{
-                fontSize: 13,
-                margin: 0,
-                padding: 0,
-              }}
-              containerStyle={{
-                height: 0,
-                margin: 0,
-                padding: 0,
-                borderRadius: 0,
-                minHeight: 6,
-              }}
-              dropDownContainerStyle={{
-                height: "auto",
-                margin: 0,
-                padding: 0,
-                borderRadius: 0,
-              }}
-              placeholderStyle={{ color: "#bdbbbb", marginLeft: 0 }}
+              selectedStyle={styles.selectedStyle}
             />
           </View>
         </View>
@@ -533,9 +508,9 @@ const styles = StyleSheet.create({
     height: 25,
     zIndex: 100000,
   },
-  dropdown: {
-    backgroundColor: "#fafafa",
-  },
+  // dropdown: {
+  //   backgroundColor: "#fafafa",
+  // },
   //이미지 추가 버튼
   imageInputBtn: {
     display: "flex",
@@ -547,5 +522,41 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "black",
     marginLeft: 0,
+  },
+
+  // 드롭다운
+  dropdown: {
+    height: 30,
+    borderRadius: 5,
+    width: "100%",
+    height: 25,
+    margin: "auto",
+    backgroundColor: "#EBEBEB",
+    borderColor: "black",
+    borderStyle: "solid",
+    borderWidth: 0.5,
+    justifyContent: "center",
+  },
+  placeholderStyle: {
+    fontSize: 14,
+    marginLeft: 5,
+    color: "#aba9a9",
+  },
+  selectedTextStyle: {
+    fontSize: 14,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  selectedStyle: {
+    borderRadius: 12,
   },
 });
