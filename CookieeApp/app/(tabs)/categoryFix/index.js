@@ -57,7 +57,9 @@ const CategoryFix = () => {
             <TouchableOpacity
               style={styles.categoryFixBtn}
               onPress={() => {
-                router.push({pathname: 'categoryEdit', params: { categoryId: category.categoryId }});
+                router.push({
+                  pathname: 'categoryEdit', 
+                  params: { categoryId: category.categoryId, categoryName: category.categoryName, categoryColor: category.categoryColor }});
               }}
             >
               <AntDesign name="edit" size={20} color="#594E4E" />

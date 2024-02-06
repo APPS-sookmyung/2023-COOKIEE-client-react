@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
+
 } from "react-native";
 import React, { useState, useCallback } from "react";
 import { EvilIcons } from "@expo/vector-icons";
@@ -103,7 +104,9 @@ const EventDetailIndex = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.iconContainer}
+
                 onPress={hadleDeleteEvent}
+
               >
                 <EvilIcons name="trash" size={35} color="black" />
               </TouchableOpacity>
