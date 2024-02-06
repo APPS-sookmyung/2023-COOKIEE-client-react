@@ -405,13 +405,15 @@ const AddEventFormScreen = () => {
           <Text style={styles.InputTitle}>카테고리</Text>
           <View style={styles.dropdownContainer}>
             <MultiSelect
-              mode="modal"
+              // mode="modal"
+              dropdownPosition="top"
               style={styles.dropdown}
               placeholderStyle={styles.placeholderStyle}
               inputSearchStyle={styles.inputSearchStyle}
               data={items}
               labelField="label"
               valueField="value"
+              imagef
               placeholder="카테고리 추가하기"
               value={selected}
               onChange={(item) => {
