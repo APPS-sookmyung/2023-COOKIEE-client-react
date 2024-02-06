@@ -3,12 +3,14 @@ import { router } from "expo-router";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useNavigation, useFocusEffect, useRoute } from "@react-navigation/native";
 
 import getCate from "../../../api/category/getCate";
+import deleteCate from "../../../api/category/deleteCate";
 
 const CategoryFix = () => {
   const navigation = useNavigation();
+  const route = useRoute();
 
   const goBack = () => {
     navigation.goBack();
@@ -16,7 +18,7 @@ const CategoryFix = () => {
 
   const [data, setData] = useState([]);
   const [userId, setUserId] = useState(1);
-
+  
   useFocusEffect(
     React.useCallback(() => {
       async function fetchData() {
@@ -36,13 +38,22 @@ const CategoryFix = () => {
     }, [userId])
   );
 
+  const handleDelete = async (categoryId) => {
+    try {
+      await deleteCate(userId, categoryId);
+      setData(data.filter(category => category.categoryId !== categoryId));
+    } catch (error) {
+      console.log("카테고리 삭제 중 오류 발생:", error);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.titleHeader}>
         <TouchableOpacity style={styles.menuIcon} onPress={goBack}>
           <AntDesign name="arrowleft" size={30} color="#594E4E" />
         </TouchableOpacity>
-        <Text style={styles.title}>카테고리 수정</Text>
+        <Text style={styles.title}>🍪 카테고리 수정</Text>
       </View>
       <View style={styles.categoryList}>
         {data.map((category, index) => (
@@ -54,16 +65,24 @@ const CategoryFix = () => {
               ]}
             />
             <Text style={styles.categoryText}>{category.categoryName}</Text>
-            <TouchableOpacity
-              style={styles.categoryFixBtn}
-              onPress={() => {
-                router.push({
-                  pathname: 'categoryEdit', 
-                  params: { categoryId: category.categoryId, categoryName: category.categoryName, categoryColor: category.categoryColor }});
-              }}
-            >
-              <AntDesign name="edit" size={20} color="#594E4E" />
-            </TouchableOpacity>
+            <View style={styles.btnContainer}>
+              <TouchableOpacity
+                style={styles.categoryFixBtn}
+                onPress={() => {
+                  router.push({
+                    pathname: 'categoryEdit',
+                    params: { categoryId: category.categoryId, categoryName: category.categoryName, categoryColor: category.categoryColor }
+                  });
+                }}
+              >
+                <AntDesign name="edit" size={24} color="#594E4E" />
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.categoryDeleteBtn}
+                onPress={() => handleDelete(category.categoryId)}>
+                <AntDesign name="delete" size={24} color="#594E4E" />
+              </TouchableOpacity>
+            </View>
           </View>
         ))}
         <TouchableOpacity
@@ -114,12 +133,11 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   categoryList: {
-    marginTop: 20,
-    marginLeft: 30,
+    margin: 40
   },
   categoryItem: {
     flexDirection: "row",
-    marginVertical: 5,
+    marginVertical: 14,
   },
   colorBox: {
     width: 25,
@@ -130,13 +148,17 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: 20,
   },
-  categoryFixBtn: {
+  btnContainer: {
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
     flex: 1,
-    marginRight: 30,
   },
+  categoryFixBtn: {
+    marginRight: 12,
+  },
+  categoryDeleteBtn: {
+  }
 });
 
 export default CategoryFix;

@@ -67,7 +67,7 @@ const CategoryAdd = () => {
             <TouchableOpacity style={styles.menuIcon} onPress={goBack}>
               <AntDesign name="arrowleft" size={30} color="#594E4E" />
             </TouchableOpacity>
-            <Text style={styles.title}>카테고리 추가</Text>
+            <Text style={styles.title}>🍪 카테고리 추가</Text>
           </View>
     
           <View style={styles.centeredContainer}>

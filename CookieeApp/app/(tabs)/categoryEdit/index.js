@@ -74,28 +74,6 @@ const CategoryEdit = () => {
     }
   };
 
-  const handleDelete = async () => {
-    try {
-      const userId = "1";
-      console.log("route.params", route.params)
-  
-      const result = await deleteCate(userId, categoryId);
-      console.log(result);
-      
-      if (result && result.isSuccess) {
-        console.log("Category deleted successfully:", result.message);
-  
-        setCategoryId(null);
-        goBack();
-      } else {
-        console.log("Failed to delete category");
-      }
-    } catch (error) {
-      console.error("Error deleting category:", error);
-    }
-  };
-  
-
   const colors = [
     "#FFC3C3B2", "#D0FFBA", "#9370DB", "#FFB6C1", "#87CEFA", "#FFD700", "#40E0D0", "#FF69B4", "#7B68EE", "#FFA500", "#00FA9A",
     "#DA70D6", "#FFE4E1", "#00FFFF", "#FF6347", "#8A2BE2", "#FF4500", "#ADFF2F", "#FF00FF", "#FFFF00"
@@ -108,13 +86,10 @@ const CategoryEdit = () => {
         <TouchableOpacity style={styles.menuIcon} onPress={goBack}>
           <AntDesign name="arrowleft" size={30} color="#594E4E" />
         </TouchableOpacity>
-        <Text style={styles.title}>카테고리 수정</Text>
+        <Text style={styles.title}>🍪 카테고리 수정</Text>
       </View>
 
       <View style={styles.centeredContainer}>
-        <TouchableOpacity onPress={handleDelete}>
-          <AntDesign name="delete" size={30} color="#FF0000" />
-        </TouchableOpacity>
         <View style={styles.editContainer}>
           <View style={[styles.selectedColor, { backgroundColor: selectedColor }]} />
           <FlatList
