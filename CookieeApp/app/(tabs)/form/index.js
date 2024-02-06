@@ -174,9 +174,6 @@ const AddEventFormScreen = () => {
     }
   };
 
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-
   const [newEvent, setNewEvent] = useState({
     year: selectedDate.year,
     month: selectedDate.month,
@@ -227,7 +224,7 @@ const AddEventFormScreen = () => {
       formData.append(`images`, imageData);
     });
 
-    newEvent.cate.map((category, index) => {
+    selected.map((category, index) => {
       formData.append(`categoryIds`, category);
     });
 
@@ -559,7 +556,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
-    height: "100%",
+    height: "auto",
     width: "auto",
     margin: 2,
     padding: 3,
