@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { router } from "expo-router";
-import { View, StyleSheet, TouchableOpacity, Text, Button } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, TextInput } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 
-const myPage = () => {
+const myPageEdit = () => {
   const navigation = useNavigation();
+  const [nickname, setNickname] = useState("");
+  const [intro, setIntro] = useState("");
+  const [error, setError] = useState("");
+  const [profileImage, setProfileImage] = useState(null);
 
   const goBack = () => {
     navigation.goBack();
@@ -18,25 +22,32 @@ const myPage = () => {
         <TouchableOpacity style={styles.menuIcon} onPress={goBack}>
           <AntDesign name="arrowleft" size={30} color="#594E4E" />
         </TouchableOpacity>
-        <Text style={styles.title}>마이페이지</Text>
+        <Text style={styles.title}>마이페이지 수정</Text>
       </View>
+
+      <View style={styles.inputContainer}>
+        <Text style={styles.headerText}>닉네임</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder="닉네임을 입력해주세요"
+          onChangeText={(text) => setNickname(text)}
+          value={nickname}
+        />
+        <Text style={styles.headerText}>한줄 소개 (50자)</Text>
+        <TextInput
+          style={styles.textInput}
+          placeholder="한줄 소개를 입력해주세요"
+          onChangeText={(text) => setIntro(text)}
+          value={intro}
+        />
+      </View>
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.buttonStyle}
-          onPress={() => router.push("myPageEdit")}
+        // onPress={handleComplete}
         >
           <Text style={styles.buttonText}>프로필 수정</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          onPress={() => router.push("../../screens/UserGuide")}
-        >
-          <Text style={styles.buttonText}>사용 가이드</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-        >
-          <Text style={styles.buttonText}>로그아웃</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -83,6 +94,23 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 16,
   },
+  inputContainer: {
+    marginTop: 38,
+    marginLeft: 32,
+    marginRight: 32,
+  },
+  headerText: {
+    fontSize: 16,
+    marginBottom: 8,
+  },
+  textInput: {
+    backgroundColor: "#EBEBEB",
+    borderRadius: 8,
+    padding: 10,
+    marginTop: 10,
+    fontSize: 16,
+    marginBottom: 20,
+  },
 });
 
-export default myPage;
+export default myPageEdit;

@@ -82,6 +82,12 @@ export default HomeLayout = () => {
           presentation: "modal",
         }}
       />
+      <Stack.Screen
+        name="myPageEdit"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 };
