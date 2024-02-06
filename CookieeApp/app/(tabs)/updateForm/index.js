@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 
-import { useGlobalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
 import DropDownPicker from "react-native-dropdown-picker";
 import * as ImagePicker from "expo-image-picker";
@@ -20,9 +20,7 @@ import getCate from "../../../api/category/getCate";
 
 const UpdateEventFormScreen = () => {
   const router = useRouter();
-  const { year, month, date } = useGlobalSearchParams();
-
-  selectedDate = { year: year, month: month, date: date };
+  const eventId = useLocalSearchParams();
 
   const width = Dimensions.get("window").width;
 
@@ -172,9 +170,6 @@ const UpdateEventFormScreen = () => {
   const [value, setValue] = useState(null);
 
   const [newEvent, setNewEvent] = useState({
-    year: selectedDate.year,
-    month: selectedDate.month,
-    date: selectedDate.date,
     imgUrl: [],
     cate: "",
     time: "",
@@ -195,9 +190,6 @@ const UpdateEventFormScreen = () => {
     formData.append("eventWhat", newEvent.what);
     formData.append("eventWhere", newEvent.place);
     formData.append("withWho", newEvent.people);
-    formData.append("eventYear", selectedDate.year);
-    formData.append("eventMonth", selectedDate.month);
-    formData.append("eventDate", selectedDate.date);
     formData.append(
       "startTime",
       startTime.getHours() + ":" + startTime.getMinutes()
@@ -217,28 +209,29 @@ const UpdateEventFormScreen = () => {
     console.log(formData.getAll("eventWhat"));
     console.log(formData.getAll("eventWhere"));
     console.log(formData.getAll("withWho"));
-    console.log(formData.getAll("eventYear"));
-    console.log(formData.getAll("eventMonth"));
-    console.log(formData.getAll("eventDate"));
     console.log(formData.getAll("categoryIds"));
     console.log(formData.getAll("startTime"));
     console.log(formData.getAll("endTime"));
 
     console.log("fetch 시도");
-    fetch(`https://cookiee.site/event/${userId}`, {
-      method: "POST",
+    console.log(
+      `https://cookiee.site/event/update/${userId}/${eventId.eventId}`
+    );
+
+    fetch(`https://cookiee.site/event/update/${userId}/${eventId.eventId}`, {
+      method: "PUT",
       body: formData,
       headers: {
         "Content-Type": "multipart/form-data",
       },
     })
       .then((res) => {
-        console.log("이벤트 등록 통신 성공. LOG의 'ok'가 true인지 확인하세요.");
+        console.log("이벤트 수정 통신 성공. LOG의 'ok'가 true인지 확인하세요.");
         console.log(JSON.stringify(res));
         router.back();
       })
       .catch((err) => {
-        console.log("이벤트 등록 통신 실패");
+        console.log("이벤트 수정 통신 실패");
         console.log(JSON.stringify(err.response));
       });
   };
@@ -257,13 +250,11 @@ const UpdateEventFormScreen = () => {
 
       <View
         style={{
-          // flex: 0.7,
           alignSelf: "center",
           justifyContent: "center",
           width: "100%",
           height: "50%",
-          // margin: 10,
-          // backgroundColor: "lightgray",
+
           position: "relative",
         }}
       >
@@ -274,7 +265,6 @@ const UpdateEventFormScreen = () => {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              // backgroundColor: "lightgray",
             }}
           >
             <TouchableOpacity
@@ -300,7 +290,6 @@ const UpdateEventFormScreen = () => {
             autoPlay={false}
             data={imageUrl}
             scrollAnimationDuration={2000}
-            // onSnapToItem={(index) => console.log("current index:", index)}
             renderItem={({ item, index }) => (
               <View style={{ flex: 1, justifyContent: "center" }}>
                 <Image
@@ -413,7 +402,6 @@ const UpdateEventFormScreen = () => {
               placeholder="카테고리 선택"
               onChangeValue={(value) => {
                 handleInputChange(value, "cate");
-                // console.log(value);
               }}
               textStyle={{
                 fontSize: 13,
