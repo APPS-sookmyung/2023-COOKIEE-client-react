@@ -68,13 +68,13 @@ const S = StyleSheet.create({
   },
   textStyle: {
     fontSize: 20,
+    marginTop: 15,
   },
   line: {
     borderBottomColor: "#D9D9D9",
     borderBottomWidth: 1,
     width: "100%",
-    marginBottom: 10,
-    marginTop: 10,
+    marginTop: 15,
   },
   profileContainer: {
     alignItems: "center",
