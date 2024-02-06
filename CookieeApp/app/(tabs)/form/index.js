@@ -276,8 +276,7 @@ const AddEventFormScreen = () => {
           alignSelf: "center",
           justifyContent: "center",
           width: "100%",
-          height: "45%",
-
+          height: "47%",
           position: "relative",
         }}
       >
@@ -297,7 +296,7 @@ const AddEventFormScreen = () => {
                 alignItems: "center",
                 backgroundColor: "#EBEBEB",
                 width: "70%",
-                height: "70%",
+                height: "80%",
                 borderRadius: 10,
               }}
             >
@@ -556,7 +555,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
-    height: "auto",
+    height: 25,
     width: "auto",
     margin: 2,
     padding: 3,
