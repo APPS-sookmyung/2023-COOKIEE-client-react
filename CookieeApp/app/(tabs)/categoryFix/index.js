@@ -44,10 +44,6 @@ const CategoryFix = () => {
       `${categoryName} 카테고리를 삭제하시겠습니까?`,
       [
         {
-          text: "취소",
-          style: "cancel"
-        },
-        {
           text: "확인",
           onPress: async () => {
             try {
@@ -57,7 +53,11 @@ const CategoryFix = () => {
               console.log("카테고리 삭제 중 오류 발생:", error);
             }
           }
-        }
+        },
+        {
+          text: "취소",
+          style: "cancel"
+        },
       ]
     );
   };

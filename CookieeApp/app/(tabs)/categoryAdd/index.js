@@ -3,17 +3,12 @@ import { View, StyleSheet, TouchableOpacity, Text, FlatList, TextInput, ScrollVi
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+
+import ColorPicker from 'react-native-wheel-color-picker';
+import tinycolor from 'tinycolor2';
+
 import { postCate } from "../../../api/category/postCate";
 
-
-const ColorItem = ({ color, onPress }) => {
-    return (
-        <TouchableOpacity
-            style={[styles.colorItem, { backgroundColor: color }]}
-            onPress={onPress}
-        />
-    );
-};
 
 const CategoryAdd = () => {
     const navigation = useNavigation();
@@ -24,19 +19,15 @@ const CategoryAdd = () => {
         navigation.goBack();
     };
 
-    const renderColorItem = ({ item }) => {
-        return (
-            <ColorItem
-                color={item}
-                onPress={() => setSelectedColor(item)}
-            />
-        );
-    };
+    const handleColorChange = (colorHsvOrRgb) => {
+      const colorHex = tinycolor(colorHsvOrRgb).toHexString();
+      setSelectedColor(colorHex); 
+  };
 
     const handleComplete = async () => {
         try {
           const userId = "1";
-    
+
           const categoryData = {
             categoryName: categoryName,
             categoryColor: selectedColor,
@@ -55,12 +46,6 @@ const CategoryAdd = () => {
         }
       };
 
-    const colors = [
-        "#FFC3C3B2", "#D0FFBA", "#9370DB", "#FFB6C1", "#87CEFA", "#FFD700", "#40E0D0", "#FF69B4", "#7B68EE", "#FFA500", "#00FA9A", 
-        "#DA70D6", "#FFE4E1", "#00FFFF", "#FF6347", "#8A2BE2", "#FF4500", "#ADFF2F", "#FF00FF", "#FFFF00"  
-    ];
-    
-
     return (
         <SafeAreaView style={styles.container}>
           <View style={styles.titleHeader}>
@@ -72,18 +57,14 @@ const CategoryAdd = () => {
     
           <View style={styles.centeredContainer}>
             <View style={styles.editContainer}>
-              <View style={[styles.selectedColor, { backgroundColor: selectedColor }]} />
-              <FlatList
-                data={colors}
-                renderItem={({ item }) => (
-                  <ColorItem
-                    color={item}
-                    onPress={() => setSelectedColor(item)}
-                  />
-                )}
-                keyExtractor={(item, index) => index.toString()}
-                numColumns={5}
-              />
+              <View style={styles.selectedColor}>
+                <ColorPicker
+                  color={selectedColor}
+                  sliderSize={20}
+                  onColorChange={handleColorChange}
+                  style={{ flex: 1 }}
+                />
+              </View>
               <TextInput
                 style={styles.textInput}
                 placeholder="카테고리를 입력하세요"
@@ -128,8 +109,8 @@ const styles = StyleSheet.create({
     },
     editContainer: {
         backgroundColor: "#F1F1F1",
-        width: 300,
-        height: 400,
+        width: 350,
+        height: 450,
         alignItems: "center",
         justifyContent: "center",
     },
@@ -139,21 +120,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     selectedColor: {
-        width: 50,
-        height: 50,
+        width: 300,
+        height: 300,
         marginTop: 20,
         borderWidth: 0,
-        borderRadius: 15,
-    },
-    colorPicker: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    colorItem: {
-        marginTop: 10,
-        width: 40,
-        height: 40,
         borderRadius: 15,
     },
     textInput: {
@@ -161,7 +131,8 @@ const styles = StyleSheet.create({
         height: 40,
         backgroundColor: "#FFFFFF",
         color: "#000000",
-        marginBottom: 30,
+        marginTop: 20,
+        marginBottom: 20,
     },
     completeButton: {
         marginBottom: 10,
