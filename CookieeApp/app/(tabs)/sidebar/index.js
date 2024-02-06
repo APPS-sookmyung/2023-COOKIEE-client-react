@@ -1,11 +1,48 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { getUser } from '../../../api/user/getUser';
+import { useFocusEffect } from "@react-navigation/native";
 
 const sideBarIndex = () => {
+  const [userData, setUserData] = useState(null);
+
+  const fetchUserData = async () => {
+    try {
+      const userId = 1;
+      const data = await getUser(userId);
+      setUserData(data);
+      console.log(data);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchUserData();
+    }, [])
+  );
+
   return (
     <SafeAreaView style={S.container}>
+
+      <View style={S.profileContainer}>
+        {userData?.profileImage && (
+          <Image
+            source={{ uri: userData.profileImage }}
+            style={S.profileImage}
+          />
+
+        )}
+        <View style={S.textContainer}>
+          {/* <Text style={S.profileText}>Email: {userData?.email}</Text> */}
+          <Text style={S.nicknameText}>{userData?.nickname}</Text>
+          <Text style={S.selfDescriptionText}>{userData?.selfDescription}</Text>
+        </View>
+      </View>
+
       <TouchableOpacity onPress={() => router.push("categoryFix")}>
         <Text style={S.textStyle}>카테고리 수정</Text>
       </TouchableOpacity>
@@ -38,6 +75,29 @@ const S = StyleSheet.create({
     width: "100%",
     marginBottom: 10,
     marginTop: 10,
+  },
+  profileContainer: {
+    alignItems: "center",
+    margin: 20,
+    flexDirection: "row",
+  },
+  profileImage: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+  },
+  textContainer: {
+    marginLeft: 30,
+    justifyContent: "center",
+  },
+  nicknameText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginVertical: 8,
+  },
+  selfDescriptionText: {
+    fontSize: 16,
+    marginVertical: 8,
   },
 });
 
