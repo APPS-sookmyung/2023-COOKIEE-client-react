@@ -7,16 +7,17 @@ import {
   Dimensions,
   Image,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter, useFocusEffect } from "expo-router";
 
-import DropDownPicker from "react-native-dropdown-picker";
 import * as ImagePicker from "expo-image-picker";
 import Carousel from "react-native-reanimated-carousel";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 import getCate from "../../../api/category/getCate";
+import { MultiSelect } from "react-native-element-dropdown";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 const UpdateEventFormScreen = () => {
   const router = useRouter();
@@ -25,45 +26,49 @@ const UpdateEventFormScreen = () => {
   const width = Dimensions.get("window").width;
 
   const [items, setItems] = useState([]);
+  const [selected, setSelected] = useState([]);
+
   const [userId, setUserId] = useState(1);
 
-  useEffect(() => {
-    let completed = false; // 첫 번째 1회 실행을 위한 flag
-
-    async function get() {
-      try {
-        const result = await getCate(userId);
-        if (!completed && result != null) {
+  useFocusEffect(
+    useCallback(() => {
+      async function get() {
+        try {
+          const result = await getCate(userId);
           if (result != null) {
-            let cateNum = 0;
-            let presentCates = []; // Initialize an array to accumulate objects
+            if (result != null) {
+              let cateNum = 0;
+              let presentCates = [];
 
-            for (cateNum = 0; cateNum < result.length; cateNum++) {
-              const presentCate = {
-                label: result[cateNum].categoryName,
-                value: result[cateNum].categoryId,
-              };
-              console.log(presentCate);
+              for (cateNum = 0; cateNum < result.length; cateNum++) {
+                const presentCate = {
+                  label: result[cateNum].categoryName,
+                  value: result[cateNum].categoryId,
+                  color: result[cateNum].categoryColor,
+                };
 
-              presentCates.push(presentCate); // Add the object to the array
+                const exists = items.some(
+                  (item) => item.value === presentCate.value
+                );
+                if (!exists) {
+                  console.log(presentCate);
+                  presentCates.push(presentCate);
+                }
+              }
+
+              setItems([...presentCates, ...items]);
             }
-
-            setItems([...presentCates, ...items]); // Spread the accumulated array
+          } else {
+            console.error("getCate returned undefined or null result");
           }
-        } else {
-          console.error("getCate returned undefined or null result");
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
-    }
 
-    get(); // Call the function immediately
-
-    return () => {
-      completed = true;
-    };
-  }, [userId]);
+      get();
+    }, [userId])
+  );
 
   const [startTime, setStartTime] = useState(new Date()); // 선택 시작 날짜
   const [endTime, setEndTime] = useState(new Date()); // 선택 종료 날짜
@@ -200,7 +205,7 @@ const UpdateEventFormScreen = () => {
       formData.append(`images`, imageData);
     });
 
-    newEvent.cate.map((category, index) => {
+    selected.map((category, index) => {
       formData.append(`categoryIds`, category);
     });
 
@@ -253,8 +258,7 @@ const UpdateEventFormScreen = () => {
           alignSelf: "center",
           justifyContent: "center",
           width: "100%",
-          height: "50%",
-
+          height: "47%",
           position: "relative",
         }}
       >
@@ -274,7 +278,7 @@ const UpdateEventFormScreen = () => {
                 alignItems: "center",
                 backgroundColor: "#EBEBEB",
                 width: "70%",
-                height: "70%",
+                height: "80%",
                 borderRadius: 10,
               }}
             >
@@ -377,51 +381,36 @@ const UpdateEventFormScreen = () => {
         </View>
         <View style={styles.InputContainer}>
           <Text style={styles.InputTitle}>카테고리</Text>
-          <View style={styles.DropdownContainer}>
-            <DropDownPicker
-              style={{
-                backgroundColor: "blue",
-                borderRadius: 5,
-                width: "100%",
-                backgroundColor: "#EBEBEB",
-                minHeight: 25,
-                borderWidth: 0.5,
+          <View style={styles.dropdownContainer}>
+            <MultiSelect
+              // mode="modal"
+              dropdownPosition="top"
+              style={styles.dropdown}
+              placeholderStyle={styles.placeholderStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              data={items}
+              labelField="label"
+              valueField="value"
+              imagef
+              placeholder="카테고리 추가하기"
+              value={selected}
+              onChange={(item) => {
+                setSelected(item);
+                console.log(item);
               }}
-              listItemContainerStyle={styles.dropdown}
-              multiple={true}
-              min={0}
-              max={5}
-              open={open}
-              value={value}
-              items={items}
-              setOpen={setOpen}
-              setValue={setValue}
-              setItems={setItems}
-              stickyHeader={true}
-              listMode="FLATLIST"
-              placeholder="카테고리 선택"
-              onChangeValue={(value) => {
-                handleInputChange(value, "cate");
-              }}
-              textStyle={{
-                fontSize: 13,
-                margin: 0,
-                padding: 0,
-              }}
-              containerStyle={{
-                height: 0,
-                margin: 0,
-                padding: 0,
-                borderRadius: 0,
-                minHeight: 6,
-              }}
-              dropDownContainerStyle={{
-                height: "auto",
-                margin: 0,
-                padding: 0,
-                borderRadius: 0,
-              }}
-              placeholderStyle={{ color: "#bdbbbb", marginLeft: 0 }}
+              renderSelectedItem={(item, unSelect) => (
+                <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
+                  <View
+                    style={{
+                      ...styles.selectedStyle,
+                      backgroundColor: `${item.color}`,
+                    }}
+                  >
+                    <Text style={styles.textSelectedStyle}>#{item.label}</Text>
+                    <AntDesign color="black" name="delete" size={13} />
+                  </View>
+                </TouchableOpacity>
+              )}
             />
           </View>
         </View>
@@ -465,7 +454,7 @@ const styles = StyleSheet.create({
   InputTitle: {
     width: "auto",
     alignSelf: "center",
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "500",
   },
   InputBox: {
@@ -503,14 +492,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "400",
   },
-  DropdownContainer: {
-    width: "70%",
-    height: 25,
-    zIndex: 100000,
-  },
-  dropdown: {
-    backgroundColor: "#fafafa",
-  },
+
   //이미지 추가 버튼
   imageInputBtn: {
     display: "flex",
@@ -522,5 +504,47 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "black",
     marginLeft: 0,
+  },
+
+  // 드롭다운
+  dropdownContainer: {
+    width: "70%",
+    height: 25,
+  },
+  dropdown: {
+    borderRadius: 5,
+    width: "100%",
+    height: 25,
+    margin: "auto",
+    backgroundColor: "#EBEBEB",
+    borderColor: "black",
+    borderStyle: "solid",
+    borderWidth: 0.5,
+    justifyContent: "center",
+    marginBottom: 5,
+  },
+  placeholderStyle: {
+    fontSize: 14,
+    marginLeft: 5,
+    color: "#aba9a9",
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  selectedStyle: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    height: 25,
+    width: "auto",
+    margin: 2,
+    padding: 3,
+    paddingHorizontal: 7,
+  },
+  textSelectedStyle: {
+    marginRight: 5,
+    fontSize: 15,
   },
 });
