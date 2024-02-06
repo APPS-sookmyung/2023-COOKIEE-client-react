@@ -7,11 +7,10 @@ import {
   Dimensions,
   Image,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 
-import { useGlobalSearchParams, useRouter, Redirect } from "expo-router";
+import { useGlobalSearchParams, useRouter, useFocusEffect } from "expo-router";
 
-import DropDownPicker from "react-native-dropdown-picker";
 import * as ImagePicker from "expo-image-picker";
 import Carousel from "react-native-reanimated-carousel";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -33,43 +32,45 @@ const AddEventFormScreen = () => {
 
   const [userId, setUserId] = useState(1);
 
-  useEffect(() => {
-    let completed = false; // 첫 번째 1회 실행을 위한 flag
-
-    async function get() {
-      try {
-        const result = await getCate(userId);
-        if (!completed && result != null) {
+  useFocusEffect(
+    useCallback(() => {
+      async function get() {
+        try {
+          const result = await getCate(userId);
           if (result != null) {
-            let cateNum = 0;
-            let presentCates = []; // Initialize an array to accumulate objects
+            if (result != null) {
+              let cateNum = 0;
+              let presentCates = [];
 
-            for (cateNum = 0; cateNum < result.length; cateNum++) {
-              const presentCate = {
-                label: result[cateNum].categoryName,
-                value: result[cateNum].categoryId,
-              };
-              console.log(presentCate);
+              for (cateNum = 0; cateNum < result.length; cateNum++) {
+                const presentCate = {
+                  label: result[cateNum].categoryName,
+                  value: result[cateNum].categoryId,
+                  color: result[cateNum].categoryColor,
+                };
 
-              presentCates.push(presentCate); // Add the object to the array
+                const exists = items.some(
+                  (item) => item.value === presentCate.value
+                );
+                if (!exists) {
+                  console.log(presentCate);
+                  presentCates.push(presentCate);
+                }
+              }
+
+              setItems([...presentCates, ...items]);
             }
-
-            setItems([...presentCates, ...items]); // Spread the accumulated array
+          } else {
+            console.error("getCate returned undefined or null result");
           }
-        } else {
-          console.error("getCate returned undefined or null result");
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
-    }
 
-    get(); // Call the function immediately
-
-    return () => {
-      completed = true;
-    };
-  }, [userId]);
+      get();
+    }, [userId])
+  );
 
   const [startTime, setStartTime] = useState(new Date()); // 선택 시작 날짜
   const [endTime, setEndTime] = useState(new Date()); // 선택 종료 날짜
@@ -260,6 +261,14 @@ const AddEventFormScreen = () => {
       });
   };
 
+  const renderItem = (item) => {
+    return (
+      <View style={styles.item}>
+        <Text style={styles.selectedTextStyle}>{item.label}</Text>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.Container}>
       <View style={styles.formHeader}>
@@ -274,13 +283,11 @@ const AddEventFormScreen = () => {
 
       <View
         style={{
-          // flex: 0.7,
           alignSelf: "center",
           justifyContent: "center",
           width: "100%",
-          height: "50%",
-          // margin: 10,
-          // backgroundColor: "lightgray",
+          height: "45%",
+
           position: "relative",
         }}
       >
@@ -291,7 +298,6 @@ const AddEventFormScreen = () => {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
-              // backgroundColor: "lightgray",
             }}
           >
             <TouchableOpacity
@@ -317,7 +323,6 @@ const AddEventFormScreen = () => {
             autoPlay={false}
             data={imageUrl}
             scrollAnimationDuration={2000}
-            // onSnapToItem={(index) => console.log("current index:", index)}
             renderItem={({ item, index }) => (
               <View style={{ flex: 1, justifyContent: "center" }}>
                 <Image
@@ -407,21 +412,33 @@ const AddEventFormScreen = () => {
           <Text style={styles.InputTitle}>카테고리</Text>
           <View style={styles.DropdownContainer}>
             <MultiSelect
+              mode="modal"
               style={styles.dropdown}
               placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
               data={items}
               labelField="label"
               valueField="value"
-              placeholder="카테고리 선택하기"
+              placeholder="카테고리 추가하기"
               value={selected}
               onChange={(item) => {
                 setSelected(item);
                 console.log(item);
               }}
-              selectedStyle={styles.selectedStyle}
+              renderItem={renderItem}
+              renderSelectedItem={(item, unSelect) => (
+                <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
+                  <View
+                    style={{
+                      ...styles.selectedStyle,
+                      backgroundColor: `${item.color}`,
+                    }}
+                  >
+                    <Text style={styles.textSelectedStyle}>#{item.label}</Text>
+                    <AntDesign color="black" name="delete" size={17} />
+                  </View>
+                </TouchableOpacity>
+              )}
             />
           </View>
         </View>
@@ -503,14 +520,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "400",
   },
-  DropdownContainer: {
-    width: "70%",
-    height: 25,
-    zIndex: 100000,
-  },
-  // dropdown: {
-  //   backgroundColor: "#fafafa",
-  // },
+
   //이미지 추가 버튼
   imageInputBtn: {
     display: "flex",
@@ -525,8 +535,13 @@ const styles = StyleSheet.create({
   },
 
   // 드롭다운
+  DropdownContainer: {
+    width: "70%",
+    height: 25,
+    zIndex: 100000,
+  },
+
   dropdown: {
-    height: 30,
     borderRadius: 5,
     width: "100%",
     height: 25,
@@ -536,6 +551,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 0.5,
     justifyContent: "center",
+    marginBottom: 5,
   },
   placeholderStyle: {
     fontSize: 14,
@@ -556,7 +572,24 @@ const styles = StyleSheet.create({
   icon: {
     marginRight: 5,
   },
+  item: {
+    padding: 17,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   selectedStyle: {
-    borderRadius: 12,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    marginTop: 5,
+    marginRight: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  textSelectedStyle: {
+    marginRight: 5,
+    fontSize: 14,
   },
 });
