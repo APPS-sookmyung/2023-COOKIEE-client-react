@@ -6,6 +6,7 @@ import {
   TextInput,
   Dimensions,
   Image,
+  ScrollView,
 } from "react-native";
 import React, { useState, useCallback } from "react";
 
@@ -261,14 +262,6 @@ const AddEventFormScreen = () => {
       });
   };
 
-  const renderItem = (item) => {
-    return (
-      <View style={styles.item}>
-        <Text style={styles.selectedTextStyle}>{item.label}</Text>
-      </View>
-    );
-  };
-
   return (
     <View style={styles.Container}>
       <View style={styles.formHeader}>
@@ -410,7 +403,7 @@ const AddEventFormScreen = () => {
         </View>
         <View style={styles.InputContainer}>
           <Text style={styles.InputTitle}>카테고리</Text>
-          <View style={styles.DropdownContainer}>
+          <View style={styles.dropdownContainer}>
             <MultiSelect
               mode="modal"
               style={styles.dropdown}
@@ -425,7 +418,6 @@ const AddEventFormScreen = () => {
                 setSelected(item);
                 console.log(item);
               }}
-              renderItem={renderItem}
               renderSelectedItem={(item, unSelect) => (
                 <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
                   <View
@@ -435,7 +427,7 @@ const AddEventFormScreen = () => {
                     }}
                   >
                     <Text style={styles.textSelectedStyle}>#{item.label}</Text>
-                    <AntDesign color="black" name="delete" size={17} />
+                    <AntDesign color="black" name="delete" size={13} />
                   </View>
                 </TouchableOpacity>
               )}
@@ -482,7 +474,7 @@ const styles = StyleSheet.create({
   InputTitle: {
     width: "auto",
     alignSelf: "center",
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: "500",
   },
   InputBox: {
@@ -535,12 +527,10 @@ const styles = StyleSheet.create({
   },
 
   // 드롭다운
-  DropdownContainer: {
+  dropdownContainer: {
     width: "70%",
     height: 25,
-    zIndex: 100000,
   },
-
   dropdown: {
     borderRadius: 5,
     width: "100%",
@@ -558,38 +548,23 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     color: "#aba9a9",
   },
-  selectedTextStyle: {
-    fontSize: 14,
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
   inputSearchStyle: {
     height: 40,
     fontSize: 16,
-  },
-  icon: {
-    marginRight: 5,
-  },
-  item: {
-    padding: 17,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
   },
   selectedStyle: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
-    marginTop: 5,
-    marginRight: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    height: "100%",
+    width: "auto",
+    margin: 2,
+    padding: 3,
+    paddingHorizontal: 7,
   },
   textSelectedStyle: {
     marginRight: 5,
-    fontSize: 14,
+    fontSize: 15,
   },
 });
