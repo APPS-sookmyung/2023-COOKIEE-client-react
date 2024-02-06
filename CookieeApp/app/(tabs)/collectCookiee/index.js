@@ -103,12 +103,11 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   categoryList: {
-    marginTop: 20,
-    marginLeft: 30,
+    margin: 30,
   },
   categoryItem: {
     flexDirection: "row",
-    marginVertical: 5,
+    marginVertical: 14,
   },
   colorBox: {
     width: 25,

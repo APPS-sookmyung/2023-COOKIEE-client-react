@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   categoryList: {
-    margin: 40
+    margin: 30
   },
   categoryItem: {
     flexDirection: "row",
