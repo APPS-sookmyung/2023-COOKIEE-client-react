@@ -1,21 +1,31 @@
-import * as React from 'react';
-import * as WebBrowser from 'expo-web-browser';
-import * as Google from 'expo-auth-session/providers/google';
+// import GoogleButton from 'react-google-button';
+// import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
+import * as React from "react";
+import * as WebBrowser from "expo-web-browser";
+import * as Google from "expo-auth-session/providers/google";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import * as AuthSession from "expo-auth-session";
 
 WebBrowser.maybeCompleteAuthSession();
 
 export default function Login() {
+  const redirectUri = AuthSession.makeRedirectUri({
+    scheme: "cookiee",
+    path: "redirect",
+  });
+  console.log(redirectUri);
+
   const [request, response, promptAsync] = Google.useAuthRequest({
-    iosClientId: '750908582355-4i3spir7ue0gj7n9l8afhfsp2iuv8m7e.apps.googleusercontent.com',
-    androidClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
-    responseType: 'id_token'
+    iosClientId:
+      "750908582355-4i3spir7ue0gj7n9l8afhfsp2iuv8m7e.apps.googleusercontent.com",
+    androidClientId: "GOOGLE_GUID.apps.googleusercontent.com",
+    responseType: "id_token",
   });
 
   const [user, setUser] = React.useState(null);
 
   React.useEffect(() => {
-    if (response?.type === 'success') {
+    if (response?.type === "success") {
       const { authentication } = response;
       // 사용자 정보 가져오는 함수 호출
       fetchUserInfo(authentication.idToken);
@@ -79,7 +89,7 @@ const styles = StyleSheet.create({
   title_text: {
     color: "#594E4E",
     fontSize: 40,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     paddingBottom: 13,
   },
   content_text1: {
