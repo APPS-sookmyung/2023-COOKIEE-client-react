@@ -2,7 +2,7 @@
   "expo": {
     "main": "app/index.js",
     "name": "CookieeApp",
-    "slug": "CookieeApp",
+    "slug": "cookiee",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,7 +13,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "bundleIdentifier": "com.example.cookieeApp",
       "supportsTablet": true
@@ -23,7 +25,10 @@
         "package": "com.example.cookieeApp",
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -37,6 +42,15 @@
       ],
       "@react-native-google-signin/google-signin",
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "21f1d94b-431d-4aee-9649-456b7e0e8e7f"
+      }
+    },
+    "owner": "appscookiee"
   }
 }
