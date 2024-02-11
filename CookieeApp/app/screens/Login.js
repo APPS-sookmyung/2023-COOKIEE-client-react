@@ -3,8 +3,9 @@
 import * as React from "react";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import * as AuthSession from "expo-auth-session";
+import * as AppleAuthentication from "expo-apple-authentication";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -13,7 +14,7 @@ export default function Login() {
     scheme: "cookiee",
     path: "redirect",
   });
-  console.log(redirectUri);
+  // console.log(redirectUri);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId:
@@ -35,23 +36,30 @@ export default function Login() {
   // 사용자 정보 가져오는 함수
   const fetchUserInfo = async (idToken) => {
     try {
-      const userInfoResponse = await fetch(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${idToken}`);
+      const userInfoResponse = await fetch(
+        `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${idToken}`
+      );
       const userInfo = await userInfoResponse.json();
       setUser(userInfo);
     } catch (error) {
-      console.error('Error fetching user info: ', error);
+      console.error("Error fetching user info: ", error);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.image}
-        source={require("../../assets/cookie.png")}
-      />
-      <Text style={styles.title_text}>Cookiee</Text>
-      <Text style={styles.content_text1}>오늘 하루를 사진으로 기록해 </Text>
-      <Text style={styles.content_text2}>나만의 쿠키를 만들어보아요 </Text>
+      <View style={styles.introContainer}>
+        <Image
+          style={styles.image}
+          source={require("../../assets/cookie.png")}
+        />
+        <Text style={styles.title_text}>Cookiee</Text>
+        <Text style={styles.content_text}>오늘 하루를 사진으로 기록해</Text>
+        <Text style={{ ...styles.content_text, paddingBottom: 5 }}>
+          나만의 쿠키를 만들어보아요
+        </Text>
+      </View>
+
       {user && (
         <View style={styles.userInfo}>
           <Text style={styles.userInfoText}>Logged in as: {user.email}</Text>
@@ -59,17 +67,50 @@ export default function Login() {
         </View>
       )}
       {user === null && (
-        <TouchableOpacity
-          disabled={!request}
-          onPress={() => {
-            promptAsync();
-          }}
-        >
-          <Image
-            source={require("../../assets/btn_google.png")}
-            style={{ width: 300, height: 50 }}
+        <View style={styles.buttonContainer}>
+          {/* 구글 로그인 */}
+          <TouchableOpacity
+            disabled={!request}
+            onPress={() => {
+              promptAsync();
+            }}
+          >
+            <Image
+              source={require("../../assets/btn_google.png")}
+              style={{ ...styles.button, borderRadius: 5 }}
+            />
+          </TouchableOpacity>
+
+          {/* 애플 로그인 */}
+          <AppleAuthentication.AppleAuthenticationButton
+            buttonType={
+              AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
+            }
+            buttonStyle={
+              AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
+            }
+            cornerRadius={5}
+            style={styles.button}
+            onPress={async () => {
+              try {
+                const credential = await AppleAuthentication.signInAsync({
+                  requestedScopes: [
+                    AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                    AppleAuthentication.AppleAuthenticationScope.EMAIL,
+                  ],
+                });
+                // signed in
+                console.log(credential);
+              } catch (e) {
+                if (e.code === "ERR_REQUEST_CANCELED") {
+                  // handle that the user canceled the sign-in flow
+                } else {
+                  // handle other errors
+                }
+              }
+            }}
           />
-        </TouchableOpacity>
+        </View>
       )}
     </View>
   );
@@ -80,7 +121,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 180,
+  },
+  introContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   image: {
     width: 90,
@@ -92,19 +137,25 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     paddingBottom: 13,
   },
-  content_text1: {
-    color: "#594E4E",
-    fontSize: 20,
-    paddingBottom: 5,
-  },
-  content_text2: {
+  content_text: {
     color: "#594E4E",
     fontSize: 20,
   },
+
   userInfo: {
     marginTop: 20,
   },
   userInfoText: {
     fontSize: 16,
+  },
+  button: {
+    width: 300,
+    height: 50,
+    margin: 5,
+  },
+  buttonContainer: {
+    display: "flex",
+    alignItems: "center",
+    marginTop: 50,
   },
 });

@@ -20,6 +20,7 @@
     "eas-cli": "^7.2.0",
     "expo": "~49.0.5",
     "expo-app-loading": "^2.1.1",
+    "expo-apple-authentication": "~6.1.0",
     "expo-auth-session": "~5.0.2",
     "expo-constants": "~14.4.2",
     "expo-crypto": "~12.4.1",
