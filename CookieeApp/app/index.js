@@ -51,7 +51,7 @@ export default function App() {
 
       {/* <Redirect href={"home"} /> */}
       <>
-        <User />
+        <Login />
       </>
     </SafeAreaView>
   );
