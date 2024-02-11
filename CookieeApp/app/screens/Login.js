@@ -1,15 +1,7 @@
-// import GoogleButton from 'react-google-button';
-// import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import * as React from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
-import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  Image
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -20,39 +12,55 @@ export default function Login() {
     responseType: 'id_token'
   });
 
+  const [user, setUser] = React.useState(null);
+
   React.useEffect(() => {
     if (response?.type === 'success') {
       const { authentication } = response;
+      // 사용자 정보 가져오는 함수 호출
+      fetchUserInfo(authentication.idToken);
     }
   }, [response]);
 
+  // 사용자 정보 가져오는 함수
+  const fetchUserInfo = async (idToken) => {
+    try {
+      const userInfoResponse = await fetch(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${idToken}`);
+      const userInfo = await userInfoResponse.json();
+      setUser(userInfo);
+    } catch (error) {
+      console.error('Error fetching user info: ', error);
+    }
+  };
+
   return (
-    <View>
-      <View style={styles.container}>
-        <Image
-          style={styles.image}
-          source={require("../../assets/cookie.png")}
-        />
-        <Text style={styles.title_text}>Cookiee</Text>
-        <Text style={styles.content_text1}>오늘 하루를 사진으로 기록해 </Text>
-        <Text style={styles.content_text2}>나만의 쿠키를 만들어보아요 </Text>
-      </View>
-      <View style={styles.container}>
-        {user && <ShowUserInfo />}
-        {user === null && (
-          <TouchableOpacity
-            disabled={!request}
-            onPress={() => {
-              promptAsync();
-            }}
-          >
-            <Image
-              source={require("../../assets/btn_google.png")}
-              style={{ width: 300, height: 20 }}
-            ></Image>
-          </TouchableOpacity>
-        )}
-      </View>
+    <View style={styles.container}>
+      <Image
+        style={styles.image}
+        source={require("../../assets/cookie.png")}
+      />
+      <Text style={styles.title_text}>Cookiee</Text>
+      <Text style={styles.content_text1}>오늘 하루를 사진으로 기록해 </Text>
+      <Text style={styles.content_text2}>나만의 쿠키를 만들어보아요 </Text>
+      {user && (
+        <View style={styles.userInfo}>
+          <Text style={styles.userInfoText}>Logged in as: {user.email}</Text>
+          {/* 다른 사용자 정보도 여기에 추가할 수 있음 */}
+        </View>
+      )}
+      {user === null && (
+        <TouchableOpacity
+          disabled={!request}
+          onPress={() => {
+            promptAsync();
+          }}
+        >
+          <Image
+            source={require("../../assets/btn_google.png")}
+            style={{ width: 300, height: 50 }}
+          />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -63,10 +71,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 180,
-  },
-  button_style: {
-    alignItems: "center",
-    marginBottom: 200,
   },
   image: {
     width: 90,
@@ -86,5 +90,11 @@ const styles = StyleSheet.create({
   content_text2: {
     color: "#594E4E",
     fontSize: 20,
+  },
+  userInfo: {
+    marginTop: 20,
+  },
+  userInfoText: {
+    fontSize: 16,
   },
 });
