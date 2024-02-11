@@ -44,6 +44,7 @@ function User() {
         aspect: [4, 3],
         quality: 1,
       });
+      error;
 
       if (!pickerResult.cancelled) {
         setProfileImage(pickerResult.uri);
