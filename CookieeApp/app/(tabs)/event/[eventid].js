@@ -23,6 +23,7 @@ const EventDetailIndex = () => {
 
   const [eventData, setEventData] = useState([]);
   const [eventImgData, setEventImgData] = useState([]);
+
   const [userId, setUserId] = useState(1);
 
   async function handelGetEventById() {
@@ -93,7 +94,8 @@ const EventDetailIndex = () => {
           <View style={styles.headerSection}>
             <View>
               <Text style={{ fontSize: 27, fontWeight: 600 }}>
-                2023.12.20(수)
+                {eventData.EventYear}.{eventData.EventMonth}.
+                {eventData.EventDate}
               </Text>
             </View>
             <View
