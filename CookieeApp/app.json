@@ -15,13 +15,13 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "bundleIdentifier": "com.example.cookieeApp",
+      "bundleIdentifier": "site.apps.cookiee",
       "supportsTablet": true,
       "usesAppleSignIn": true
     },
     "android": {
       "adaptiveIcon": {
-        "package": "com.example.cookieeApp",
+        "package": "site.apps.cookiee",
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
