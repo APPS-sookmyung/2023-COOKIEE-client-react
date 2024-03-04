@@ -112,7 +112,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: "#FFFFFF",
-    paddingHorizontal: 3,
+    paddingHorizontal: 10,
+    paddingVertical: 30,
   },
   titleHeader: {
     marginVertical: 5,
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
   },
   title: {
     position: "absolute",
-    fontSize: 27,
+    fontSize: 40,
     fontWeight: "bold",
     color: "#594E4E",
   },
@@ -136,8 +137,8 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   buttonStyle: {
-    width: 368,
-    height: 45,
+    width: 340,
+    height: 60,
     backgroundColor: "#FFF6F1E4",
     borderRadius: 10,
     justifyContent: "center",
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 25,
   },
   inputContainer: {
     marginTop: 38,
@@ -153,7 +154,7 @@ const styles = StyleSheet.create({
     marginRight: 32,
   },
   headerText: {
-    fontSize: 16,
+    fontSize: 25,
     marginBottom: 8,
   },
   textInput: {
@@ -161,7 +162,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     marginTop: 10,
-    fontSize: 16,
+    fontSize: 23,
     marginBottom: 20,
   },
 });
