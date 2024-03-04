@@ -27,7 +27,7 @@ const myPageEdit = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userId = 1;
+        const userId = 32;
         const userData = await getUser(userId);
 
         if (userData) {
