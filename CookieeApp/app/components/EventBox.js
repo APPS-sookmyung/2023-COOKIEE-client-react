@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   },
   FirstEventImageBox: {
     width: "90%",
-    height: 170,
+    height: 200,
     backgroundColor: "#EBEBEB",
     alignSelf: "center",
   },
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     margin: 2,
   },
   EventInfoNameText: {
-    fontSize: 17,
+    fontSize: 20,
     color: "gray",
   },
   EventInfoDetail: {
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     marginLeft: 7,
   },
   EventInfoDetailText: {
-    fontSize: 17,
+    fontSize: 20,
   },
   EventInfoCategoryBox: {
     width: "auto",
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 7,
   },
   EventInfoCategoryText: {
-    fontSize: 15,
+    fontSize: 17,
   },
   test: {
     borderRadius: 10,

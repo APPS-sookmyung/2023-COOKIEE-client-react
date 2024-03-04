@@ -277,7 +277,7 @@ const AddEventFormScreen = () => {
           alignSelf: "center",
           justifyContent: "center",
           width: "100%",
-          height: "47%",
+          height: "60%",
           position: "relative",
         }}
       >
@@ -312,16 +312,28 @@ const AddEventFormScreen = () => {
             width={width}
             autoPlay={false}
             data={imageUrl}
-            scrollAnimationDuration={2000}
+            scrollAnimationDuration={1000}
+            style={{
+              display: "flex",
+              width: "100%",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
             renderItem={({ item, index }) => (
-              <View style={{ flex: 1, justifyContent: "center" }}>
+              <View
+                style={{
+                  flex: 1,
+                  padding: 50,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <Image
                   source={{ uri: item }}
                   style={{
                     width: width,
                     height: "100%",
                     resizeMode: "contain",
-                    borderRadius: 7,
                   }}
                 />
               </View>
@@ -455,7 +467,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   formTitleText: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "600",
     marginLeft: 13,
     marginRight: 10,
@@ -473,7 +485,7 @@ const styles = StyleSheet.create({
   InputTitle: {
     width: "auto",
     alignSelf: "center",
-    fontSize: 15,
+    fontSize: 20,
     fontWeight: "500",
   },
   InputBox: {
@@ -508,7 +520,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   headerBtnText: {
-    fontSize: 15,
+    fontSize: 20,
     fontWeight: "400",
   },
 

@@ -281,7 +281,7 @@ const styles = StyleSheet.create({
   },
   thumnailContainer: {
     display: "flex",
-    height: 240,
+    height: 300,
     backgroundColor: "#D9D9D9",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   modalDate: {
-    fontSize: 30,
+    fontSize: 35,
     fontWeight: "600",
     color: "#594E4E",
   },
