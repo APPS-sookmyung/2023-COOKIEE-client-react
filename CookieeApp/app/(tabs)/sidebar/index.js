@@ -49,15 +49,25 @@ const sideBarIndex = () => {
         </View>
       </View>
 
-      <TouchableOpacity onPress={() => router.push("categoryFix")}>
+      <View style={S.line}></View>
+      <TouchableOpacity
+        style={S.buttonStyle}
+        onPress={() => router.push("categoryFix")}
+      >
         <Text style={S.textStyle}>카테고리 수정</Text>
       </TouchableOpacity>
       <View style={S.line}></View>
-      <TouchableOpacity onPress={() => router.push("collectCookiee")}>
+      <TouchableOpacity
+        style={S.buttonStyle}
+        onPress={() => router.push("collectCookiee")}
+      >
         <Text style={S.textStyle}>쿠키 모아보기</Text>
       </TouchableOpacity>
       <View style={S.line}></View>
-      <TouchableOpacity onPress={() => router.push("myPage")}>
+      <TouchableOpacity
+        style={S.buttonStyle}
+        onPress={() => router.push("myPage")}
+      >
         <Text style={S.textStyle}>마이페이지</Text>
       </TouchableOpacity>
       <View style={S.line}></View>
@@ -73,23 +83,24 @@ const S = StyleSheet.create({
     paddingHorizontal: 3,
   },
   textStyle: {
-    fontSize: 20,
-    marginTop: 15,
+    fontSize: 27,
+
+    justifyContent: "center",
   },
   line: {
     borderBottomColor: "#D9D9D9",
     borderBottomWidth: 1,
     width: "100%",
-    marginTop: 15,
   },
   profileContainer: {
     alignItems: "center",
-    margin: 20,
+    margin: 10,
+    marginBottom: 30,
     flexDirection: "row",
   },
   profileImage: {
-    width: 36,
-    height: 36,
+    width: 200,
+    height: 200,
     borderRadius: 18,
   },
   textContainer: {
@@ -97,12 +108,12 @@ const S = StyleSheet.create({
     justifyContent: "center",
   },
   nicknameText: {
-    fontSize: 20,
+    fontSize: 40,
     fontWeight: "bold",
     marginVertical: 8,
   },
   selfDescriptionText: {
-    fontSize: 16,
+    fontSize: 20,
     marginVertical: 8,
   },
   titleHeader: {
@@ -115,6 +126,9 @@ const S = StyleSheet.create({
   menuIcon: {
     marginLeft: 30,
     width: "100%",
+  },
+  buttonStyle: {
+    padding: 20,
   },
 });
 

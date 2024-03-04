@@ -88,10 +88,12 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: "#FFFFFF",
-    paddingHorizontal: 3,
+    paddingHorizontal: 10,
+    paddingVertical: 30,
   },
   titleHeader: {
     marginVertical: 5,
+    marginBottom: 20,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -99,7 +101,7 @@ const styles = StyleSheet.create({
   },
   title: {
     position: "absolute",
-    fontSize: 27,
+    fontSize: 40,
     fontWeight: "bold",
     color: "#594E4E",
   },
