@@ -55,6 +55,7 @@ const myPage = () => {
           </Text>
         </View>
       </View>
+      <View style={styles.line}></View>
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
@@ -82,7 +83,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: "#FFFFFF",
-    paddingHorizontal: 3,
+    paddingHorizontal: 10,
+    paddingVertical: 30,
   },
   titleHeader: {
     marginVertical: 5,
@@ -93,7 +95,7 @@ const styles = StyleSheet.create({
   },
   title: {
     position: "absolute",
-    fontSize: 27,
+    fontSize: 40,
     fontWeight: "bold",
     color: "#594E4E",
   },
@@ -106,8 +108,8 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   buttonStyle: {
-    width: 368,
-    height: 45,
+    width: 370,
+    height: 80,
     backgroundColor: "#FFF6F1E4",
     borderRadius: 10,
     justifyContent: "center",
@@ -115,16 +117,17 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 25,
   },
   profileContainer: {
     alignItems: "center",
-    margin: 20,
+    margin: 10,
+    marginBottom: 30,
     flexDirection: "row",
   },
   profileImage: {
-    width: 36,
-    height: 36,
+    width: 200,
+    height: 200,
     borderRadius: 18,
   },
   textContainer: {
@@ -132,13 +135,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   nicknameText: {
-    fontSize: 20,
+    fontSize: 40,
     fontWeight: "bold",
     marginVertical: 8,
   },
   selfDescriptionText: {
-    fontSize: 16,
+    fontSize: 20,
     marginVertical: 8,
+  },
+  line: {
+    borderBottomColor: "#D9D9D9",
+    borderBottomWidth: 1,
+    width: "100%",
   },
 });
 
