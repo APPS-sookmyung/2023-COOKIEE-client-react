@@ -9,7 +9,7 @@ import getCate from "../../../api/category/getCate";
 
 const collectCookiee = () => {
   const [data, setData] = useState([]);
-  const [userId, setUserId] = useState(1);
+  const [userId, setUserId] = useState(32);
 
   useEffect(() => {
     let completed = false; // 첫 번째 1회 실행을 위한 flag
@@ -38,14 +38,12 @@ const collectCookiee = () => {
     navigation.goBack();
   };
 
-  const categories = [
-    { name: "카페", color: "#FFC3C3B2" },
-    { name: "데이트", color: "#D0FFBA" },
-  ];
-
-  const handlePressCate = (categoryName) => {
-    router.push({pathname: `showCookiee/${categoryName}`, params: { categoryId: category.categoryId }});
-  };
+  // const handlePressCate = (categoryName) => {
+  //   router.push({
+  //     pathname: `showCookiee/${categoryName}`,
+  //     params: { categoryId: category.categoryId },
+  //   });
+  // };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -56,23 +54,34 @@ const collectCookiee = () => {
         <Text style={styles.title}>🍪 쿠키 모아보기</Text>
       </View>
       <View style={styles.categoryList}>
-        {data.map((category, index) => (
-          <View key={index}>
-            <TouchableOpacity
-              onPress={() => router.push({pathname: `showCookiee/${category.categoryName}`, params: { categoryId: category.categoryId }})}
-            >
-              <View style={styles.categoryItem}>
-                <View
-                  style={[
-                    styles.colorBox,
-                    { backgroundColor: category.categoryColor },
-                  ]}
-                />
-                <Text style={styles.categoryText}>{category.categoryName}</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        ))}
+        {data == null ? (
+          <Text>카테고리가 없습니다.</Text>
+        ) : (
+          data.map((category, index) => (
+            <View key={index}>
+              <TouchableOpacity
+                onPress={() =>
+                  router.push({
+                    pathname: `showCookiee/${category.categoryName}`,
+                    params: { categoryId: category.categoryId },
+                  })
+                }
+              >
+                <View style={styles.categoryItem}>
+                  <View
+                    style={[
+                      styles.colorBox,
+                      { backgroundColor: category.categoryColor },
+                    ]}
+                  />
+                  <Text style={styles.categoryText}>
+                    {category.categoryName}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          ))
+        )}
       </View>
     </SafeAreaView>
   );
