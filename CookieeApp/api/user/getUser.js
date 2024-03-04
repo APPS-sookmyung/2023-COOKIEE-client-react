@@ -10,7 +10,7 @@ export const getUser = async (userId) => {
 
     return response.data.result;
   } catch (error) {
-    console.error("Error updating category data:", error);
+    console.error("Error getUser data:", error);
     return null;
   }
 };
