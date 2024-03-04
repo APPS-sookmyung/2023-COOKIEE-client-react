@@ -5,6 +5,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { getUser } from "../../../api/user/getUser";
+import { Linking } from "react-native";
 
 const myPage = () => {
   const navigation = useNavigation();
@@ -66,7 +67,10 @@ const myPage = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonStyle}
-          onPress={() => router.push("../../screens/UserGuide")}
+          // onPress={() => router.push("../../screens/UserGuide")}
+          onPress={() =>
+            Linking.openURL("https://youtu.be/O2Hv4VpVumg?feature=shared")
+          }
         >
           <Text style={styles.buttonText}>사용 가이드</Text>
         </TouchableOpacity>
