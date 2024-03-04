@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, TouchableOpacity, Text, FlatList, TextInput, ScrollView, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  FlatList,
+  TextInput,
+  ScrollView,
+  Alert,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-import ColorPicker from 'react-native-wheel-color-picker';
-import tinycolor from 'tinycolor2';
+import ColorPicker from "react-native-wheel-color-picker";
+import tinycolor from "tinycolor2";
 
 import { putCate } from "../../../api/category/putCate";
-
 
 const CategoryEdit = () => {
   const navigation = useNavigation();
@@ -43,7 +51,7 @@ const CategoryEdit = () => {
 
   const handleComplete = async () => {
     try {
-      const userId = "1";
+      const userId = "32";
 
       const categoryData = {
         categoryName: categoryName,
@@ -104,63 +112,63 @@ const CategoryEdit = () => {
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
-      backgroundColor: "#FFFFFF",
-      paddingHorizontal: 3,
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 3,
   },
   titleHeader: {
-      marginVertical: 5,
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: "#FFFFFF",
+    marginVertical: 5,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FFFFFF",
   },
   title: {
-      position: "absolute",
-      fontSize: 27,
-      fontWeight: "bold",
-      color: "#594E4E",
+    position: "absolute",
+    fontSize: 27,
+    fontWeight: "bold",
+    color: "#594E4E",
   },
   menuIcon: {
-      marginLeft: 30,
-      width: "100%",
+    marginLeft: 30,
+    width: "100%",
   },
   editContainer: {
-      backgroundColor: "#F1F1F1",
-      width: 350,
-      height: 450,
-      alignItems: "center",
-      justifyContent: "center",
+    backgroundColor: "#F1F1F1",
+    width: 350,
+    height: 450,
+    alignItems: "center",
+    justifyContent: "center",
   },
   centeredContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   selectedColor: {
-      width: 300,
-      height: 300,
-      marginTop: 20,
-      borderWidth: 0,
-      borderRadius: 15,
+    width: 300,
+    height: 300,
+    marginTop: 20,
+    borderWidth: 0,
+    borderRadius: 15,
   },
   textInput: {
-      width: "80%",
-      height: 40,
-      backgroundColor: "#FFFFFF",
-      color: "#000000",
-      marginTop: 20,
-      marginBottom: 20,
+    width: "80%",
+    height: 40,
+    backgroundColor: "#FFFFFF",
+    color: "#000000",
+    marginTop: 20,
+    marginBottom: 20,
   },
   completeButton: {
-      marginBottom: 10,
-      width: 50,
-      height: 30,
-      backgroundColor: "#FFF6F1E4",
-      borderRadius: 10,
-      justifyContent: "center",
-      alignItems: "center",
-    },
+    marginBottom: 10,
+    width: 50,
+    height: 30,
+    backgroundColor: "#FFF6F1E4",
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 export default CategoryEdit;

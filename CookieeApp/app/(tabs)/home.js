@@ -116,7 +116,7 @@ function Header(props) {
 
 //Year,Monty,date
 function Body(props) {
-  const [userId, setUserId] = useState(1);
+  const [userId, setUserId] = useState(32);
 
   const [totalDays, setTotalDays] = useState({});
   const [pressedDate, setPressedDate] = useState({
@@ -335,22 +335,24 @@ const S = StyleSheet.create({
     backgroundColor: "#F6F1E4",
   },
   dayOfWeek: {
-    marginHorizontal: 1,
+    marginHorizontal: 29,
     flexDirection: "row",
     color: "#594E4E",
   },
   totalDays: {
     flexDirection: "row",
     flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
   },
   box: {
-    width: "14%",
-    height: 95,
+    width: "13%",
+    height: 175,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 3,
-    marginHorizontal: 0.5,
+    marginHorizontal: 2,
     backgroundColor: "white",
     borderRadius: "5%",
     position: "relative",

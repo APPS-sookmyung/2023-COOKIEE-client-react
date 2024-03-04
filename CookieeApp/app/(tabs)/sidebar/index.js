@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getUser } from '../../../api/user/getUser';
+import { getUser } from "../../../api/user/getUser";
 import { useFocusEffect } from "@react-navigation/native";
 
 const sideBarIndex = () => {
@@ -10,7 +10,7 @@ const sideBarIndex = () => {
 
   const fetchUserData = async () => {
     try {
-      const userId = 1;
+      const userId = 32;
       const data = await getUser(userId);
       setUserData(data);
       console.log(data);
@@ -27,14 +27,12 @@ const sideBarIndex = () => {
 
   return (
     <SafeAreaView style={S.container}>
-
       <View style={S.profileContainer}>
         {userData?.profileImage && (
           <Image
             source={{ uri: userData.profileImage }}
             style={S.profileImage}
           />
-
         )}
         <View style={S.textContainer}>
           {/* <Text style={S.profileText}>Email: {userData?.email}</Text> */}
@@ -92,7 +90,7 @@ const S = StyleSheet.create({
   },
   nicknameText: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginVertical: 8,
   },
   selfDescriptionText: {

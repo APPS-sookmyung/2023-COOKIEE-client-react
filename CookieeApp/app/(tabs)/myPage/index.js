@@ -4,7 +4,7 @@ import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import { getUser } from '../../../api/user/getUser';
+import { getUser } from "../../../api/user/getUser";
 
 const myPage = () => {
   const navigation = useNavigation();
@@ -16,7 +16,7 @@ const myPage = () => {
 
   const fetchUserData = async () => {
     try {
-      const userId = 1;
+      const userId = 32;
       const data = await getUser(userId);
       setUserData(data);
       console.log(data);
@@ -46,12 +46,13 @@ const myPage = () => {
             source={{ uri: userData.profileImage }}
             style={styles.profileImage}
           />
-
         )}
         <View style={styles.textContainer}>
           {/* <Text style={styles.profileText}>Email: {userData?.email}</Text> */}
           <Text style={styles.nicknameText}>{userData?.nickname}</Text>
-          <Text style={styles.selfDescriptionText}>{userData?.selfDescription}</Text>
+          <Text style={styles.selfDescriptionText}>
+            {userData?.selfDescription}
+          </Text>
         </View>
       </View>
 
@@ -68,9 +69,7 @@ const myPage = () => {
         >
           <Text style={styles.buttonText}>사용 가이드</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-        >
+        <TouchableOpacity style={styles.buttonStyle}>
           <Text style={styles.buttonText}>로그아웃</Text>
         </TouchableOpacity>
       </View>
@@ -134,7 +133,7 @@ const styles = StyleSheet.create({
   },
   nicknameText: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginVertical: 8,
   },
   selfDescriptionText: {
