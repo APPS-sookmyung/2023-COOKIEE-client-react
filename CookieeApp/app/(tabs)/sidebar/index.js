@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getUser } from "../../../api/user/getUser";
 import { useFocusEffect } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons";
 
 const sideBarIndex = () => {
+  const router = useRouter();
+
   const [userData, setUserData] = useState(null);
 
   const fetchUserData = async () => {
@@ -27,6 +30,11 @@ const sideBarIndex = () => {
 
   return (
     <SafeAreaView style={S.container}>
+      <View style={S.titleHeader}>
+        <TouchableOpacity style={S.menuIcon} onPress={router.back}>
+          <AntDesign name="arrowleft" size={30} color="#594E4E" />
+        </TouchableOpacity>
+      </View>
       <View style={S.profileContainer}>
         {userData?.profileImage && (
           <Image
@@ -96,6 +104,17 @@ const S = StyleSheet.create({
   selfDescriptionText: {
     fontSize: 16,
     marginVertical: 8,
+  },
+  titleHeader: {
+    marginVertical: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FFFFFF",
+  },
+  menuIcon: {
+    marginLeft: 30,
+    width: "100%",
   },
 });
 
