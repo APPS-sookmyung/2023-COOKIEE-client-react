@@ -4,6 +4,10 @@ export const deleteThumb = async (userId, thumbnailId) => {
       `https://cookiee.site/thumbnail/del/${userId}/${thumbnailId}`,
       {
         method: "DELETE",
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzMiIsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE3MDk1MTM4NzcsImV4cCI6MTcxMjEwNTg3N30.ZHC6ZPw6WsTfMR7at4FLkLAjNDU0vOMgfWL1lI3DsOs",
+        },
       }
     );
 
