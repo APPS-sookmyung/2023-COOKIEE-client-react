@@ -139,15 +139,28 @@ const EventDetailIndex = () => {
               width={width}
               autoPlay={false}
               data={eventImgData}
+              scrollAnimationDuration={1000}
+              style={{
+                display: "flex",
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
               renderItem={({ item, index }) => (
-                <View style={{ flex: 1, justifyContent: "center" }}>
+                <View
+                  style={{
+                    flex: 1,
+                    padding: 50,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
                   <Image
                     source={{ uri: item }}
                     style={{
                       width: width,
                       height: "100%",
                       resizeMode: "contain",
-                      borderRadius: 7,
                     }}
                   />
                 </View>
@@ -241,11 +254,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  contentDetail: { fontSize: 15, flexGrow: 1, flexShrink: 1 },
+  contentDetail: { fontSize: 20, flexGrow: 1, flexShrink: 1 },
   contentTitle: {
     color: "#7C7C7C",
-    fontSize: 15,
-    width: 90,
+    fontSize: 20,
+    width: 120,
   },
   iconContainer: {
     marginLeft: 5,
@@ -278,6 +291,6 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   categoryText: {
-    fontSize: 15,
+    fontSize: 20,
   },
 });
