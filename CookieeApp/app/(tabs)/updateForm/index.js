@@ -28,7 +28,7 @@ const UpdateEventFormScreen = () => {
   const [items, setItems] = useState([]);
   const [selected, setSelected] = useState([]);
 
-  const [userId, setUserId] = useState(1);
+  const [userId, setUserId] = useState(32);
 
   useFocusEffect(
     useCallback(() => {

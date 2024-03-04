@@ -24,7 +24,7 @@ const EventDetailIndex = () => {
   const [eventData, setEventData] = useState([]);
   const [eventImgData, setEventImgData] = useState([]);
 
-  const [userId, setUserId] = useState(1);
+  const [userId, setUserId] = useState(32);
 
   async function handelGetEventById() {
     console.log("handelGetEventById 실행");

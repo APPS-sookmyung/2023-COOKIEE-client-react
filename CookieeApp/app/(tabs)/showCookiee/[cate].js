@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, TouchableOpacity, Text, Image, FlatList } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  Image,
+  FlatList,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -29,7 +36,7 @@ const ShowCookiee = () => {
 
   const handleComplete = async () => {
     try {
-      const userId = 1;
+      const userId = 32;
       console.log(categoryId);
 
       if (!categoryId) {
@@ -65,7 +72,11 @@ const ShowCookiee = () => {
         keyExtractor={(item, index) => index.toString()}
         numColumns={3}
         renderItem={({ item }) => (
-          <Image source={{ uri: item.firstImageUrl }} style={styles.image} resizeMode="cover" />
+          <Image
+            source={{ uri: item.firstImageUrl }}
+            style={styles.image}
+            resizeMode="cover"
+          />
         )}
       />
     </SafeAreaView>

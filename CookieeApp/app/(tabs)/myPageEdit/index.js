@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { router } from "expo-router";
-import { View, StyleSheet, TouchableOpacity, Text, TextInput } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  TextInput,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -40,9 +46,9 @@ const myPageEdit = () => {
 
   const handleProfileUpdate = async () => {
     try {
-      const userId = 1;
-      setProfileImage('test01'); // 임시로
-      
+      const userId = 32;
+      setProfileImage("test01"); // 임시로
+
       const userData = {
         nickname: nickname,
         selfDescription: intro,

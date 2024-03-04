@@ -24,7 +24,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 const BottomModalContnet = () => {
   const router = useRouter();
-  const [userId, setUserId] = useState(1);
+  const [userId, setUserId] = useState(32);
 
   const { date } = useLocalSearchParams();
   const selectedDate = JSON.parse(date);
