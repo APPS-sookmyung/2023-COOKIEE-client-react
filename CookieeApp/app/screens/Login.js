@@ -10,12 +10,6 @@ import * as AppleAuthentication from "expo-apple-authentication";
 WebBrowser.maybeCompleteAuthSession();
 
 export default function Login() {
-  const redirectUri = AuthSession.makeRedirectUri({
-    scheme: "cookiee",
-    path: "redirect",
-  });
-  // console.log(redirectUri);
-
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId:
       "750908582355-4i3spir7ue0gj7n9l8afhfsp2iuv8m7e.apps.googleusercontent.com",
