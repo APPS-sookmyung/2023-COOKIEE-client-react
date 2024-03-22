@@ -18,7 +18,7 @@ export const createThumb = async (userId, selectedDate, asset) => {
   // console.log(formData.getAll("eventDate"));
 
   try {
-    const res = await fetch(`https://cookiee.site/thumbnail/${userId}`, {
+    const res = await fetch(`https://cookiee.site/thumbnail/32`, {
       method: "POST",
       body: formData,
       headers: {
@@ -27,7 +27,7 @@ export const createThumb = async (userId, selectedDate, asset) => {
           "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzMiIsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE3MDk1MTM4NzcsImV4cCI6MTcxMjEwNTg3N30.ZHC6ZPw6WsTfMR7at4FLkLAjNDU0vOMgfWL1lI3DsOs",
       },
     });
-
+    console.log(res.status);
     if (res.status == 200) {
       console.log("썸네일 등록 통신 성공. LOG의 'ok'가 true인지 확인하세요.");
       console.log(JSON.stringify(res));

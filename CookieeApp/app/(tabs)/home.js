@@ -257,6 +257,9 @@ function Body(props) {
               <View style={S.box} key={uuidv4()}>
                 <ImageBackground
                   source={{ uri: findThumbUriByDay(checkPressedDate) }}
+                  // source={{
+                  //   uri: "https://cookiee-s3.s3.ap-northeast-2.amazonaws.com/1/thumbnail/06c4bd1a-c855-40d4-be9e-551b69ce8694IMG_0081.jpg",
+                  // }}
                   imageStyle={{ borderRadius: 5 }}
                   style={{
                     width: "100%",
@@ -335,7 +338,7 @@ const S = StyleSheet.create({
     backgroundColor: "#F6F1E4",
   },
   dayOfWeek: {
-    marginHorizontal: 29,
+    marginHorizontal: 1,
     flexDirection: "row",
     color: "#594E4E",
   },
@@ -346,13 +349,13 @@ const S = StyleSheet.create({
     alignItems: "center",
   },
   box: {
-    width: "13%",
-    height: 175,
+    width: "14%",
+    height: 95,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 3,
-    marginHorizontal: 2,
+    marginHorizontal: 0.5,
     backgroundColor: "white",
     borderRadius: "5%",
     position: "relative",
