@@ -326,7 +326,7 @@ const S = StyleSheet.create({
     minHeight: "50%",
     borderBottomColor: "black",
     backgroundColor: "#FFFFFF",
-    paddingHorizontal: 3,
+    // paddingHorizontal: 3,
   },
   header: {
     paddingTop: 20,
@@ -336,6 +336,10 @@ const S = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#F6F1E4",
+
+    borderStyle: "solid",
+    borderColor: "#594E4E",
+    borderTopWidth: 0.2,
   },
   dayOfWeek: {
     marginHorizontal: 1,
@@ -354,7 +358,7 @@ const S = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 3,
+    marginVertical: 1,
     marginHorizontal: 0.5,
     backgroundColor: "white",
     borderRadius: "5%",
@@ -416,6 +420,7 @@ const S = StyleSheet.create({
   calendarBody: {
     backgroundColor: "#F6F1E4",
     paddingBottom: 10,
+    height: "100%",
   },
   monthBar: {
     flexDirection: "row",
