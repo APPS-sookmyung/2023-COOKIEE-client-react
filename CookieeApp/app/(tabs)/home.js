@@ -338,7 +338,7 @@ const S = StyleSheet.create({
     backgroundColor: "#F6F1E4",
 
     borderStyle: "solid",
-    borderColor: "#594E4E",
+    borderColor: "#9e988a",
     borderTopWidth: 0.2,
   },
   dayOfWeek: {
