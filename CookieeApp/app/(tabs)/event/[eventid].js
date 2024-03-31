@@ -82,26 +82,35 @@ const EventDetailIndex = () => {
     );
   };
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   let startTime = 0;
   let endTime = 0;
 
   const onImgLoadStart = () => {
     setIsLoading(true);
+    console.log("로딩 시작");
     startTime = new Date().getTime();
   };
 
   const onImgLoadEnd = () => {
     setIsLoading(false);
+    console.log("로딩 끝");
     endTime = new Date().getTime();
 
     const elapsedTime = endTime - startTime;
-    console.log("이미지 로드에 소요된 시간: " + elapsedTime + "밀리초");
+    // console.log("이미지 로드에 소요된 시간: " + elapsedTime + "밀리초");
   };
 
   const Indicator = () => {
     return (
-      <View style={{ width: "100%", height: "100%" }}>
+      <View
+        style={{
+          width: "100%",
+          height: "100%",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <ActivityIndicator size="small" color="black" />
       </View>
     );
@@ -184,6 +193,7 @@ const EventDetailIndex = () => {
                   }}
                 >
                   <Image
+                    defaultSource={require("../../../assets/adaptive-icon.png")}
                     source={{ uri: item }}
                     style={{
                       width: "100%",
@@ -192,7 +202,6 @@ const EventDetailIndex = () => {
                     }}
                     onLoadStart={onImgLoadStart}
                     onLoadEnd={onImgLoadEnd}
-                    loadingIndicatorSource={<Indicator />}
                   />
                 </View>
               )}
@@ -239,7 +248,6 @@ const EventDetailIndex = () => {
                 <Text style={styles.contentDetail}>{eventData.withWho}</Text>
               </View>
             </View>
-            <Indicator />
           </View>
         </ScrollView>
       </View>

@@ -22,6 +22,7 @@ export default function EventBox(eventData) {
           <View style={styles.FirstEventImageBox}>
             <ImageBackground
               source={{ uri: event.eventImageUrlList[0] }}
+              defaultSource={require("../../assets/adaptive-icon.png")}
               resizeMode="cover"
               imageStyle={styles.image}
             >

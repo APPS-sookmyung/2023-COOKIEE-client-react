@@ -6,6 +6,8 @@ import {
   TextInput,
   Dimensions,
   Image,
+  ActivityIndicatorComponent,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useCallback } from "react";
 
@@ -192,7 +194,11 @@ const AddEventFormScreen = () => {
     }));
   };
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleSubmit = async () => {
+    setIsSubmitting(true);
+
     // 입력 필드 초기화
     setNewEvent({
       year: selectedDate.year,
@@ -252,6 +258,7 @@ const AddEventFormScreen = () => {
       .then((res) => {
         console.log("이벤트 등록 통신 성공. LOG의 'ok'가 true인지 확인하세요.");
         console.log(JSON.stringify(res));
+        setIsSubmitting(false);
         router.back();
       })
       .catch((err) => {
@@ -260,197 +267,210 @@ const AddEventFormScreen = () => {
       });
   };
 
-  return (
-    <View style={styles.Container}>
-      <View style={styles.formHeader}>
-        <TouchableOpacity
-          style={styles.headerBtn}
-          title="이벤트 추가하가"
-          onPress={handleSubmit}
-        >
-          <Text style={styles.headerBtnText}>완료</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View
-        style={{
-          alignSelf: "center",
-          justifyContent: "center",
-          width: "100%",
-          height: "50%",
-          position: "relative",
-        }}
-      >
-        {imageUrl && imageUrl.length === 0 ? (
-          // 이미지가 업로드되지 않았을 때
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%",
-            }}
+  if (isSubmitting == false) {
+    return (
+      <View style={styles.Container}>
+        <View style={styles.formHeader}>
+          <TouchableOpacity
+            style={styles.headerBtn}
+            title="이벤트 추가하가"
+            onPress={handleSubmit}
           >
-            <TouchableOpacity
-              onPress={uploadImage}
+            <Text style={styles.headerBtnText}>완료</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View
+          style={{
+            alignSelf: "center",
+            justifyContent: "center",
+            width: "100%",
+            height: "50%",
+            position: "relative",
+          }}
+        >
+          {imageUrl && imageUrl.length === 0 ? (
+            // 이미지가 업로드되지 않았을 때
+            <View
               style={{
+                flex: 1,
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: "#EBEBEB",
-                width: "70%",
-                height: "80%",
-                borderRadius: 10,
+                height: "100%",
               }}
             >
-              <Text>No Image</Text>
-            </TouchableOpacity>
-          </View>
-        ) : (
-          // 이미지가 업로드된 후
-          <Carousel
-            loop
-            mode="parallax"
-            width={width}
-            autoPlay={false}
-            data={imageUrl}
-            scrollAnimationDuration={500}
-            style={{
-              display: "flex",
-              width: "100%",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "100%",
-            }}
-            renderItem={({ item, index }) => (
-              <View
+              <TouchableOpacity
+                onPress={uploadImage}
                 style={{
-                  flex: 1,
-                  padding: 10,
-                  alignItems: "center",
                   justifyContent: "center",
-                  height: "100%",
+                  alignItems: "center",
+                  backgroundColor: "#EBEBEB",
+                  width: "70%",
+                  height: "80%",
+                  borderRadius: 10,
                 }}
               >
-                <Image
-                  source={{ uri: item }}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    resizeMode: "contain",
-                  }}
-                />
-              </View>
-            )}
-          />
-        )}
-      </View>
-
-      <View style={styles.formTitleContainer}>
-        <Text style={styles.formTitleText}>🍪 사진 정보 작성</Text>
-      </View>
-
-      <View style={styles.formContainer}>
-        <View style={styles.InputContainer}>
-          <Text style={styles.InputTitle}>시작 시간</Text>
-          <TouchableOpacity onPress={onPressStartTime} style={styles.InputBox}>
-            <Text style={styles.buttonText}>
-              {"  "}
-              {startTime != null
-                ? startTime.getHours() + " : " + startTime.getMinutes()
-                : "시간"}
-            </Text>
-          </TouchableOpacity>
-          <DateTimePickerModal
-            isVisible={visible}
-            mode={"time"}
-            onConfirm={onConfirm}
-            onCancel={onCancel}
-            date={startTime}
-          />
-        </View>
-        <View style={styles.InputContainer}>
-          <Text style={styles.InputTitle}>종료 시간</Text>
-          <TouchableOpacity onPress={onPressEndTime} style={styles.InputBox}>
-            <Text style={styles.buttonText}>
-              {"  "}
-              {endTime != null
-                ? endTime.getHours() + " : " + endTime.getMinutes()
-                : "시간"}
-            </Text>
-          </TouchableOpacity>
-          <DateTimePickerModal
-            isVisible={visible}
-            mode={"time"}
-            onConfirm={onConfirm}
-            onCancel={onCancel}
-            date={endTime}
-          />
-        </View>
-        <View style={styles.InputContainer}>
-          <Text style={styles.InputTitle}>장소</Text>
-          <TextInput
-            style={styles.InputBox}
-            placeholder="  장소"
-            value={newEvent.place}
-            onChangeText={(text) => handleInputChange(text, "place")}
-          />
-        </View>
-        <View style={styles.InputContainer}>
-          <Text style={styles.InputTitle}>내용</Text>
-          <TextInput
-            style={styles.InputBox}
-            placeholder="  내용"
-            value={newEvent.what}
-            onChangeText={(text) => handleInputChange(text, "what")}
-          />
-        </View>
-        <View style={styles.InputContainer}>
-          <Text style={styles.InputTitle}>함께한 사람</Text>
-          <TextInput
-            style={styles.InputBox}
-            placeholder="  사람"
-            value={newEvent.people}
-            onChangeText={(text) => handleInputChange(text, "people")}
-          />
-        </View>
-        <View style={styles.InputContainer}>
-          <Text style={styles.InputTitle}>카테고리</Text>
-          <View style={styles.dropdownContainer}>
-            <MultiSelect
-              // mode="modal"
-              dropdownPosition="top"
-              style={styles.dropdown}
-              placeholderStyle={styles.placeholderStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              data={items}
-              labelField="label"
-              valueField="value"
-              imagef
-              placeholder="카테고리 추가하기"
-              value={selected}
-              onChange={(item) => {
-                setSelected(item);
-                console.log(item);
+                <Text>No Image</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            // 이미지가 업로드된 후
+            <Carousel
+              loop
+              mode="parallax"
+              width={width}
+              autoPlay={false}
+              data={imageUrl}
+              scrollAnimationDuration={500}
+              style={{
+                display: "flex",
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
               }}
-              renderSelectedItem={(item, unSelect) => (
-                <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
-                  <View
+              renderItem={({ item, index }) => (
+                <View
+                  style={{
+                    flex: 1,
+                    padding: 10,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: "100%",
+                  }}
+                >
+                  <Image
+                    source={{ uri: item }}
                     style={{
-                      ...styles.selectedStyle,
-                      backgroundColor: `${item.color}`,
+                      width: "100%",
+                      height: "100%",
+                      resizeMode: "contain",
                     }}
-                  >
-                    <Text style={styles.textSelectedStyle}>#{item.label}</Text>
-                    <AntDesign color="black" name="delete" size={13} />
-                  </View>
-                </TouchableOpacity>
+                  />
+                </View>
               )}
             />
+          )}
+        </View>
+
+        <View style={styles.formTitleContainer}>
+          <Text style={styles.formTitleText}>🍪 사진 정보 작성</Text>
+        </View>
+
+        <View style={styles.formContainer}>
+          <View style={styles.InputContainer}>
+            <Text style={styles.InputTitle}>시작 시간</Text>
+            <TouchableOpacity
+              onPress={onPressStartTime}
+              style={styles.InputBox}
+            >
+              <Text style={styles.buttonText}>
+                {"  "}
+                {startTime != null
+                  ? startTime.getHours() + " : " + startTime.getMinutes()
+                  : "시간"}
+              </Text>
+            </TouchableOpacity>
+            <DateTimePickerModal
+              isVisible={visible}
+              mode={"time"}
+              onConfirm={onConfirm}
+              onCancel={onCancel}
+              date={startTime}
+            />
+          </View>
+          <View style={styles.InputContainer}>
+            <Text style={styles.InputTitle}>종료 시간</Text>
+            <TouchableOpacity onPress={onPressEndTime} style={styles.InputBox}>
+              <Text style={styles.buttonText}>
+                {"  "}
+                {endTime != null
+                  ? endTime.getHours() + " : " + endTime.getMinutes()
+                  : "시간"}
+              </Text>
+            </TouchableOpacity>
+            <DateTimePickerModal
+              isVisible={visible}
+              mode={"time"}
+              onConfirm={onConfirm}
+              onCancel={onCancel}
+              date={endTime}
+            />
+          </View>
+          <View style={styles.InputContainer}>
+            <Text style={styles.InputTitle}>장소</Text>
+            <TextInput
+              style={styles.InputBox}
+              placeholder="  장소"
+              value={newEvent.place}
+              onChangeText={(text) => handleInputChange(text, "place")}
+            />
+          </View>
+          <View style={styles.InputContainer}>
+            <Text style={styles.InputTitle}>내용</Text>
+            <TextInput
+              style={styles.InputBox}
+              placeholder="  내용"
+              value={newEvent.what}
+              onChangeText={(text) => handleInputChange(text, "what")}
+            />
+          </View>
+          <View style={styles.InputContainer}>
+            <Text style={styles.InputTitle}>함께한 사람</Text>
+            <TextInput
+              style={styles.InputBox}
+              placeholder="  사람"
+              value={newEvent.people}
+              onChangeText={(text) => handleInputChange(text, "people")}
+            />
+          </View>
+          <View style={styles.InputContainer}>
+            <Text style={styles.InputTitle}>카테고리</Text>
+            <View style={styles.dropdownContainer}>
+              <MultiSelect
+                // mode="modal"
+                dropdownPosition="top"
+                style={styles.dropdown}
+                placeholderStyle={styles.placeholderStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                data={items}
+                labelField="label"
+                valueField="value"
+                imagef
+                placeholder="카테고리 추가하기"
+                value={selected}
+                onChange={(item) => {
+                  setSelected(item);
+                  console.log(item);
+                }}
+                renderSelectedItem={(item, unSelect) => (
+                  <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
+                    <View
+                      style={{
+                        ...styles.selectedStyle,
+                        backgroundColor: `${item.color}`,
+                      }}
+                    >
+                      <Text style={styles.textSelectedStyle}>
+                        #{item.label}
+                      </Text>
+                      <AntDesign color="black" name="delete" size={13} />
+                    </View>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
           </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  } else {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator size={"large"} />
+      </View>
+    );
+  }
 };
 
 export default AddEventFormScreen;
