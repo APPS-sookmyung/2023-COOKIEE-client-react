@@ -178,16 +178,15 @@ const BottomModalContnet = () => {
   return (
     <View style={styles.modalContainer}>
       <View style={styles.thumnailContainer}>
-        <View>
-          {selectedThumbnailUrl !== null && (
-            <ImageBackground
-              style={{ width: "100%", height: "100%" }}
-              source={{ uri: selectedThumbnailUrl }}
-              resizeMode="cover"
-              defaultSource={require("../../../assets/adaptive-icon.png")}
-            ></ImageBackground>
-          )}
-        </View>
+        {selectedThumbnailUrl !== null && (
+          <ImageBackground
+            style={styles.imageBackground}
+            source={{ uri: selectedThumbnailUrl }}
+            resizeMode="cover"
+            defaultSource={require("../../../assets/adaptive-icon.png")}
+          ></ImageBackground>
+        )}
+
         <View style={styles.addContainer}>
           <View style={styles.addThumnailBtnContainer}>
             <TouchableOpacity onPress={alertPickThumb}>
@@ -200,13 +199,7 @@ const BottomModalContnet = () => {
           </View>
         </View>
         <LinearGradient
-          colors={[
-            "transparent",
-            "rgba(255,255,255,0.3)",
-            "rgba(255,255,255,0.7)",
-            "rgba(255,255,255,1)",
-          ]}
-          locations={[0.0, 0.4, 0.6, 0.8]}
+          colors={["rgba(255, 255, 255, 0)", "rgba(255, 255, 255, 1)"]}
           style={styles.modalDateContainer}
         >
           <View style={styles.modalDateContainerInner}>
@@ -353,5 +346,9 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "relative",
     paddingTop: 7,
+  },
+  imageBackground: {
+    width: "100%",
+    height: "100%",
   },
 });
