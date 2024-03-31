@@ -10,9 +10,9 @@ export default function Loading() {
         // resizeMode="contain"
       />
       <Text style={styles.title_text}>Cookiee</Text>
-      <Text style={styles.content_text}>
+      {/* <Text style={styles.content_text}>
         (영화 본편 이후에 나오는 에필로그)
-      </Text>
+      </Text> */}
     </View>
   );
 }
