@@ -4,6 +4,8 @@ import { useState } from "react";
 export default function EventBox(eventData) {
   const event = eventData.eventData;
 
+  console.log(eventData);
+
   const TruncateText = ({ text, maxLength }) => {
     if (text.length <= maxLength) {
       return <Text style={styles.EventInfoDetailText}>{text}</Text>;
@@ -114,7 +116,7 @@ const styles = StyleSheet.create({
   },
   FirstEventImageBox: {
     width: "90%",
-    height: 200,
+    height: 170,
     backgroundColor: "#EBEBEB",
     alignSelf: "center",
   },
@@ -139,7 +141,7 @@ const styles = StyleSheet.create({
     margin: 2,
   },
   EventInfoNameText: {
-    fontSize: 20,
+    fontSize: 16,
     color: "gray",
   },
   EventInfoDetail: {
@@ -148,7 +150,7 @@ const styles = StyleSheet.create({
     marginLeft: 7,
   },
   EventInfoDetailText: {
-    fontSize: 20,
+    fontSize: 16,
   },
   EventInfoCategoryBox: {
     width: "auto",
@@ -158,7 +160,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 7,
   },
   EventInfoCategoryText: {
-    fontSize: 17,
+    fontSize: 16,
   },
   test: {
     borderRadius: 10,
