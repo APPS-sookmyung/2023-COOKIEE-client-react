@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     alignItems: "baseline",
-    margin: 4,
+    margin: 5,
   },
   contentTitleContainer: {
     margin: 7,
@@ -281,15 +281,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     flexShrink: 1,
+    alignItems: "center",
   },
   categoryBox: {
     borderRadius: 10,
-    paddingVertical: 5,
-    paddingHorizontal: 5,
-    marginRight: 5,
-    marginVertical: 5,
+    paddingVertical: 3,
+    paddingHorizontal: 7,
+    marginRight: 10,
   },
   categoryText: {
-    fontSize: 20,
+    fontSize: 15,
   },
 });
