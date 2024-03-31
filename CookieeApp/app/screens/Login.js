@@ -6,6 +6,7 @@ import * as Google from "expo-auth-session/providers/google";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import * as AuthSession from "expo-auth-session";
 import * as AppleAuthentication from "expo-apple-authentication";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -18,6 +19,14 @@ export default function Login() {
   });
 
   const [user, setUser] = React.useState(null);
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await promptAsync();
+    } catch (err) {
+      console.error('Error signing in with Google:', err);
+    }
+  };
 
   React.useEffect(() => {
     if (response?.type === "success") {
@@ -64,15 +73,12 @@ export default function Login() {
         <View style={styles.buttonContainer}>
           {/* 구글 로그인 */}
           <TouchableOpacity
+            style={styles.googleButton}
+            onPress={handleGoogleSignIn}
             disabled={!request}
-            onPress={() => {
-              promptAsync();
-            }}
           >
-            <Image
-              source={require("../../assets/btn_google.png")}
-              style={{ ...styles.button, borderRadius: 5 }}
-            />
+            <FontAwesome5 name="google" size={20} color="white" />
+            <Text style={styles.googleText}>Sign In With Google</Text>
           </TouchableOpacity>
 
           {/* 애플 로그인 */}
@@ -151,5 +157,21 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     marginTop: 50,
+  },
+  googleButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#4285F4",
+    width: 300,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginTop: 20,
+  },
+  googleText: {
+    color: "white",
+    fontSize: 20,
+    marginLeft: 10,
   },
 });
