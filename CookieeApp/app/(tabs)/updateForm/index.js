@@ -260,7 +260,7 @@ const UpdateEventFormScreen = () => {
           alignSelf: "center",
           justifyContent: "center",
           width: "100%",
-          height: "45%",
+          height: "50%",
           position: "relative",
         }}
       >
@@ -271,6 +271,7 @@ const UpdateEventFormScreen = () => {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
+              height: "100%",
             }}
           >
             <TouchableOpacity
@@ -295,26 +296,28 @@ const UpdateEventFormScreen = () => {
             width={width}
             autoPlay={false}
             data={imageUrl}
-            scrollAnimationDuration={1000}
+            scrollAnimationDuration={500}
             style={{
               display: "flex",
               width: "100%",
               alignItems: "center",
               justifyContent: "center",
+              height: "100%",
             }}
             renderItem={({ item, index }) => (
               <View
                 style={{
                   flex: 1,
-                  padding: 50,
+                  padding: 10,
                   alignItems: "center",
                   justifyContent: "center",
+                  height: "100%",
                 }}
               >
                 <Image
                   source={{ uri: item }}
                   style={{
-                    width: width,
+                    width: "100%",
                     height: "100%",
                     resizeMode: "contain",
                   }}

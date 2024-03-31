@@ -30,7 +30,7 @@ const AddEventFormScreen = () => {
   const [items, setItems] = useState([]);
   const [selected, setSelected] = useState([]);
 
-  const [userId, setUserId] = useState(32);
+  const [userId, setUserId] = useState(34);
 
   useFocusEffect(
     useCallback(() => {
@@ -246,7 +246,7 @@ const AddEventFormScreen = () => {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzMiIsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE3MDk1MTM4NzcsImV4cCI6MTcxMjEwNTg3N30.ZHC6ZPw6WsTfMR7at4FLkLAjNDU0vOMgfWL1lI3DsOs",
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNCIsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE3MTA2MDg0MzQsImV4cCI6MTcxMzIwMDQzNH0.6-gn5ii_qhFOE5RDSGHphwu7QcvWxbQziZ6Oe-uB5pM",
       },
     })
       .then((res) => {
@@ -277,7 +277,7 @@ const AddEventFormScreen = () => {
           alignSelf: "center",
           justifyContent: "center",
           width: "100%",
-          height: "45%",
+          height: "50%",
           position: "relative",
         }}
       >
@@ -288,6 +288,7 @@ const AddEventFormScreen = () => {
               flex: 1,
               justifyContent: "center",
               alignItems: "center",
+              height: "100%",
             }}
           >
             <TouchableOpacity
@@ -312,26 +313,28 @@ const AddEventFormScreen = () => {
             width={width}
             autoPlay={false}
             data={imageUrl}
-            scrollAnimationDuration={1000}
+            scrollAnimationDuration={500}
             style={{
               display: "flex",
               width: "100%",
               alignItems: "center",
               justifyContent: "center",
+              height: "100%",
             }}
             renderItem={({ item, index }) => (
               <View
                 style={{
                   flex: 1,
-                  padding: 50,
+                  padding: 10,
                   alignItems: "center",
                   justifyContent: "center",
+                  height: "100%",
                 }}
               >
                 <Image
                   source={{ uri: item }}
                   style={{
-                    width: width,
+                    width: "100%",
                     height: "100%",
                     resizeMode: "contain",
                   }}

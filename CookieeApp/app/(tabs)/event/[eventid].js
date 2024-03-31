@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState, useCallback } from "react";
 import { EvilIcons } from "@expo/vector-icons";
@@ -81,6 +82,31 @@ const EventDetailIndex = () => {
     );
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+  let startTime = 0;
+  let endTime = 0;
+
+  const onImgLoadStart = () => {
+    setIsLoading(true);
+    startTime = new Date().getTime();
+  };
+
+  const onImgLoadEnd = () => {
+    setIsLoading(false);
+    endTime = new Date().getTime();
+
+    const elapsedTime = endTime - startTime;
+    console.log("이미지 로드에 소요된 시간: " + elapsedTime + "밀리초");
+  };
+
+  const Indicator = () => {
+    return (
+      <View style={{ width: "100%", height: "100%" }}>
+        <ActivityIndicator size="small" color="black" />
+      </View>
+    );
+  };
+
   if (eventData.eventId != null) {
     return (
       <View style={styles.container}>
@@ -139,28 +165,34 @@ const EventDetailIndex = () => {
               width={width}
               autoPlay={false}
               data={eventImgData}
-              scrollAnimationDuration={1000}
+              scrollAnimationDuration={500}
               style={{
                 display: "flex",
                 width: "100%",
                 alignItems: "center",
                 justifyContent: "center",
+                height: "100%",
               }}
               renderItem={({ item, index }) => (
                 <View
                   style={{
                     flex: 1,
+                    padding: 10,
                     alignItems: "center",
                     justifyContent: "center",
+                    height: "100%",
                   }}
                 >
                   <Image
                     source={{ uri: item }}
                     style={{
-                      width: width,
+                      width: "100%",
                       height: "100%",
                       resizeMode: "contain",
                     }}
+                    onLoadStart={onImgLoadStart}
+                    onLoadEnd={onImgLoadEnd}
+                    loadingIndicatorSource={<Indicator />}
                   />
                 </View>
               )}
@@ -207,6 +239,7 @@ const EventDetailIndex = () => {
                 <Text style={styles.contentDetail}>{eventData.withWho}</Text>
               </View>
             </View>
+            <Indicator />
           </View>
         </ScrollView>
       </View>
@@ -235,7 +268,13 @@ const styles = StyleSheet.create({
     height: "auto",
     alignItems: "center",
   },
-  imageSection: { height: "55%" },
+  imageSection: {
+    alignSelf: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "50%",
+    position: "relative",
+  },
   contentSection: {
     backgroundColor: "#F6F1E4",
     display: "flex",
