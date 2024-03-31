@@ -370,19 +370,19 @@ const S = StyleSheet.create({
   },
   prev: {
     color: "gray",
-    fontSize: 24,
+    fontSize: 20,
   },
   next: {
     color: "gray",
-    fontSize: 24,
+    fontSize: 20,
   },
   curr: {
     color: "black",
-    fontSize: 24,
+    fontSize: 20,
   },
   today: {
     color: "#2196f3",
-    fontSize: 24,
+    fontSize: 20,
   },
   pressedDate: {
     width: 40,
