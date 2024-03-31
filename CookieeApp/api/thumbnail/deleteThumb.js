@@ -1,4 +1,5 @@
 export const deleteThumb = async (userId, thumbnailId) => {
+  userId = 34;
   try {
     const res = await fetch(
       `https://cookiee.site/thumbnail/del/${userId}/${thumbnailId}`,
