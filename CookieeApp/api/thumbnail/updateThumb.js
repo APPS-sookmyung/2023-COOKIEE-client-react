@@ -11,6 +11,8 @@ export const updateThumb = async (userId, thumbId, imageData) => {
   formData.append("thumbnail", uploadedImageData);
   console.log(formData.getAll("thumbnail"));
 
+  userId = 34;
+
   try {
     const res = await fetch(
       `https://cookiee.site/thumbnail/update/${userId}/${thumbId}`,
@@ -20,7 +22,7 @@ export const updateThumb = async (userId, thumbId, imageData) => {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzMiIsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE3MDk1MTM4NzcsImV4cCI6MTcxMjEwNTg3N30.ZHC6ZPw6WsTfMR7at4FLkLAjNDU0vOMgfWL1lI3DsOs",
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNCIsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE3MTA2MDg0MzQsImV4cCI6MTcxMzIwMDQzNH0.6-gn5ii_qhFOE5RDSGHphwu7QcvWxbQziZ6Oe-uB5pM",
         },
       }
     );

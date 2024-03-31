@@ -1,5 +1,6 @@
 export const deleteEvent = async (userId, eventId) => {
   try {
+    userId = 34;
     const res = await fetch(
       `https://cookiee.site/event/del/${userId}/${eventId}`,
       {

@@ -41,9 +41,11 @@ const BottomModalContnet = () => {
       if (hasThumb === false) {
         console.log("등록 api");
         status = await createThumb(userId, selectedDate, imageData);
+        console.log(status);
       } else {
         console.log("수정 api", thumbnailId);
         status = await updateThumb(userId, thumbnailId, imageData);
+        console.log(status);
       }
     } catch (error) {
       console.error("Error in onImageSelected:", error);
@@ -281,7 +283,7 @@ const styles = StyleSheet.create({
   },
   thumnailContainer: {
     display: "flex",
-    height: 300,
+    height: 240,
     backgroundColor: "#D9D9D9",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
@@ -289,7 +291,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   modalDate: {
-    fontSize: 35,
+    fontSize: 30,
     fontWeight: "600",
     color: "#594E4E",
   },

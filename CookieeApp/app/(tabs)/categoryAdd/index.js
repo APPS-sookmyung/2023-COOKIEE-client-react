@@ -94,8 +94,10 @@ const CategoryAdd = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: "100%",
     backgroundColor: "#FFFFFF",
-    paddingHorizontal: 3,
+    paddingHorizontal: 10,
+    paddingVertical: 30,
   },
   titleHeader: {
     marginVertical: 5,
@@ -106,7 +108,7 @@ const styles = StyleSheet.create({
   },
   title: {
     position: "absolute",
-    fontSize: 27,
+    fontSize: 40,
     fontWeight: "bold",
     color: "#594E4E",
   },
@@ -116,8 +118,8 @@ const styles = StyleSheet.create({
   },
   editContainer: {
     backgroundColor: "#F1F1F1",
-    width: 350,
-    height: 450,
+    width: 600,
+    height: 700,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -127,8 +129,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   selectedColor: {
-    width: 300,
-    height: 300,
+    width: 400,
+    height: 500,
     marginTop: 20,
     borderWidth: 0,
     borderRadius: 15,
@@ -140,15 +142,21 @@ const styles = StyleSheet.create({
     color: "#000000",
     marginTop: 20,
     marginBottom: 20,
+    fontSize: 25,
+    padding: 5,
   },
+
   completeButton: {
     marginBottom: 10,
-    width: 50,
-    height: 30,
+    width: 70,
+    height: 50,
     backgroundColor: "#FFF6F1E4",
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
+  },
+  buttonStyle: {
+    fontSize: 25,
   },
 });
 

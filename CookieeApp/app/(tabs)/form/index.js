@@ -277,7 +277,7 @@ const AddEventFormScreen = () => {
           alignSelf: "center",
           justifyContent: "center",
           width: "100%",
-          height: "60%",
+          height: "45%",
           position: "relative",
         }}
       >
@@ -467,7 +467,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   formTitleText: {
-    fontSize: 25,
+    fontSize: 23,
     fontWeight: "600",
     marginLeft: 13,
     marginRight: 10,
@@ -485,7 +485,7 @@ const styles = StyleSheet.create({
   InputTitle: {
     width: "auto",
     alignSelf: "center",
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "500",
   },
   InputBox: {
@@ -520,7 +520,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   headerBtnText: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "400",
   },
 

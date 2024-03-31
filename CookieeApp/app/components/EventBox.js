@@ -19,7 +19,7 @@ export default function EventBox(eventData) {
         <View style={styles.FirstEventImageContainer}>
           <View style={styles.FirstEventImageBox}>
             <ImageBackground
-              source={{ uri: event.imageUrlList[0] }}
+              source={{ uri: event.eventImageUrlList[0] }}
               resizeMode="cover"
               imageStyle={styles.image}
             >
