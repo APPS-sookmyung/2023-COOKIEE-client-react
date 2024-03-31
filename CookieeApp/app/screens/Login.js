@@ -24,7 +24,7 @@ export default function Login() {
     try {
       await promptAsync();
     } catch (err) {
-      console.error('Error signing in with Google:', err);
+      console.error("Error signing in with Google:", err);
     }
   };
 
@@ -77,8 +77,8 @@ export default function Login() {
             onPress={handleGoogleSignIn}
             disabled={!request}
           >
-            <FontAwesome5 name="google" size={20} color="white" />
-            <Text style={styles.googleText}>Sign In With Google</Text>
+            <FontAwesome5 name="google" size={15} color="white" />
+            <Text style={styles.googleText}>Sign in with Google</Text>
           </TouchableOpacity>
 
           {/* 애플 로그인 */}
@@ -171,7 +171,8 @@ const styles = StyleSheet.create({
   },
   googleText: {
     color: "white",
-    fontSize: 20,
-    marginLeft: 10,
+    fontSize: 19,
+    fontWeight: "500",
+    marginLeft: 6,
   },
 });
