@@ -33,7 +33,7 @@ const EventDetailIndex = () => {
 
       if (event != null) {
         setEventData(event);
-        setEventImgData(event.imageUrlList);
+        setEventImgData(event.eventImageUrlList);
         console.log("event: ", await event);
       }
     } catch (error) {
