@@ -8,6 +8,9 @@ import * as AuthSession from "expo-auth-session";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { FontAwesome5 } from "@expo/vector-icons";
 
+import { WebView } from "react-native-webview";
+import { AppleLoginWebview } from "./AppleLogin";
+
 WebBrowser.maybeCompleteAuthSession();
 
 export default function Login() {
@@ -49,6 +52,12 @@ export default function Login() {
     }
   };
 
+  const getLoginCode = async (data) => {
+    console.log(data);
+  };
+
+  const [inopen, setisopen] = React.useState(false);
+
   return (
     <View style={styles.container}>
       <View style={styles.introContainer}>
@@ -69,6 +78,7 @@ export default function Login() {
           {/* 다른 사용자 정보도 여기에 추가할 수 있음 */}
         </View>
       )}
+
       {user === null && (
         <View style={styles.buttonContainer}>
           {/* 구글 로그인 */}
@@ -89,34 +99,21 @@ export default function Login() {
            * 4. 로그인 api 실행
            */}
 
-          <AppleAuthentication.AppleAuthenticationButton
-            buttonType={
-              AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
-            }
-            buttonStyle={
-              AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
-            }
-            cornerRadius={5}
-            style={styles.button}
-            onPress={async () => {
-              try {
-                const credential = await AppleAuthentication.signInAsync({
-                  requestedScopes: [
-                    AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-                    AppleAuthentication.AppleAuthenticationScope.EMAIL,
-                  ],
-                });
-                // signed in
-                console.log(credential);
-              } catch (e) {
-                if (e.code === "ERR_REQUEST_CANCELED") {
-                  // handle that the user canceled the sign-in flow
-                } else {
-                  // handle other errors
-                }
+          <TouchableOpacity onPress={() => setisopen(true)}>
+            <Text>apple login</Text>
+          </TouchableOpacity>
+
+          {inopen && (
+            <AppleLoginWebview
+              style={{ height: 50 }}
+              uri={
+                "https://appleid.apple.com/auth/authorize?client_id=site.apps.cookiee&redirect_uri=https://cookiee.site/login/apple/callback&response_type=code%20id_token&scope=name%20email&response_mode=form_post"
               }
-            }}
-          />
+              isOpen={inopen}
+              onClose={false}
+              onMessage={(event) => getLoginCode(event.nativeEvent.url)}
+            />
+          )}
         </View>
       )}
     </View>
