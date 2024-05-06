@@ -79,16 +79,27 @@ const BottomModalContnet = () => {
     );
   };
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 1,
-    });
+  const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 
-    if (!result.canceled) {
-      onImageSelected(result.assets[0]);
+  const pickImage = async () => {
+    if (!status?.granted) {
+      const permission = await requestPermission();
+      if (!permission.granted) {
+        return null;
+      }
+    }
+
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+      });
+
+      if (!result.canceled) {
+        onImageSelected(result.assets[0]);
+      }
+    } catch (error) {
+      console.error("Error while picking image:", error);
     }
   };
 
@@ -122,6 +133,8 @@ const BottomModalContnet = () => {
     try {
       const result = await getThumb(userId);
 
+      // console.log(result);
+
       if (result != null) {
         const thumbnail = result.find(
           (thumb) =>
@@ -139,7 +152,7 @@ const BottomModalContnet = () => {
           setHasThumb(false);
         }
       } else {
-        console.error("getThumb returned undefined or null result");
+        console.log("getThumb returned undefined or null result");
       }
     } catch (error) {
       console.log(error);

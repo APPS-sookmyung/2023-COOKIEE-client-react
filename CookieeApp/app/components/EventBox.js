@@ -4,7 +4,7 @@ import { useState } from "react";
 export default function EventBox(eventData) {
   const event = eventData.eventData;
 
-  console.log(eventData);
+  // console.log(eventData);
 
   const TruncateText = ({ text, maxLength }) => {
     if (text.length <= maxLength) {

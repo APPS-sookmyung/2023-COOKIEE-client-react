@@ -29,6 +29,7 @@ export const createThumb = async (userId, selectedDate, asset) => {
           "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzNCIsInJvbGUiOiJST0xFX1VTRVIiLCJpYXQiOjE3MTA2MDg0MzQsImV4cCI6MTcxMzIwMDQzNH0.6-gn5ii_qhFOE5RDSGHphwu7QcvWxbQziZ6Oe-uB5pM",
       },
     });
+
     console.log(res.status);
     if (res.status == 200) {
       console.log("썸네일 등록 통신 성공. LOG의 'ok'가 true인지 확인하세요.");

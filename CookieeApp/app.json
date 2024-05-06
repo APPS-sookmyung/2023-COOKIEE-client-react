@@ -15,7 +15,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "bundleIdentifier": "site.apps.cookiee",
+      "bundleIdentifier": "ATV75VJ92J",
       "supportsTablet": true,
       "usesAppleSignIn": true
     },
