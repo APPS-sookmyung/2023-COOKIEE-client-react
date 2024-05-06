@@ -82,6 +82,13 @@ export default function Login() {
           </TouchableOpacity>
 
           {/* 애플 로그인 */}
+          {/**
+           * 1. 로그인 페이지로 이동
+           * 2. 로그인 실행
+           * 3. redirect url에서 토큰과 id를 받아오기
+           * 4. 로그인 api 실행
+           */}
+
           <AppleAuthentication.AppleAuthenticationButton
             buttonType={
               AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
