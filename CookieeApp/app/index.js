@@ -37,7 +37,8 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* {isLoggedIn ? (
+      <StatusBar style="auto" />
+      {isLoggedIn ? (
         // 사용자가 로그인한 경우 메인 화면
         <View>
           <Login onLogout={handleLogout} />
@@ -46,11 +47,10 @@ export default function App() {
       ) : (
         // 로그인 안 한 경우 로그인 화면 보여줌
         <Login onLogin={handleLogin} />
-      )} */}
+      )}
 
-      {/* <StatusBar style="auto" /> */}
-      <Redirect href={"home"} />
-      <Login />
+      {/* <Redirect href={"home"} />
+      <Login /> */}
     </SafeAreaView>
   );
 }
