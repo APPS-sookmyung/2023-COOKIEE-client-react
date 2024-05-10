@@ -1,17 +1,12 @@
 // import GoogleButton from 'react-google-button';
 // import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import * as React from "react";
-import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import * as AuthSession from "expo-auth-session";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-import { WebView } from "react-native-webview";
 import { AppleLoginWebview } from "./AppleLogin";
-
-WebBrowser.maybeCompleteAuthSession();
 
 export default function Login() {
   const [request, response, promptAsync] = Google.useAuthRequest({
