@@ -54,9 +54,16 @@ export default function Login() {
 
   const getLoginCode = async (data) => {
     console.log(data);
+    handleAppleLoginSuccess();
   };
 
-  const [inopen, setisopen] = React.useState(false);
+  const [isAppleLoginOpen, setIsAppleLoginOpen] = React.useState(false);
+
+  const handleAppleLoginSuccess = () => {
+    // 애플 로그인 성공 시 실행할 로직
+    // 예를 들어, 사용자 정보 가져오기 등
+    setIsAppleLoginOpen(false); // 웹뷰 닫기
+  };
 
   return (
     <View style={styles.container}>
@@ -99,19 +106,18 @@ export default function Login() {
            * 4. 로그인 api 실행
            */}
 
-          <TouchableOpacity onPress={() => setisopen(true)}>
+          <TouchableOpacity onPress={() => setIsAppleLoginOpen(true)}>
             <Text>apple login</Text>
           </TouchableOpacity>
 
-          {inopen && (
+          {isAppleLoginOpen && (
             <AppleLoginWebview
-              style={{ height: 50 }}
               uri={
                 "https://appleid.apple.com/auth/authorize?client_id=site.apps.cookiee&redirect_uri=https://cookiee.site/login/apple/callback&response_type=code%20id_token&scope=name%20email&response_mode=form_post"
               }
-              isOpen={inopen}
-              onClose={false}
-              onMessage={(event) => getLoginCode(event.nativeEvent.url)}
+              isOpen={isAppleLoginOpen}
+              onClose={() => setIsAppleLoginOpen(false)} // 웹뷰 닫기
+              onMessage={(event) => getLoginCode(event)}
             />
           )}
         </View>
