@@ -52,18 +52,7 @@ export default function Login() {
     }
   };
 
-  const getLoginCode = async (data) => {
-    console.log(data);
-    handleAppleLoginSuccess();
-  };
-
   const [isAppleLoginOpen, setIsAppleLoginOpen] = React.useState(false);
-
-  const handleAppleLoginSuccess = () => {
-    // 애플 로그인 성공 시 실행할 로직
-    // 예를 들어, 사용자 정보 가져오기 등
-    setIsAppleLoginOpen(false); // 웹뷰 닫기
-  };
 
   return (
     <View style={styles.container}>
@@ -99,25 +88,21 @@ export default function Login() {
           </TouchableOpacity>
 
           {/* 애플 로그인 */}
-          {/**
-           * 1. 로그인 페이지로 이동
-           * 2. 로그인 실행
-           * 3. redirect url에서 토큰과 id를 받아오기
-           * 4. 로그인 api 실행
-           */}
-
-          <TouchableOpacity onPress={() => setIsAppleLoginOpen(true)}>
-            <Text>apple login</Text>
-          </TouchableOpacity>
-
+          <AppleAuthentication.AppleAuthenticationButton
+            buttonType={
+              AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
+            }
+            buttonStyle={
+              AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
+            }
+            cornerRadius={5}
+            style={styles.button}
+            onPress={() => setIsAppleLoginOpen(true)}
+          />
           {isAppleLoginOpen && (
             <AppleLoginWebview
-              uri={
-                "https://appleid.apple.com/auth/authorize?client_id=site.apps.cookiee&redirect_uri=https://cookiee.site/login/apple/callback&response_type=code%20id_token&scope=name%20email&response_mode=form_post"
-              }
               isOpen={isAppleLoginOpen}
               onClose={() => setIsAppleLoginOpen(false)} // 웹뷰 닫기
-              onMessage={(event) => getLoginCode(event)}
             />
           )}
         </View>

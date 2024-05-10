@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Modal, View, Text, TouchableOpacity, Dimensions } from "react-native";
+import React from "react";
+import { Modal } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import WebView from "react-native-webview";
 
-export const AppleLoginWebview = ({ isOpen, onClose, onMessage, loginUri }) => {
+export const AppleLoginWebview = ({ isOpen, onClose }) => {
   const handleNavigationStateChange = (navState) => {
     // 특정 URL에 도달했을 때의 조건 확인
     if (navState.url === "https://cookiee.site/login/apple/callback") {
@@ -19,24 +19,8 @@ export const AppleLoginWebview = ({ isOpen, onClose, onMessage, loginUri }) => {
     }
   };
 
-  // 웹뷰의 HTML 가져오기
-  // const webViewRef = React.useRef(null);
-
-  // const getHTML = async () => {
-  //   if (webViewRef.current) {
-  //     const result = await webViewRef.current.injectJavaScript(`
-  //       (function() {
-  //         return document.documentElement.outerHTML;
-  //       })();
-  //     `);
-  //     console.log(result);
-  //   } else {
-  //     console.error("webViewRef is null");
-  //   }
-  // };
-
   return (
-    <SafeAreaView style={{ flex: 0.5 }}>
+    <SafeAreaView>
       <Modal
         visible={isOpen} // changed isOpen to visible
         onRequestClose={onClose} // changed onClose to onRequestClose
@@ -52,7 +36,6 @@ export const AppleLoginWebview = ({ isOpen, onClose, onMessage, loginUri }) => {
           originWhitelist={["*"]}
           cacheEnabled={false}
           incognito={true}
-          onMessage={onMessage}
           onNavigationStateChange={handleNavigationStateChange}
           // onLoad={getHTML}
         />
