@@ -52,18 +52,7 @@ export default function Login() {
     }
   };
 
-  const getLoginCode = async (data) => {
-    console.log(data);
-    handleAppleLoginSuccess();
-  };
-
   const [isAppleLoginOpen, setIsAppleLoginOpen] = React.useState(false);
-
-  const handleAppleLoginSuccess = () => {
-    // 애플 로그인 성공 시 실행할 로직
-    // 예를 들어, 사용자 정보 가져오기 등
-    setIsAppleLoginOpen(false); // 웹뷰 닫기
-  };
 
   return (
     <View style={styles.container}>
@@ -114,7 +103,6 @@ export default function Login() {
             <AppleLoginWebview
               isOpen={isAppleLoginOpen}
               onClose={() => setIsAppleLoginOpen(false)} // 웹뷰 닫기
-              onMessage={(event) => getLoginCode(event)}
             />
           )}
         </View>
