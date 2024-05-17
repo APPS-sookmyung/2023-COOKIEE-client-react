@@ -81,25 +81,6 @@ export default function Login() {
             <FontAwesome5 name="google" size={15} color="white" />
             <Text style={styles.googleText}>Sign in with Google</Text>
           </TouchableOpacity>
-
-          {/* 애플 로그인 */}
-          <AppleAuthentication.AppleAuthenticationButton
-            buttonType={
-              AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
-            }
-            buttonStyle={
-              AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
-            }
-            cornerRadius={5}
-            style={styles.button}
-            onPress={() => setIsAppleLoginOpen(true)}
-          />
-          {isAppleLoginOpen && (
-            <AppleLoginWebview
-              isOpen={isAppleLoginOpen}
-              onClose={() => setIsAppleLoginOpen(false)} // 웹뷰 닫기
-            />
-          )}
         </View>
       )}
     </View>
