@@ -37,7 +37,6 @@ export const AppleLoginWebview = ({ isOpen, onClose }) => {
           cacheEnabled={false}
           incognito={true}
           onNavigationStateChange={handleNavigationStateChange}
-          // onLoad={getHTML}
         />
       </Modal>
     </SafeAreaView>

@@ -1,17 +1,12 @@
 // import GoogleButton from 'react-google-button';
 // import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import * as React from "react";
-import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import * as AuthSession from "expo-auth-session";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-import { WebView } from "react-native-webview";
 import { AppleLoginWebview } from "./AppleLogin";
-
-WebBrowser.maybeCompleteAuthSession();
 
 export default function Login() {
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -86,25 +81,6 @@ export default function Login() {
             <FontAwesome5 name="google" size={15} color="white" />
             <Text style={styles.googleText}>Sign in with Google</Text>
           </TouchableOpacity>
-
-          {/* 애플 로그인 */}
-          <AppleAuthentication.AppleAuthenticationButton
-            buttonType={
-              AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
-            }
-            buttonStyle={
-              AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
-            }
-            cornerRadius={5}
-            style={styles.button}
-            onPress={() => setIsAppleLoginOpen(true)}
-          />
-          {isAppleLoginOpen && (
-            <AppleLoginWebview
-              isOpen={isAppleLoginOpen}
-              onClose={() => setIsAppleLoginOpen(false)} // 웹뷰 닫기
-            />
-          )}
         </View>
       )}
     </View>
